@@ -18,6 +18,7 @@ const VideoPicker = (props: VideoPickerProps) => {
   const [pickerId, setPickerId] = React.useState<string>();
   const [progress, setProgress] = React.useState<number>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const accessToken = JSON.parse(localStorage.getItem("s-token"));
 
   React.useEffect(() => {
     const video_id =
@@ -35,10 +36,7 @@ const VideoPicker = (props: VideoPickerProps) => {
 
   const uploadFile = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      let presigned_URL;
-
       const res = await axios.post(
         "/videos",
         {
@@ -46,27 +44,12 @@ const VideoPicker = (props: VideoPickerProps) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${Cookies.get("s-token")}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
       console.log("upload", res.data);
-      presigned_URL = res.data.upload_url;
-      setVideoUrl(res.data.key);
-
-      const uplaodToS3 = await axiosOriginal.put(presigned_URL, file, {
-        onUploadProgress: (progressEvent) => {
-          setLoading(true);
-          const percentCompleted = Math.round(
-            Number(progressEvent.loaded * 100) / Number(progressEvent?.total)
-          );
-          setProgress(percentCompleted);
-        },
-        headers: {
-          "Content-Type": file.type,
-        },
-      });
-      // console.log("successs", uplaodToS3);
+      await uploadToS3(file, res.data);
       setLoading(false);
       setFile(null);
       setProgress(0);
@@ -81,9 +64,46 @@ const VideoPicker = (props: VideoPickerProps) => {
     }
   };
 
+  const uploadToS3 = async (file: File, presignedPostData: any) => {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      //@ts-ignore
+      Object.keys(presignedPostData.fields).forEach((key) => {
+        const value = presignedPostData.fields[key];
+        if (value !== undefined && value !== null && value !== "") {
+          // @ts-ignore
+          formData.append(key, value);
+        }
+      });
+      formData.append("file", file);
+
+      axios
+        //@ts-ignore
+        .post(presignedPostData.upload_url, formData, {
+          onUploadProgress: (progressEvent) => {
+            setLoading(true);
+            const percentCompleted = Math.round(
+              Number(progressEvent.loaded * 100) / Number(progressEvent?.total)
+            );
+            setProgress(percentCompleted);
+          },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          console.log("error while uploading", error);
+          reject(error);
+        });
+    });
+  };
+
   return (
     <div className="video-picker-container">
-      <form onSubmit={uploadFile}>
+      <form>
         <div
           style={{
             display: "flex",
@@ -109,7 +129,10 @@ const VideoPicker = (props: VideoPickerProps) => {
             style={{
               width: "100%",
             }}
-            type="submit"
+            type="button"
+            onClick={(e) => {
+              uploadFile(e);
+            }}
           >
             {loading ? progress + "%" : "Upload"}
           </button>

@@ -9,7 +9,7 @@ type ModalProps = {
   title?: string;
   children: React.ReactNode;
   handleClickEvent?: Function;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "contain";
 };
 
 const Modal = (props: ModalProps) => {
@@ -29,6 +29,10 @@ const Modal = (props: ModalProps) => {
     }
     if (size == "lg") {
       setWidth("960px");
+      setHeight("auto");
+    }
+    if (size == "contain") {
+      setWidth("100%");
       setHeight("auto");
     }
   }, []);

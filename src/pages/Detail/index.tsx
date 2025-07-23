@@ -307,15 +307,16 @@ const Index = () => {
         },
       });
 
+      console.log("res source", res.data);
       if (Object.values(res.data).length === 0) {
-        console.log("res source", res.data);
         setSourceEmpty(true);
+        return;
       }
       // console.log('fetching source', res);
-      videoUrlUpdate.value = res.data?.url as string;
-      videoUrlExtensionUpdate.value = res.data?.media_type;
-      setSelectedExtension(res.data?.media_type);
-      setSourceId(res.data?.id);
+      videoUrlUpdate.value = res.data[0]?.url as string;
+      videoUrlExtensionUpdate.value = res.data[0]?.media_type;
+      setSelectedExtension(res.data[0]?.media_type);
+      setSourceId(res.data[0]?.id);
     } catch (error) {
       console.log("error fetching source", error);
       // setSourceEmpty(false)
@@ -589,11 +590,12 @@ const Index = () => {
 
             <p className="label">Or</p>
             <button
+              type="button"
               className="large-primary-btn"
               style={{ marginTop: "1rem" }}
               onClick={() => setOpenModalUpload(true)}
             >
-              Upload Video
+              Add Video URL
             </button>
 
             {/* video upload section or choose from the list using modal */}
@@ -601,7 +603,7 @@ const Index = () => {
               isOpen={openModalUpload}
               setOpen={setOpenModalUpload}
               title={`Upload Video or Choose from the List`}
-              size="md"
+              size="contain"
             >
               <div
                 style={{
@@ -630,6 +632,7 @@ const Index = () => {
                   </div>
                   <div>
                     <button
+                      type="button"
                       className="large-primary-btn"
                       style={{
                         width: "100%",

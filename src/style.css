@@ -247,14 +247,17 @@
   
   .heading {
     font-size: 2rem;
+    color: var(--white);
   }
   
   .subtitle-one {
     font-size: 1.5rem;
+    color: var(--white);
   }
   
   .subtitle-two {
     font-size: 1.2rem;
+    color: var(--white);
   }
   
   .label {
