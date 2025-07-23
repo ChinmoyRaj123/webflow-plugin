@@ -43,8 +43,6 @@ const Index = (props: PlancardProps) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("success subscriptions", res.data);
-
       navigate({
         pathname: "/checkout",
         search: `?planid=${id}&s_id=${res.data.provider_subscription_id}`,

@@ -410,17 +410,28 @@ const Index = () => {
   const handleEmbedVideoPlayer = async () => {
     const divElement = await webflow.getSelectedElement();
     if (divElement?.children) {
+      const children = await divElement.getChildren();
+      if (children.length > 0) {
+        await Promise.all(children.map((child) => child.remove()));
+      }
       const domElement = await divElement.append(webflow.elementPresets.DOM);
       if (domElement.type === "DOM") {
         await domElement.setTag("iframe");
+        await domElement.setAttribute("class", "splay_videoplayer_iframe");
+        await domElement.setAttribute("src", embedUrl);
         await domElement.setAttribute(
-          "src",
-          "https://www.youtube.com/watch?v=ryS717v9k8s&ab_channel=JapaneseFoodNoodles"
+          "title",
+          `${isLoadingEmbed ? videoTitle : "Video title"}`
         );
         await domElement.setAttribute("width", "100%");
         await domElement.setAttribute("height", "100%");
+        await domElement.setAttribute("frameborder", "0");
+        await domElement.setAttribute("allowfullscreen", "true");
+        await domElement.setTextContent(
+          `${isLoadingEmbed ? videoDescription : "Video description"}`
+        );
+        await domElement.setAttribute("style", "pointer-events: auto;");
       }
-      console.log("DOM iframe inserted successfully:", domElement);
     }
   };
 
@@ -676,7 +687,7 @@ const Index = () => {
 
           <div
             style={{
-              padding: "0rem 1.5rem 2rem 1.5rem",
+              padding: "0rem 1rem 2rem 1rem",
             }}
           >
             <p className="label">Player name</p>
@@ -705,6 +716,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./video_behavior.png"
                 alt="no image"
                 width="24px"
@@ -717,7 +729,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -803,6 +815,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./player_style.png"
                 alt="no image"
                 width="24px"
@@ -815,7 +828,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -873,6 +886,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./big_play_button.png"
                 alt="no image"
                 width="24px"
@@ -885,7 +899,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1003,6 +1017,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./small_icons.png"
                 alt="no image"
                 width="24px"
@@ -1015,7 +1030,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1157,6 +1172,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./video_progress_bar.png"
                 alt="no image"
                 width="24px"
@@ -1169,7 +1185,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1371,6 +1387,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./volume_slider.png"
                 alt="no image"
                 width="24px"
@@ -1383,7 +1400,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1451,6 +1468,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./settings_menu.png"
                 alt="no image"
                 width="24px"
@@ -1463,7 +1481,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1540,6 +1558,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./branding.png"
                 alt="no image"
                 width="24px"
@@ -1552,7 +1571,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >
@@ -1605,6 +1624,7 @@ const Index = () => {
               }}
             >
               <img
+                className="icon_image"
                 src="./thumbnail.png"
                 alt="no image"
                 width="24px"
@@ -1617,7 +1637,7 @@ const Index = () => {
               style={{
                 width: "100%",
                 marginTop: "1.5rem",
-                padding: "0 1rem 0 3rem",
+                padding: "0 1rem 0 1rem",
                 boxSizing: "border-box",
               }}
             >

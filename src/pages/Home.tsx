@@ -35,7 +35,6 @@ const Home = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("success subscriptions fetch", res.data);
       if (res.data?.subscription?.status === "active") {
         localStorage.setItem(
           "s_subs",

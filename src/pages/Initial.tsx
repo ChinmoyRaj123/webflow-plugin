@@ -7,7 +7,6 @@ const Initial = () => {
 
   const isUserAuthenticated = async () => {
     const localStorageUser = localStorage.getItem("s-user");
-    console.log("parseeeeeeeeeeeeeeeeee", localStorageUser);
     if (localStorageUser) {
       const parse = JSON.parse(localStorageUser);
       if (parse) {
@@ -27,7 +26,6 @@ const Initial = () => {
   };
 
   React.useEffect(() => {
-    console.log("xxxxx");
     isUserAuthenticated();
   }, []);
 

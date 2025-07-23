@@ -260,12 +260,13 @@
   .label {
     font-size: 0.65rem;
     font-family: "Satoshi-Regular";
-    color: var(--placeholder);
+    color: var(--white);
     line-height: 1.225rem;
   }
   
   .body {
     font-size: 0.85rem;
+    color: var(--white);
   }
   
   .large-primary-btn {
@@ -799,6 +800,11 @@
   .performance-table-data td {
     text-align: left;
     font-size: 0.85rem;
+  }
+
+  .icon_image{
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
   }
   
   @media only screen and (max-width: 1590px) {
