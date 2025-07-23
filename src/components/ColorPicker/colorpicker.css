@@ -1,0 +1,20 @@
+.color-picker-input {
+  height: 24px;
+  width: 24px;
+  border: none;
+  outline: none;
+}
+
+.color-hex-input {
+  width: 4rem;
+  height: 1.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--surface);
+  outline: none;
+  border: 1px solid;
+  border-color: var(--stroke);
+}
+
+.color-hex-input::placeholder {
+  color: #828282;
+}

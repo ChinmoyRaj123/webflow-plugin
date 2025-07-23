@@ -1,0 +1,13 @@
+.size-input {
+  width: 2.8rem;
+  height: 1.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--surface);
+  outline: none;
+  border: 1px solid;
+  border-color: var(--stroke);
+}
+
+.size-input::placeholder {
+  color: #828282;
+}

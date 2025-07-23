@@ -1,0 +1,60 @@
+.toggle-container {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+}
+
+.toggle-button {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-circle {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid var(--disabled);
+  transition: 0.3s;
+  border-radius: .25cm;
+}
+
+strong {
+  position: absolute;
+  left: 100%;
+  width: max-content;
+  height: 100%;
+  line-height: 30px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.toggle-circle:before {
+  position: absolute;
+  /* margin: 0 2px; */
+  content: "";
+  height: 5px;
+  width: 5px;
+  top: 50%;
+  left: 0;
+  background-color: var(--disabled);
+  border-radius: 50%;
+  transition: 0.3s;
+  transform: translate(25%, -50%);
+}
+
+.toggle-button:checked+.toggle-circle:before {
+  background-color: var(--primary);
+}
+
+.toggle-button:checked+.toggle-circle {
+  border: 1px solid var(--primary);
+}
+
+.toggle-button:checked+.toggle-circle:before {
+  transform: translate(240%, -50%);
+}

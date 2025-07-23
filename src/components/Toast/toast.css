@@ -1,0 +1,32 @@
+.toast {
+  min-width: 15rem;
+  width: max-content;
+  padding: 1rem;
+  position: absolute;
+  background: var(--surface);
+  text-align: center;
+  right: 40%;
+  bottom: 4rem;
+  z-index: 20;
+  border: 1px solid var(--black);
+  transform: translateY(-100px);
+  animation: slideDown 3s;
+}
+
+@keyframes slideDown {
+  0%,
+  100% {
+    -webkit-transform: translateY(-100px);
+  }
+  10%,
+  90% {
+    -webkit-transform: translateY(0px);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .toast {
+    min-width: 15rem;
+    padding: 5px;
+  }
+}

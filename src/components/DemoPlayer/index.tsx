@@ -1,0 +1,621 @@
+import React from "react";
+import "./demoplayer.css";
+import { VideoConfigType } from "../../pages/Detail";
+import configenv from "../../config";
+
+type IconButtonProp = {
+  src: string;
+  size: string;
+  padding: string;
+  background: string;
+  hoverBackground: string;
+  borderRadius: string;
+  onClick?: () => void;
+  reRender: number;
+  opacity: string;
+};
+
+type ProgressBarType = {
+  reRender: number;
+  foreground: string;
+  background: string;
+  loadedColor?: string;
+  circleColor: string;
+  progressPercent: string;
+  progressHeight: string;
+  progressBarHoverScale?: string;
+  opacity: string;
+  hover?: boolean;
+};
+
+type DemoPlayerType = {
+  config: VideoConfigType;
+  reRender: number;
+  brandUploading: boolean;
+  thumbnailUploading: boolean;
+};
+
+const IconButton = ({
+  opacity,
+  reRender,
+  src,
+  size,
+  padding,
+  background,
+  hoverBackground,
+  borderRadius,
+  onClick,
+}: IconButtonProp) => {
+  const [bgColor, setBgColor] = React.useState(background);
+
+  React.useEffect(() => {
+    setBgColor(background);
+  }, [reRender]);
+
+  function onHoverInStyle() {
+    setBgColor(hoverBackground);
+  }
+
+  function onHoverOutStyle() {
+    setBgColor(background);
+  }
+
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        padding: padding,
+        background: bgColor,
+        borderRadius: borderRadius,
+        boxSizing: "border-box",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        cursor: "pointer",
+        opacity: opacity || "100%",
+      }}
+      onClick={onClick}
+      onMouseEnter={() => {
+        onHoverInStyle();
+      }}
+      onMouseLeave={() => {
+        onHoverOutStyle();
+      }}
+    >
+      <img style={{ width: "100%", height: "100%" }} src={src}></img>
+    </div>
+  );
+};
+
+const ProgressBar = ({
+  hover = false,
+  opacity,
+  reRender,
+  background,
+  circleColor,
+  foreground,
+  progressPercent,
+  progressHeight,
+  loadedColor,
+  progressBarHoverScale,
+}: ProgressBarType) => {
+  const [progressScale, setProgressScale] = React.useState(1);
+  const [circleHoverSize, setCircleHoverSize] = React.useState(1);
+
+  React.useEffect(() => {
+    setProgressScale(1);
+    setCircleHoverSize(1);
+  }, [reRender]);
+
+  function onHoverInStyle() {
+    setProgressScale(Number(progressBarHoverScale));
+    setCircleHoverSize(Number(progressBarHoverScale));
+  }
+
+  function onHoverOutStyle() {
+    setProgressScale(1);
+    setCircleHoverSize(1);
+  }
+
+  return (
+    <div
+      style={{
+        boxSizing: "border-box",
+        height: progressHeight,
+        width: "100%",
+        background: background,
+        position: "relative",
+        transform: `scale3d(1,${progressScale},1)`,
+        transition: "transform 50ms ease-out",
+        opacity: opacity || "100%",
+      }}
+      onMouseEnter={() => {
+        if (hover) {
+          onHoverInStyle();
+        }
+      }}
+      onMouseLeave={() => {
+        if (hover) {
+          onHoverOutStyle();
+        }
+      }}
+    >
+      <div
+        style={{
+          width: progressPercent,
+          height: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          background: foreground,
+          zIndex: 2,
+        }}
+      ></div>
+      <div
+        style={{
+          position: "absolute",
+          width: "70%",
+          height: "100%",
+          background: loadedColor,
+          opacity: 0.25,
+          zIndex: 1,
+        }}
+      ></div>
+      <div
+        style={{
+          width: `calc(2*${progressHeight}*${circleHoverSize})`,
+          height: `calc(2*${progressHeight})`,
+          borderRadius: "50%",
+          position: "absolute",
+          top: "50%",
+          left: progressPercent,
+          background: circleColor,
+          transform: `translate(-${progressPercent}, -50%)`,
+          zIndex: 2,
+          // boxShadow: "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px"
+        }}
+      ></div>
+    </div>
+  );
+};
+
+const DemoPlayer = ({
+  config,
+  reRender,
+  brandUploading,
+  thumbnailUploading,
+}: DemoPlayerType) => {
+  const [toggleSetting, setToggleSetting] = React.useState(false);
+  const [settingsBG1, setSettingBG1] = React.useState(
+    config.playerstyle.settings_menu_BG_color
+  );
+  const [settingsBG2, setSettingBG2] = React.useState(
+    config.playerstyle.settings_menu_BG_color
+  );
+  const [textColor, setTextColor] = React.useState(
+    config.playerstyle.text_color
+  );
+  const [thumbnail, setThumbnail] = React.useState(
+    config.playerThumbnailImageUrl
+  );
+  const [thumbnailShow, setThumbnailShow] = React.useState(
+    config.playercontrol.thumbnail
+  );
+  const [logo, setLogo] = React.useState(config.playerBrandingImageUrl);
+
+  React.useEffect(() => {
+    setSettingBG1(config.playerstyle.settings_menu_BG_color);
+    setSettingBG2(config.playerstyle.settings_menu_BG_color);
+    setTextColor(config.playerstyle.text_color);
+    setThumbnail(config.playerThumbnailImageUrl);
+    setThumbnailShow(config.playercontrol.thumbnail);
+    setLogo(config.playerBrandingImageUrl);
+  }, [reRender]);
+
+  React.useEffect(() => {
+    const div = document.getElementById("settings-demo-box") as HTMLElement;
+    if (toggleSetting) {
+      div.style.display = "block";
+      div.style.zIndex = "16";
+    } else {
+      div.style.display = "none";
+      div.style.zIndex = "-16";
+    }
+  }, [toggleSetting]);
+
+  function settingsHoverIn1() {
+    setSettingBG1(config.playerstyle.settings_menu_BG_hover_color);
+  }
+
+  function settingsHoverOut1() {
+    setSettingBG1(config.playerstyle.settings_menu_BG_color);
+  }
+  function settingsHoverIn2() {
+    setSettingBG2(config.playerstyle.settings_menu_BG_hover_color);
+  }
+
+  function settingsHoverOut2() {
+    setSettingBG2(config.playerstyle.settings_menu_BG_color);
+  }
+
+  const bgLoading = () => {
+    if (thumbnailUploading) {
+      return "#313131";
+    } else {
+      return `url(${thumbnail})`;
+    }
+  };
+
+  return (
+    <div
+      className="video-player-edit-demo"
+      style={{
+        borderRadius: `${config.playerstyle.player_corner_radius}px` || "0",
+        background: thumbnailShow ? bgLoading() : "#000000",
+        backgroundColor: "#000000",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        className="video-pLayer-children video-top"
+        style={{
+          padding:
+            `${config.playerstyle.player_controls_margin}px ${config.playerstyle.player_controls_margin}px 0px ${config.playerstyle.player_controls_margin}px` ||
+            "30px 30px 0px 30px",
+        }}
+      >
+        <div
+          className="video-top-children"
+          style={{
+            justifyContent: "flex-start",
+            width: "33.33%",
+            zIndex: config.playercontrol.back_button ? 0 : -100,
+            opacity: config.playercontrol.back_button ? 1 : 0,
+          }}
+        >
+          {/* <IconButton
+                        reRender={reRender}
+                        src="./icon/arrow_back.svg"
+                        size={config.playerstyle.icon_button_size + "px"}
+                        background={config.playerstyle.icon_button_color}
+                        padding={config.playerstyle.icon_button_padding + "px"}
+                        borderRadius={config.playerstyle.icon_button_corner_radius + "px"}
+                        hoverBackground={config.playerstyle.icon_button_color}
+                    /> */}
+        </div>
+        <div
+          style={{
+            width: "33.33%",
+            display: "flex",
+            zIndex: config.playercontrol.video_name ? 0 : -100,
+            opacity: config.playercontrol.video_name ? 1 : 0,
+            padding: "0 1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+            wordBreak: "break-word",
+          }}
+        >
+          <p style={{ color: textColor, textAlign: "center" }}>Video title</p>
+        </div>
+        <div
+          className="video-top-children"
+          style={{
+            justifyContent: "flex-end",
+            width: "33.33%",
+            zIndex: config.playercontrol.full_screen_icon ? 0 : -100,
+            opacity: config.playercontrol.full_screen_icon ? 1 : 0,
+          }}
+        >
+          <IconButton
+            opacity={config.playerstyle.icon_button_opacity + "%"}
+            reRender={reRender}
+            src="./icon/fullscreen.svg"
+            size={config.playerstyle.icon_button_size + "px"}
+            background={config.playerstyle.icon_button_color}
+            padding={config.playerstyle.icon_button_padding + "px"}
+            borderRadius={config.playerstyle.icon_button_corner_radius + "px"}
+            hoverBackground={config.playerstyle.icon_button_hover_color}
+          />
+        </div>
+      </div>
+
+      <div
+        className="video-center"
+        style={{
+          boxSizing: "border-box",
+          position: "absolute",
+          display: config.playercontrol.center_playpause ? "block" : "none",
+        }}
+      >
+        <IconButton
+          opacity={config.playerstyle.center_icon_button_opacity + "%"}
+          reRender={reRender}
+          src="./icon/play_arrow.svg"
+          size={config.playerstyle.center_icon_button_size + "px"}
+          background={config.playerstyle.center_icon_button_color}
+          padding={config.playerstyle.center_icon_button_padding + "px"}
+          borderRadius={
+            config.playerstyle.center_icon_button_corner_radius + "px"
+          }
+          hoverBackground={config.playerstyle.center_icon_button_hover_color}
+        />
+      </div>
+
+      <div
+        className="video-bottom"
+        style={{
+          position: "absolute",
+          padding:
+            `0px ${config.playerstyle.player_controls_margin}px ${config.playerstyle.player_controls_margin}px ${config.playerstyle.player_controls_margin}px` ||
+            "0px 30px 30px 30px",
+        }}
+      >
+        <div
+          className="video-progress"
+          style={{
+            marginBottom:
+              `${config.playerstyle.bottom_bar_spacing}px` || "12px",
+            position: "relative",
+            height: `calc(2 * ${config.playerstyle.progress_bar_size}px)`,
+          }}
+        >
+          <div
+            style={{
+              width: config.playercontrol.time_stamp ? "100%" : "100%",
+              display: config.playercontrol.progress_bar ? "block" : "none",
+            }}
+          >
+            <ProgressBar
+              hover={true}
+              opacity={config.playerstyle.progress_bar_opacity + "%"}
+              reRender={reRender}
+              progressPercent="40%"
+              background={config.playerstyle.progress_bar_BG_color}
+              foreground={config.playerstyle.progress_bar_FG_color}
+              circleColor={config.playerstyle.progress_bar_circle_color}
+              loadedColor={config.playerstyle.progress_bar_loaded_color}
+              progressHeight={config.playerstyle.progress_bar_size + "px"}
+              progressBarHoverScale={
+                config.playerstyle.progress_bar_hover_scale
+              }
+            />
+            <div
+              style={{
+                position: "absolute",
+                display: config.playercontrol.progress_bar ? "flex" : "none",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "65px",
+                height: "30px",
+                top: `calc(-48px + ${config.playerstyle.progress_bar_size}px)`,
+                left: "27%",
+                background: config.playerstyle.tooltip_BG_color,
+                opacity: `${config.playerstyle.tooltip_opacity}%`,
+                borderRadius: `${config.playerstyle.tooltip_corner_radius}px`,
+              }}
+            >
+              <p style={{ color: config.playerstyle.tooltip_text_color }}>
+                07:38
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              width: config.playercontrol.time_stamp ? "max-content" : "0%",
+              textAlign: "right",
+              display: config.playercontrol.time_stamp ? "block" : "none",
+              paddingLeft: "5px",
+            }}
+          >
+            <p style={{ color: textColor }}>11:18/12:14</p>
+          </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <div
+              style={{
+                display: config.playercontrol.playpause ? "block" : "none",
+              }}
+            >
+              <IconButton
+                opacity={config.playerstyle.icon_button_opacity + "%"}
+                reRender={reRender}
+                src="./icon/play_arrow.svg"
+                size={config.playerstyle.icon_button_size + "px"}
+                background={config.playerstyle.icon_button_color}
+                padding={config.playerstyle.icon_button_padding + "px"}
+                borderRadius={
+                  config.playerstyle.icon_button_corner_radius + "px"
+                }
+                hoverBackground={config.playerstyle.icon_button_hover_color}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                zIndex: config.playercontrol.volume ? 0 : -100,
+                opacity: config.playercontrol.volume ? 1 : 0,
+              }}
+            >
+              <IconButton
+                opacity={config.playerstyle.icon_button_opacity + "%"}
+                reRender={reRender}
+                src="./icon/volume_up.svg"
+                size={config.playerstyle.icon_button_size + "px"}
+                background={config.playerstyle.icon_button_color}
+                padding={config.playerstyle.icon_button_padding + "px"}
+                borderRadius={
+                  config.playerstyle.icon_button_corner_radius + "px"
+                }
+                hoverBackground={config.playerstyle.icon_button_hover_color}
+              />
+              <div style={{ width: "6rem" }}>
+                <ProgressBar
+                  opacity={config.playerstyle.volume_bar_opacity + "%"}
+                  reRender={reRender}
+                  background={config.playerstyle.volume_bar_BG_color}
+                  foreground={config.playerstyle.volume_bar_FG_color}
+                  circleColor={config.playerstyle.volume_bar_FG_color}
+                  progressHeight={config.playerstyle.volume_bar_size + "px"}
+                  progressPercent="40%"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="video-top-children"
+            style={{
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "1rem",
+            }}
+          >
+            <div
+              style={{
+                width: "auto",
+                height: "40px",
+                // aspectRatio: '16/9',
+                maxHeight: "50px",
+                display: "flex",
+                alignItems: "flex-end",
+                zIndex: config.playercontrol.branding ? 0 : -100,
+                opacity: config.playercontrol.branding ? 1 : 0,
+              }}
+            >
+              {!brandUploading ? (
+                <img
+                  src={logo || "./logo-white.png"}
+                  alt="no-image"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    fontSize: "0.75rem",
+                    opacity: `${config.playerstyle.branding_opacity}%`,
+                  }}
+                ></img>
+              ) : (
+                <p>loading</p>
+              )}
+            </div>
+            <div
+              style={{
+                zIndex: config.playercontrol.settings_menu ? 0 : -100,
+                opacity: config.playercontrol.settings_menu ? 1 : 0,
+              }}
+            >
+              <IconButton
+                opacity={config.playerstyle.icon_button_opacity + "%"}
+                reRender={reRender}
+                onClick={() => setToggleSetting(!toggleSetting)}
+                src="./icon/settings.svg"
+                size={config.playerstyle.icon_button_size + "px"}
+                background={config.playerstyle.icon_button_color}
+                padding={config.playerstyle.icon_button_padding + "px"}
+                borderRadius={
+                  config.playerstyle.icon_button_corner_radius + "px"
+                }
+                hoverBackground={config.playerstyle.icon_button_hover_color}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="settings-demo-box"
+        id="settings-demo-box"
+        style={{
+          background: config.playerstyle.settings_menu_BG_color,
+          zIndex: "-16",
+          display: "none",
+          opacity: `${config.playerstyle.settings_menu_opacity}%`,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            boxSizing: "border-box",
+            padding: "0 10px",
+            width: "100%",
+            height: "50%",
+            alignItems: "center",
+            background: settingsBG1,
+          }}
+          onMouseEnter={() => settingsHoverIn1()}
+          onMouseLeave={() => settingsHoverOut1()}
+        >
+          <div style={{ display: "flex", gap: "0.25rem" }}>
+            <img
+              style={{ width: "24px", height: "24px" }}
+              src="./icon/tune.svg"
+            ></img>
+            <p style={{ color: config.playerstyle.settings_menu_text_color }}>
+              Quality
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: "0.25rem" }}>
+            <p
+              style={{
+                fontSize: "0.75rem",
+                color: config.playerstyle.settings_menu_text_color,
+              }}
+            >
+              720p24
+            </p>
+            <img
+              style={{ width: "24px", height: "24px" }}
+              src="./icon/chevron_right.svg"
+            ></img>
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            boxSizing: "border-box",
+            padding: "0 10px",
+            width: "100%",
+            height: "50%",
+            alignItems: "center",
+            background: settingsBG2,
+          }}
+          onMouseEnter={() => settingsHoverIn2()}
+          onMouseLeave={() => settingsHoverOut2()}
+        >
+          <div style={{ display: "flex", gap: "0.25rem" }}>
+            <img
+              style={{ width: "24px", height: "24px" }}
+              src="./icon/slow_motion_video.svg"
+            ></img>
+            <p style={{ color: config.playerstyle.settings_menu_text_color }}>
+              Playback speed
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: "0.25rem" }}>
+            <p
+              style={{
+                fontSize: "0.75rem",
+                color: config.playerstyle.settings_menu_text_color,
+              }}
+            >
+              Normal
+            </p>
+            <img
+              style={{ width: "24px", height: "24px" }}
+              src="./icon/chevron_right.svg"
+            ></img>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DemoPlayer;

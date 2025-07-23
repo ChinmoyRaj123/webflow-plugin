@@ -1,0 +1,22 @@
+.create-player-container {
+  aspect-ratio: 16/8.1;
+  max-width: 340px;
+  border: 1px solid var(--stroke);
+  background: var(--surface);
+  position: relative;
+  cursor: pointer;
+}
+
+.create-player-btn-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.create-player-text-container {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
