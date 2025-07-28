@@ -21,6 +21,7 @@ const Index = (props: CreatePlayerProps) => {
   const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
   const [playerName, setPlayerName] = React.useState("");
   const [error, setError] = React.useState("");
+  const accessToken = JSON.parse(localStorage.getItem("s-token"));
 
   const showToast = () => {
     setShow(true);
@@ -44,7 +45,7 @@ const Index = (props: CreatePlayerProps) => {
 
       const res = await axios.post("/players", data, {
         headers: {
-          Authorization: `Bearer ${Cookies.get("s-token")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       setLoading(false);

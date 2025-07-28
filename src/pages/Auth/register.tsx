@@ -122,31 +122,32 @@ const Register = () => {
     }
   };
 
-  const verifyOTP = async (e: React.SyntheticEvent) => {
+  // const verifyOTP = async (e: React.SyntheticEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setLoading(true);
+  //   if (pin === "") {
+  //     setError("pin-empty");
+  //   }
+  //   const otpdata = { id: pinId, code: pin };
+
+  //   try {
+  //     const res = await axios.post("/otps/verify", otpdata);
+  //     // console.log('otp verification', res);
+  //     Cookies.set("splay-token", res.data.token, { expires: 7, path: "/" });
+  //     await registerUser();
+  //   } catch (error: any) {
+  //     setLoading(false);
+  //     if (error?.response?.status === 401) {
+  //       setError("invalid-otp");
+  //       console.log("invalid-otp");
+  //     }
+  //     console.log("error verifying otp", error);
+  //   }
+  // };
+
+  const registerUser = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-    if (pin === "") {
-      setError("pin-empty");
-    }
-    const otpdata = { id: pinId, code: pin };
-
-    try {
-      const res = await axios.post("/otps/verify", otpdata);
-      // console.log('otp verification', res);
-      Cookies.set("splay-token", res.data.token, { expires: 7, path: "/" });
-      await registerUser();
-    } catch (error: any) {
-      setLoading(false);
-      if (error?.response?.status === 401) {
-        setError("invalid-otp");
-        console.log("invalid-otp");
-      }
-      console.log("error verifying otp", error);
-    }
-  };
-
-  const registerUser = async () => {
     setError("");
     setLoading(true);
     const localstorage = localStorage.getItem("testUser");
@@ -156,6 +157,7 @@ const Register = () => {
       email: parsedData.email,
       name: parsedData.name,
       password: parsedData.password,
+      otp: pin,
     };
     try {
       const res = await axios.post("/register", userdata, {
@@ -242,15 +244,15 @@ const Register = () => {
   const renderVisibiltyIcon = (val: string) => {
     if (val === "password") {
       if (pVisibility === true) {
-        return "visibility";
-      } else {
         return "visibility_off";
+      } else {
+        return "visibility";
       }
     } else {
       if (cPVisibility === true) {
-        return "visibility";
-      } else {
         return "visibility_off";
+      } else {
+        return "visibility";
       }
     }
   };
@@ -262,7 +264,7 @@ const Register = () => {
       </p>
       <div style={{ maxHeight: "35rem" }}>
         {renderElement === "otp-sent" && (
-          <form onSubmit={verifyOTP}>
+          <form onSubmit={registerUser}>
             <div>
               <p className="input-title">Enter OTP</p>
               <input
@@ -272,6 +274,7 @@ const Register = () => {
                 onChange={(e: any) => setPin(e.target.value)}
                 name={"pin"}
                 placeholder="******"
+                autoComplete="off"
               />
             </div>
 
@@ -324,7 +327,7 @@ const Register = () => {
                     <div className="input-container">
                       <input
                         className="input-main"
-                        autoComplete={item.type === "password" ? "off" : "on"}
+                        autoComplete={"off"}
                         type={checkPasswordType(item.name)}
                         defaultValue={item?.value}
                         onChange={handleInputChange}
@@ -356,7 +359,7 @@ const Register = () => {
                   ) : (
                     <input
                       className="input-main"
-                      autoComplete={item.type === "password" ? "off" : "on"}
+                      autoComplete={"off"}
                       type={item.type}
                       defaultValue={item?.value}
                       onChange={handleInputChange}

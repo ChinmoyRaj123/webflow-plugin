@@ -40,8 +40,23 @@ const Navigation = () => {
     <div className="nav-main">
       <div className="nav-container">
         <div className="nav-left-mobile" onClick={() => setVisible(true)}>
-          <div>
-            <img src="./logo-white.png" alt="no image found" />
+          <div
+            style={{
+              paddingLeft: "1rem",
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <img
+              className="icon_image"
+              src="./icon/hamburger.svg"
+              alt="no image"
+              width="24px"
+              height="24px"
+            />
+            {/* <img src="./logo-white.png" alt="no image found" /> */}
           </div>
         </div>
 
@@ -51,7 +66,7 @@ const Navigation = () => {
               width: "100%",
               display: "flex",
               flexDirection: "column",
-              gap: "0.5rem",
+              gap: "0.25rem",
             }}
           >
             {navigation.map((item, index) => {
@@ -66,11 +81,11 @@ const Navigation = () => {
               );
             })}
             <div
-              className="navigation-btn-mobile"
+              className="large-primary-btn"
               style={{
-                border: "1px solid black",
-                padding: "0 0.5rem",
-                width: "50%",
+                marginTop: "0.5rem",
+                // padding: "0.25rem 0.5rem",
+                width: "max-content",
               }}
               onClick={() => handleSignOut()}
             >

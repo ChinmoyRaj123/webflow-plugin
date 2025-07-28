@@ -1,5 +1,6 @@
 .nav-main {
   width: 100%;
+  height:34px;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: var(--stroke);
@@ -8,12 +9,34 @@
 
 .nav-container {
   height: 100%;
+  width: 100%;
   justify-content: space-between;
   display: flex;
   align-items: center;
 }
 
 .nav-left-mobile {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
+}
+
+.navigation-btn-mobile {
+  /* height: 2.5rem; */
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 0px solid var(--primary);
+  color: var(--black);
+  font-size: 1rem;
+  font-family: "Satoshi-Regular";
+  cursor: pointer;
+  line-height: 1.225rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.navigation-btn-mobile:hover{
+  background: var(--primary);
 }

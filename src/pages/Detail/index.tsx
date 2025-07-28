@@ -554,7 +554,7 @@ const Index = () => {
           <div
             style={{
               position: "absolute",
-              top: "1rem",
+              top: "2px",
               right: "1rem",
               zIndex: "10",
               boxSizing: "border-box",

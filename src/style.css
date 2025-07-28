@@ -6,6 +6,7 @@
   
   :root {
     --primary: #404040;
+    --primaryDark: #292929;
     --primaryHover: linear-gradient(180deg, rgba(255, 255, 255, 0.19) 0%, rgba(255, 255, 255, 0.17) 100%);
     --black: #000000;
     --white: #ffffff;
@@ -392,7 +393,7 @@
   
   .get-help-container {
     position: absolute;
-    left: 3rem;
+    left: 1rem;
     bottom: 5rem;
     height: 3rem;
     z-index: 100;
@@ -423,22 +424,6 @@
     border-radius: 0.25rem;
     border: 1px solid var(--stroke);
     /* background: var(--white); */
-    color: var(--black);
-    font-size: 1rem;
-    font-family: "Satoshi-Regular";
-    cursor: pointer;
-    line-height: 1.225rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .navigation-btn-mobile {
-    height: 2.5rem;
-    padding: 0.5rem 0;
-    border-radius: 0.25rem;
-    border: 0px solid var(--primary);
-    background: var(--white);
     color: var(--black);
     font-size: 1rem;
     font-family: "Satoshi-Regular";
@@ -841,10 +826,6 @@
     .large-secondary-btn {
       padding: 0.25rem 1rem;
     }
-    .get-help-container {
-      left: 2.4rem;
-      height: 2rem;
-    }
   
     .large-gethelp-btn {
       width: 70%;
@@ -902,9 +883,6 @@
     }
     .detail-sub-container-1 {
       width: 40%;
-    }
-    .get-help-container {
-      height: 2rem;
     }
     .large-gethelp-btn {
       height: 2rem;
@@ -998,9 +976,7 @@
       overflow-x: auto;
       height: calc(100vh - 280px);
     }
-    .get-help-container {
-      height: 2.2rem;
-    }
+    
     .large-gethelp-btn {
       height: 1.8rem;
     }
@@ -1014,9 +990,7 @@
     .detail-sub-container-1 {
       padding: 0 1rem;
     }
-    .get-help-container {
-      height: 2rem;
-    }
+    
     .large-gethelp-btn {
       height: 1.5rem;
     }

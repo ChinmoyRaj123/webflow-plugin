@@ -1,23 +1,22 @@
 .drawer {
-  background: white;
+  background: var(--primaryDark);
   z-index: 10;
-  padding: 2rem;
+  padding: 0.5rem 1rem;
   box-sizing: border-box;
   width: 30vw;
   height: 100vh;
 }
 
 .drawerHeader {
-  height: 50px;
-  background: white;
+  background: var(--primaryDark);
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .drawerContent {
-  margin-top: 1rem;
+  margin-top: 0.25rem;
   box-sizing: "border-box";
 }
 

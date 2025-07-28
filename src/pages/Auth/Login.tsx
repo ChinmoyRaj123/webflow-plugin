@@ -22,33 +22,6 @@ const Login = () => {
   const [loading, setLoading] = React.useState(false);
   const [visibility, setVisibility] = React.useState(false);
 
-  const loginWith2FA = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    if (pin === "") {
-      setError("pin-empty");
-      setLoading(false);
-    }
-    const twoFAchallenge = {
-      email: inputEmail,
-      code: pin,
-    };
-    try {
-      const res = await axios.post("/two-factor", twoFAchallenge);
-      // console.log('2fa success', res);
-      Cookies.set("splay-token", res.data.token, { expires: 7, path: "/" });
-      await internalLoging();
-      setLoading(false);
-    } catch (error: any) {
-      setLoading(false);
-      if (error.response.status === 403) {
-        setError("invalid-passcode");
-      }
-      console.log("error 2FA", error);
-    }
-  };
-
   const loginWithout2FA = async () => {
     setError("");
     setLoading(true);
@@ -58,6 +31,7 @@ const Login = () => {
     };
     try {
       const res = await axios.post("/login", userdata);
+      console.log("success login", res.data);
       localStorage.setItem("s-token", JSON.stringify(res.data.token));
       Cookies.set("s-token", res.data.token, {
         expires: 7,
@@ -70,22 +44,48 @@ const Login = () => {
         secure: true,
         sameSite: "Strict",
       });
-      console.log("success login", res.data);
-      navigate("/home");
-      // window.location.replace("/home");
+      window.location.replace("/");
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
       if (error.response.status === 404) {
         setError("user-not-found");
       }
-      if (error.response.status === 401) {
+      console.log("msss", error?.response?.data?.error);
+      if (
+        error.response.status === 401 &&
+        error?.response?.data?.error === "Invalid authentication information"
+      ) {
         setError("invalid-credentials");
       }
-      // if (error.response.status === 401) {
-      //   setRenderElement("otp-sent");
-      // }
+      if (
+        error.response.status === 401 &&
+        error?.response?.data?.error ===
+          "tow factor authentication token is required"
+      ) {
+        setRenderElement("otp-sent");
+      }
       console.log("error login", error);
+    }
+  };
+
+  const loginWith2FA = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    if (pin === "") {
+      setError("pin-empty");
+      setLoading(false);
+    }
+    try {
+      await internalLoging();
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      if (error.response.status === 403) {
+        setError("invalid-passcode");
+      }
+      console.log("error 2FA", error);
     }
   };
 
@@ -93,14 +93,12 @@ const Login = () => {
     const userdata = {
       email: inputEmail,
       password: inputPassword,
+      otp: pin,
     };
     try {
-      const res = await axios.post("/login", userdata, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("splay-token")}`,
-        },
-      });
+      const res = await axios.post("/login", userdata);
       // console.log('internal login success', res);
+      localStorage.setItem("s-token", JSON.stringify(res.data.token));
       Cookies.set("s-token", res.data.token, {
         expires: 7,
         secure: true,
@@ -111,6 +109,7 @@ const Login = () => {
         secure: true,
         sameSite: "Strict",
       });
+      localStorage.setItem("s-user", JSON.stringify(res.data.user));
       window.location.replace("/");
     } catch (error) {
       console.log("login error", error);
@@ -125,7 +124,6 @@ const Login = () => {
    */
   const handleLoginApiCall = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
-
     if (inputEmail === "" || inputPassword === "") {
       if (inputEmail === "") {
         setError("empty-email");
@@ -160,6 +158,7 @@ const Login = () => {
               onChange={(e: any) => setPin(e.target.value)}
               name={"pin"}
               placeholder="******"
+              autoComplete="off"
             ></input>
           </div>
 
@@ -182,6 +181,18 @@ const Login = () => {
           >
             Verify otp
           </button>
+
+          <div style={{ marginTop: "0.5rem" }}>
+            <a
+              href={`${config.HOSTED_URL}/account-recovery`}
+              style={{
+                color: "#FFFFFF",
+              }}
+              target="_blank"
+            >
+              <p className="body">Recover your account</p>
+            </a>
+          </div>
         </form>
       )}
 

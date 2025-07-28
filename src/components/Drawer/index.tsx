@@ -26,39 +26,33 @@ const Drawer = (props: DrawerProps) => {
         }}
       >
         <div className="drawerHeader">
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <div
-              style={{
-                width: "5rem",
-                height: "3rem",
-              }}
+          <IconButton width="1rem" height="1rem" onClick={() => onClose(false)}>
+            <span
+              style={{ fontSize: "1rem" }}
+              className="material-symbols-outlined white"
             >
-              <img
-                src="/splayLogo.svg"
-                alt="no image found"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </div>
-            {/* <p className='heading black'>{title}</p> */}
-          </div>
-
-          <IconButton onClick={() => onClose(false)}>
-            <span className="material-symbols-outlined white">close</span>
+              close
+            </span>
           </IconButton>
         </div>
 
         <div className="drawerContent">{children}</div>
 
         <div className="get-help-container">
-          <Link
-            to={"https://www.skara.app/splay-support"}
-            target="_blank"
-            className="large-gethelp-btn"
-          >
-            <p className="body" style={{ fontSize: "1rem", color: "#FFFFFF" }}>
-              Get Help ?
-            </p>
-          </Link>
+          <div className="large-secondary-btn">
+            <a
+              style={{ textDecoration: "none" }}
+              href={"https://www.skara.app/splay-support"}
+              target="_blank"
+            >
+              <p
+                className="body"
+                // style={{ fontSize: "1rem", color: "#FFFFFF" }}
+              >
+                Get Help ?
+              </p>
+            </a>
+          </div>
 
           <p className="label" style={{ marginTop: "0.5rem" }}>
             Version {packagejson.version}
