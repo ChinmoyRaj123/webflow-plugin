@@ -394,7 +394,7 @@
   .get-help-container {
     position: absolute;
     left: 1rem;
-    bottom: 5rem;
+    bottom: 2rem;
     height: 3rem;
     z-index: 100;
     box-sizing: border-box;

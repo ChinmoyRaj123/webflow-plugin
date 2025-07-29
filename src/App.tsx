@@ -1,13 +1,12 @@
 import React from "react";
-import Cookies from "js-cookie";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/register";
 import Home from "./pages/Home";
-import Auth from "./pages/Auth";
 import HomeLayout from "./layout/home";
 import Initial from "./pages/Initial";
 import Detail from "./pages/Detail";
+import MediaLibrary from "./pages/MediaLibrary";
 
 const App = () => {
   return (
@@ -18,6 +17,7 @@ const App = () => {
       <Route element={<HomeLayout />}>
         <Route path="/home" element={<Home />}></Route>
         <Route path="/detail" element={<Detail />}></Route>
+        <Route path="/media-library" element={<MediaLibrary />}></Route>
       </Route>
     </Routes>
   );

@@ -49,14 +49,22 @@ const Navigation = () => {
               height: "100%",
             }}
           >
-            <img
-              className="icon_image"
-              src="./icon/hamburger.svg"
-              alt="no image"
-              width="24px"
-              height="24px"
-            />
-            {/* <img src="./logo-white.png" alt="no image found" /> */}
+            <div
+              style={{
+                padding: "6px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                className="icon_image hamburger_icon"
+                src="./icon/hamburger.svg"
+                alt="no image"
+                width="24px"
+                height="24px"
+              />
+            </div>
           </div>
         </div>
 
@@ -74,7 +82,7 @@ const Navigation = () => {
                 <div
                   key={index}
                   className="navigation-btn-mobile"
-                  onClick={() => handleNavigation(item.link)}
+                  // onClick={() => handleNavigation(item.link)}
                 >
                   <p className="body">{item.title}</p>
                 </div>
@@ -84,8 +92,6 @@ const Navigation = () => {
               className="large-primary-btn"
               style={{
                 marginTop: "0.5rem",
-                // padding: "0.25rem 0.5rem",
-                width: "max-content",
               }}
               onClick={() => handleSignOut()}
             >

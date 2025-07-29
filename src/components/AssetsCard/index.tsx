@@ -59,10 +59,10 @@ const Assetscard = (props: AssetscardProps) => {
     <>
       <tr>
         <td>
-          <p className="body">{name}</p>
+          <p className="label">{name}</p>
         </td>
         <td>
-          <p className="body">
+          <p className="label">
             {new Date(created_at * 1000).toLocaleDateString("en-IN")}
           </p>
         </td>

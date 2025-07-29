@@ -451,7 +451,7 @@ const Index = () => {
          <meta name="description" content="${
            isLoadingEmbed ? videoDescription : "Video description"
          }">
-        </iframe> 
+        </iframe>
        `;
     setEmbedCode(snipet);
   };
