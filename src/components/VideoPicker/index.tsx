@@ -112,9 +112,12 @@ const VideoPicker = (props: VideoPickerProps) => {
             alignItems: "center",
           }}
         >
-          <div className="videoUpload-main">
+          {/* <div className="videoUpload-main"> */}
+          <div className="large-secondary-btn" style={{ width: "100%" }}>
             <label style={{ width: "100%" }} htmlFor={pickerId}>
-              <div className="videoUpload-button">Choose file</div>
+              <p className="body" style={{ textAlign: "center" }}>
+                Choose file
+              </p>
             </label>
             <input
               type="file"
@@ -134,7 +137,7 @@ const VideoPicker = (props: VideoPickerProps) => {
               uploadFile(e);
             }}
           >
-            {loading ? progress + "%" : "Upload"}
+            {loading ? progress + "%" : "Upload Video"}
           </button>
         </div>
       </form>

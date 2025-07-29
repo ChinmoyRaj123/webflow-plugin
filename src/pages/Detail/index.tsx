@@ -120,6 +120,9 @@ const Index = () => {
   const [videoUrlFromModal, setVideoUrlFromModal] = React.useState<any>();
   const [openUpload, setOpenUpload] = React.useState<boolean>(false);
   const [searchTitle, setSearchTitle] = React.useState("");
+  const [popupId, setPopupId] = React.useState("");
+  const [deleteId, setDeleteId] = React.useState("");
+  const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     videoUrlExtensionUpdate.value = selectedExtension as string;
@@ -511,6 +514,54 @@ const Index = () => {
     }
   };
 
+  const handlePopupToggle = (item: any) => {
+    if (popupId === item.id) {
+      setPopupId("");
+    } else {
+      setPopupId(item.id);
+    }
+  };
+
+  const copyAssets = async (item: any) => {
+    // const element = document.createElement("textarea");
+    // element.innerText = new URL(item.url, config.VIDEO_CDN_URL).toString();
+    // document.body.appendChild(element);
+    // element?.select();
+    // element?.setSelectionRange(0, 99999);
+    // document.execCommand("copy");
+    // element.remove();
+    // await webflow.notify({
+    //   type: "Success",
+    //   message: "Video URL Copied!",
+    // });
+    // setPopupId("");
+    // console.log("copied");
+  };
+
+  const deleteAssets = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.delete(`/videos/${deleteId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("delete", res);
+      setOpenModalDelete(false);
+      setDeleteId("");
+      await webflow.notify({
+        type: "Success",
+        message: "Video deleted successfully!",
+      });
+      // setPopupId("");
+      // setTimeout(() => {
+      //   setRefetch(Math.random());
+      // }, 800);
+    } catch (error) {
+      console.log("error deleting asset", error);
+    }
+  };
+
   const handleAutoPlayToggle = () => {
     videoconfigupdate.value.playersettings.muted =
       !videoconfigupdate.value.playersettings.muted;
@@ -606,9 +657,10 @@ const Index = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: "2rem",
+                    margin: "0.5rem 0",
                   }}
                 >
-                  <div>
+                  {/* <div>
                     <input
                       className="input-main"
                       type={"text"}
@@ -617,62 +669,97 @@ const Index = () => {
                       value={searchTitle}
                       onChange={(e) => setSearchTitle(e.target.value)}
                     />
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      className="large-primary-btn"
-                      style={{
-                        width: "100%",
-                      }}
-                      onClick={() => setOpenUpload(true)}
-                    >
-                      Upload Video
-                    </button>
-                  </div>
-                  <Modal
-                    isOpen={openUpload}
-                    setOpen={setOpenUpload}
-                    title={`Upload Video`}
-                    size="sm"
-                  >
-                    <VideoPicker
-                      file={file}
-                      setFile={setFile}
-                      setVideoUrl={setVideoUrlFromModal}
-                      setRefetch={setRefetch}
-                      setOpenModalUpload={setOpenUpload}
-                    />
-                  </Modal>
+                  </div> */}
+                  <VideoPicker
+                    file={file}
+                    setFile={setFile}
+                    setVideoUrl={setVideoUrlFromModal}
+                    setRefetch={setRefetch}
+                    setOpenModalUpload={setOpenUpload}
+                  />
                 </div>
 
                 {media && media.length > 0 ? (
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>
-                          <p className="subtitle-two">Video Name</p>{" "}
-                        </td>
-
-                        <td>
-                          <p className="subtitle-two">Copy URL</p>{" "}
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {media.map((item: any, index: number) => (
-                        <ListsInModal
-                          item={item}
-                          key={index}
-                          setRefetch={setRefetch}
-                        />
-                      ))}
-                    </tbody>
-                  </table>
+                  media.map((item: any, index: number) => {
+                    return (
+                      <div key={index} className="media-wrapper">
+                        <div className="media-content">
+                          <p style={{ cursor: "pointer" }} className="body">
+                            {item.name}
+                          </p>
+                        </div>
+                        <div className="media-options">
+                          <span
+                            className="material-symbols-outlined white media-option-image"
+                            style={{ fontSize: "18px" }}
+                            onClick={() => handlePopupToggle(item)}
+                          >
+                            more_horiz
+                          </span>
+                          <div
+                            className="media-options-popup"
+                            style={{
+                              display: item.id === popupId ? "block" : "none",
+                            }}
+                          >
+                            <div
+                              className="navigation-popup-mobile"
+                              onClick={() => copyAssets(item)}
+                            >
+                              <span
+                                className="material-symbols-outlined white"
+                                style={{ fontSize: "14px" }}
+                              >
+                                file_copy
+                              </span>
+                              <p className="body">Copy Link</p>
+                            </div>
+                            <div
+                              className="navigation-popup-mobile"
+                              onClick={() => {
+                                setOpenModalDelete(true);
+                                setDeleteId(item.id);
+                                setPopupId("");
+                              }}
+                            >
+                              <span
+                                className="material-symbols-outlined white"
+                                style={{ fontSize: "14px" }}
+                              >
+                                delete
+                              </span>
+                              <p className="body">Delete</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
                 ) : (
                   <p className="body">No media found</p>
                 )}
               </div>
+            </Modal>
+
+            <Modal
+              isOpen={openModalDelete}
+              setOpen={setOpenModalDelete}
+              title={`Delete player`}
+              size="contain"
+            >
+              <p className="body">Are you sure want to delete asset ?</p>
+              <form onSubmit={deleteAssets}>
+                <button
+                  type="submit"
+                  className="large-primary-btn"
+                  style={{
+                    width: "100%",
+                    margin: "0.5rem 0",
+                  }}
+                >
+                  Yes
+                </button>
+              </form>
             </Modal>
           </div>
 
