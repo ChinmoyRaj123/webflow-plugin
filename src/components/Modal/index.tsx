@@ -31,7 +31,7 @@ const Modal = (props: ModalProps) => {
       setHeight("auto");
     }
     if (size == "contain") {
-      setWidth("100%");
+      setWidth("95%");
       setHeight("auto");
     }
   }, []);
@@ -56,17 +56,16 @@ const Modal = (props: ModalProps) => {
       <div className="centered">
         <div className="modal" style={{ width: width, height: height }}>
           <div className="modalHeader">
-            <p className="subtitle-one black">{title}</p>
-
+            <p className="body">{title}</p>
             <span
-              className="material-symbols-outlined white"
+              className="material-symbols-outlined white icon_with_hover"
               onClick={() => setOpen(false)}
             >
               close
             </span>
           </div>
 
-          <div className="modalContent">{children}</div>
+          <div className="modalContent hide-scroll">{children}</div>
         </div>
       </div>
     </ReactPortal>

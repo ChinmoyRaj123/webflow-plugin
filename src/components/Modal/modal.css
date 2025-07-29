@@ -11,22 +11,27 @@
 }
 
 .modal {
-  background: var(--primary);
+  background: var(--primaryDark);
   z-index: 10;
-  padding: 2rem;
   box-sizing: border-box;
+  border-radius: 0.25rem;
 }
 
 .modalHeader {
-  height: 50px;
-  background:var(--primary);
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid;
+  border-color: var(--stroke);
 }
 
 .modalContent {
-  margin-top: 1rem;
   box-sizing: "border-box";
+}
+.modalClose{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0,-50%);
 }

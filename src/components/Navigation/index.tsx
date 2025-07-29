@@ -2,20 +2,9 @@ import React from "react";
 import Cookies from "js-cookie";
 import "./navigation.css";
 import { useNavigate } from "react-router-dom";
-import Drawer from "../Drawer";
-import navigation from "../../database/navigation.json";
-import { decodeBase64 } from "../../utils/base64";
-
-/**
- * Navigation component is used in home layout
- * This component renders brand title, user name and signout button
- */
 
 const Navigation = () => {
   const navigator = useNavigate();
-
-  const [visible, setVisible] = React.useState(false);
-  const user = decodeBase64(Cookies.get("s-user") as string);
 
   // removes the cookie and redirects to login page
   const handleSignOut = () => {
@@ -27,78 +16,25 @@ const Navigation = () => {
     localStorage.removeItem("s-token");
     localStorage.removeItem("s-user");
     localStorage.removeItem("splay-token");
-    // navigator({ pathname: '/signin' })
     navigator("/signin");
-  };
-
-  const handleNavigation = (link: string) => {
-    navigator(link);
-    setVisible(false);
   };
 
   return (
     <div className="nav-main">
       <div className="nav-container">
-        <div className="nav-left-mobile" onClick={() => setVisible(true)}>
-          <div
-            style={{
-              paddingLeft: "1rem",
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-              height: "100%",
+        <div className="nav-left-mobile">
+          <p
+            className="tab"
+            onClick={() => {
+              navigator("/home");
             }}
           >
-            <div
-              style={{
-                padding: "6px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <img
-                className="icon_image hamburger_icon"
-                src="./icon/hamburger.svg"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-            </div>
-          </div>
+            Home
+          </p>
+          <p className="tab" onClick={() => handleSignOut()}>
+            Log out
+          </p>
         </div>
-
-        <Drawer isVisible={visible} onClose={setVisible} title="Splay">
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.25rem",
-            }}
-          >
-            {navigation.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="navigation-btn-mobile"
-                  // onClick={() => handleNavigation(item.link)}
-                >
-                  <p className="body">{item.title}</p>
-                </div>
-              );
-            })}
-            <div
-              className="large-primary-btn"
-              style={{
-                marginTop: "0.5rem",
-              }}
-              onClick={() => handleSignOut()}
-            >
-              <p className="body">Sign Out</p>
-            </div>
-          </div>
-        </Drawer>
       </div>
     </div>
   );

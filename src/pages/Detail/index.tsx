@@ -534,21 +534,23 @@ const Index = () => {
 
   return (
     <div className="detail-main">
-      {/* left side */}
-
-      {/* right side */}
-      <div className="detail-sub-container-1 hide-scroll">
+      <div className="detail-sub-container-1 ">
         <form onSubmit={handleSubmit}>
           <div
             style={{
               position: "absolute",
-              top: "2px",
+              top: "-15px",
               right: "1rem",
               zIndex: "10",
               boxSizing: "border-box",
+              transform: "translate(0,-50%)",
             }}
           >
-            <button type="submit" className="large-primary-btn">
+            <button
+              type="submit"
+              className="large-primary-btn"
+              style={{ padding: "0.175rem 1rem" }}
+            >
               Embed
             </button>
           </div>
@@ -583,7 +585,7 @@ const Index = () => {
               style={{ marginTop: "1rem" }}
               onClick={() => setOpenModalUpload(true)}
             >
-              Add Video URL
+              Select URL
             </button>
 
             {/* video upload section or choose from the list using modal */}
@@ -595,14 +597,12 @@ const Index = () => {
             >
               <div
                 style={{
-                  marginTop: "2rem",
-                  maxHeight: "32rem",
+                  padding: "0.5rem 1rem",
                   overflowY: "scroll",
                 }}
               >
                 <div
                   style={{
-                    margin: "2rem 0",
                     display: "flex",
                     alignItems: "center",
                     gap: "2rem",
