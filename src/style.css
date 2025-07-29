@@ -113,8 +113,8 @@
   
   .label {
     font-size: 0.65rem;
-    color: var(--white);
-    line-height: 1.225rem;
+    color: var(--placeholder);
+    /* line-height: 1.225rem; */
   }
   .tab {
     font-size: 0.75rem;
@@ -152,12 +152,12 @@
   }
   
   .large-secondary-btn {
-    padding: 0.25rem 1rem;
+    padding: 0.175rem 1rem;
     color: var(--white);
     background-color: var(--primary);
     border-radius: 0.25rem;
     border: 1px solid var(--primary);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     cursor: pointer;
     box-shadow: 0px 0.5px 1px 0px rgba(0, 0, 0, 0.8),0px 0.5px 0.5px 0px rgba(255, 255, 255, 0.20) inset;
   }
@@ -660,7 +660,6 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--primary);
-    margin-bottom: 0.75rem;
 }
 .media-options{
     width: max-content;
@@ -671,6 +670,7 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
+    margin-right: 0.25rem;
 }
 .media-option-image{
     border-radius: 0.25rem;
@@ -681,11 +681,12 @@
 }
 
 .media-options-popup{
+    z-index: 9999;
     position: absolute;
     min-width: 7rem;
-    top: -25%;
-    right: 0;
-    transform: translate(0%, -100%);
+    top: 0%;
+    right: 10%;
+    transform: translate(50%, -100%);
     padding: 2px 0;
     background: var(--primary);
     border-radius: 0.25rem;
@@ -723,12 +724,6 @@
   
     .subtitle-two {
       font-size: 1rem;
-    }
-  
-    .label {
-      font-size: 0.65rem;
-      color: var(--placeholder);
-      line-height: 1.225rem;
     }
   
     .body {

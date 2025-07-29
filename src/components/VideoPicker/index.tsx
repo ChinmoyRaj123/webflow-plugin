@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from "react";
 import axios from "../../utils/axios-instance";
-import axiosOriginal from "axios";
-import Cookies from "js-cookie";
 import "./videopicker.css";
+import XMLParser from "../../utils/xmlParser";
 
 type VideoPickerProps = {
   file: any;
@@ -53,14 +52,23 @@ const VideoPicker = (props: VideoPickerProps) => {
       setLoading(false);
       setFile(null);
       setProgress(0);
+      await webflow.notify({
+        type: "Success",
+        message: "Video uploaded successfully!",
+      });
       setTimeout(() => {
-        setRefetch(Math.random() + Math.random());
-        setOpenModalUpload && setOpenModalUpload(false);
-      }, 1000);
+        setRefetch(`refetch_${Math.random()}`);
+      }, 800);
     } catch (error) {
       console.log(error);
       setLoading(false);
       setProgress(0);
+      if (error.response.status === 400) {
+        await webflow.notify({
+          type: "Error",
+          message: `${XMLParser(error.response?.data)?.message || ""}`,
+        });
+      }
     }
   };
 
@@ -101,47 +109,98 @@ const VideoPicker = (props: VideoPickerProps) => {
     });
   };
 
+  React.useEffect(() => {
+    console.log("progress", progress);
+  }, [progress]);
+
   return (
     <div className="video-picker-container">
       <form>
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            alignItems: "center",
+            marginBottom: "1rem",
           }}
         >
-          {/* <div className="videoUpload-main"> */}
-          <div className="large-secondary-btn" style={{ width: "100%" }}>
-            <label style={{ width: "100%" }} htmlFor={pickerId}>
-              <p className="body" style={{ textAlign: "center" }}>
-                Choose file
-              </p>
-            </label>
-            <input
-              type="file"
-              id={pickerId}
-              style={{ display: "none" }}
-              accept="video/*"
-              onChange={handleFileChange}
-            />
-          </div>
-          <button
-            className="large-primary-btn"
+          <div
             style={{
-              width: "100%",
-            }}
-            type="button"
-            onClick={(e) => {
-              uploadFile(e);
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+              marginBottom: "0.25rem",
             }}
           >
-            {loading ? progress + "%" : "Upload Video"}
-          </button>
+            <div style={{ flex: 2 }}>
+              <p className="label" style={{ wordBreak: "break-all" }}>
+                {file ? file.name.replace(/\s/g, "_") : "No file selected"}
+              </p>
+            </div>
+
+            {!file && !loading && (
+              <div className="large-secondary-btn" style={{ flex: 1 }}>
+                <label style={{ width: "100%" }} htmlFor={pickerId}>
+                  <p className="body" style={{ textAlign: "center" }}>
+                    Choose file
+                  </p>
+                </label>
+                <input
+                  type="file"
+                  id={pickerId}
+                  style={{ display: "none" }}
+                  accept="video/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+            )}
+            {file && !loading && (
+              <div style={{ display: "flex", gap: "0.25rem", flex: 1 }}>
+                <button
+                  className="large-secondary-btn"
+                  style={{
+                    width: "100%",
+                  }}
+                  type="button"
+                  onClick={(e) => {
+                    setFile(undefined);
+                  }}
+                >
+                  {"Cancel"}
+                </button>
+                <button
+                  className="large-primary-btn"
+                  style={{
+                    width: "100%",
+                  }}
+                  type="button"
+                  onClick={(e) => {
+                    uploadFile(e);
+                  }}
+                >
+                  {"Upload"}
+                </button>
+              </div>
+            )}
+          </div>
+          {loading && (
+            <div
+              style={{
+                width: "100%",
+                height: "0.5rem",
+                border: "1px solid var(--stroke)",
+                borderRadius: "0.25rem",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  background: "var(--blue)",
+                  width: `${progress}%`,
+                  height: "100%",
+                }}
+              ></div>
+            </div>
+          )}
         </div>
       </form>
-      <p className="label">{file?.name.replace(/\s/g, "_")}</p>
     </div>
   );
 };

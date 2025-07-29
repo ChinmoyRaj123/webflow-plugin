@@ -10,6 +10,7 @@ import config from "../../config";
 import Modal from "../../components/Modal";
 import ListsInModal from "../../components/ListsInModal";
 import VideoPicker from "../../components/VideoPicker";
+import ReactDOM from "react-dom";
 
 export const videoUrlUpdate = signal("");
 const playerNameUpdate = signal("");
@@ -338,6 +339,7 @@ const Index = () => {
   };
 
   React.useEffect(() => {
+    console.log("refetched data");
     fetchMedia();
   }, [refetch]);
 
@@ -514,11 +516,24 @@ const Index = () => {
     }
   };
 
-  const handlePopupToggle = (item: any) => {
+  const handlePopupToggle = (item: any, index: number) => {
     if (popupId === item.id) {
       setPopupId("");
     } else {
       setPopupId(item.id);
+      const div = document.querySelector(`#more_horiz_${index}`);
+      const topOffset = div.getBoundingClientRect().top + window.scrollY;
+      const el = document.querySelector(`#media_popup_${index}`);
+      console.log("el", el);
+
+      if (el instanceof HTMLElement) {
+        el.style.visibility = "visible";
+        el.style.zIndex = "9999";
+        el.style.opacity = "1";
+        el.style.top = `${topOffset - 10}px`;
+        el.style.right = "0%";
+        el.style.transform = "translate(-32%, -100%)";
+      }
     }
   };
 
@@ -553,10 +568,7 @@ const Index = () => {
         type: "Success",
         message: "Video deleted successfully!",
       });
-      // setPopupId("");
-      // setTimeout(() => {
-      //   setRefetch(Math.random());
-      // }, 800);
+      setRefetch(`refetch_${Math.random()}`);
     } catch (error) {
       console.log("error deleting asset", error);
     }
@@ -674,70 +686,114 @@ const Index = () => {
                     file={file}
                     setFile={setFile}
                     setVideoUrl={setVideoUrlFromModal}
-                    setRefetch={setRefetch}
+                    setRefetch={(e: string) => setRefetch(e)}
                     setOpenModalUpload={setOpenUpload}
                   />
                 </div>
 
-                {media && media.length > 0 ? (
-                  media.map((item: any, index: number) => {
-                    return (
-                      <div key={index} className="media-wrapper">
-                        <div className="media-content">
-                          <p style={{ cursor: "pointer" }} className="body">
-                            {item.name}
-                          </p>
-                        </div>
-                        <div className="media-options">
-                          <span
-                            className="material-symbols-outlined white media-option-image"
-                            style={{ fontSize: "18px" }}
-                            onClick={() => handlePopupToggle(item)}
-                          >
-                            more_horiz
-                          </span>
+                <div
+                  style={{
+                    maxHeight: "16rem",
+                    overflowY: "scroll",
+                  }}
+                >
+                  {media && media.length > 0 ? (
+                    media.map((item: any, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            padding: "0.25rem 0",
+                            paddingLeft: "0.25rem",
+                          }}
+                        >
                           <div
-                            className="media-options-popup"
+                            className="large-secondary-btn"
                             style={{
-                              display: item.id === popupId ? "block" : "none",
+                              paddingRight: 0,
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
                             }}
                           >
                             <div
-                              className="navigation-popup-mobile"
-                              onClick={() => copyAssets(item)}
-                            >
-                              <span
-                                className="material-symbols-outlined white"
-                                style={{ fontSize: "14px" }}
-                              >
-                                file_copy
-                              </span>
-                              <p className="body">Copy Link</p>
-                            </div>
-                            <div
-                              className="navigation-popup-mobile"
-                              onClick={() => {
-                                setOpenModalDelete(true);
-                                setDeleteId(item.id);
-                                setPopupId("");
+                              style={{
+                                flex: 1,
+                                wordBreak: "break-all",
+                                paddingRight: "0.25rem",
                               }}
                             >
+                              <p className="body">{item.name}</p>
+                            </div>
+                            <div className="media-options">
                               <span
-                                className="material-symbols-outlined white"
-                                style={{ fontSize: "14px" }}
+                                id={`more_horiz_${index}`}
+                                className="material-symbols-outlined white media-option-image"
+                                style={{ fontSize: "18px" }}
+                                onClick={() => handlePopupToggle(item, index)}
                               >
-                                delete
+                                more_horiz
                               </span>
-                              <p className="body">Delete</p>
+                              {ReactDOM.createPortal(
+                                <div
+                                  id={`media_popup_${index}`}
+                                  style={{
+                                    zIndex: popupId === item.id ? 9999 : -1,
+                                    visibility: "hidden",
+                                    opacity: "0",
+                                    position: "absolute",
+                                    minWidth: "7rem",
+                                    top: "0%",
+                                    right: "50%",
+                                    transform: "translate(50%, 0%)",
+                                    padding: "2px 0",
+                                    background: "var(--primary)",
+                                    borderRadius: "0.25rem",
+                                    gap: "1rem",
+                                    filter:
+                                      "drop-shadow(rgba(0, 0, 0, 0.6) 0px 0.5px 0px) drop-shadow(rgba(0, 0, 0, 0.18) 0px 2px 6px) drop-shadow(rgba(0, 0, 0, 0.12) 0px 4px 8px) drop-shadow(rgba(0, 0, 0, 0.08) 0px 8px 16px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 12px 25px)",
+                                  }}
+                                >
+                                  <div
+                                    className="navigation-popup-mobile"
+                                    onClick={() => copyAssets(item)}
+                                  >
+                                    <span
+                                      className="material-symbols-outlined white"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      file_copy
+                                    </span>
+                                    <p className="body">Copy Link</p>
+                                  </div>
+                                  <div
+                                    className="navigation-popup-mobile"
+                                    onClick={() => {
+                                      setOpenModalDelete(true);
+                                      setDeleteId(item.id);
+                                      setPopupId("");
+                                    }}
+                                  >
+                                    <span
+                                      className="material-symbols-outlined white"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      delete
+                                    </span>
+                                    <p className="body">Delete</p>
+                                  </div>
+                                </div>,
+                                document.body
+                              )}
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <p className="body">No media found</p>
-                )}
+                      );
+                    })
+                  ) : (
+                    <p className="body">No media found</p>
+                  )}
+                </div>
               </div>
             </Modal>
 
