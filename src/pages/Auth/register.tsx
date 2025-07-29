@@ -2,7 +2,6 @@ import axios from "../../utils/axios-instance";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Loader from "../../components/Loader";
 
 type FormDataType = {
   title: string;
@@ -298,7 +297,7 @@ const Register = () => {
                 margin: "2rem 0",
               }}
             >
-              {loading ? <Loader /> : "Verify otp"}
+              {loading ? "Loading.." : "Verify otp"}
             </button>
           </form>
         )}
@@ -396,7 +395,7 @@ const Register = () => {
                   width: "100%",
                 }}
               >
-                {loading ? <Loader /> : "Sign Up"}
+                {loading ? "Loading.." : "Sign Up"}
               </button>
             </div>
             <div style={{ marginTop: "1rem" }}>

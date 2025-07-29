@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
 import ReactPortal from "../ReactPortal";
-import IconButton from "../IconButton";
 import "./modal.css";
 
 type ModalProps = {
@@ -59,9 +58,12 @@ const Modal = (props: ModalProps) => {
           <div className="modalHeader">
             <p className="subtitle-one black">{title}</p>
 
-            <IconButton onClick={() => setOpen(false)}>
-              <span className="material-symbols-outlined white">close</span>
-            </IconButton>
+            <span
+              className="material-symbols-outlined white"
+              onClick={() => setOpen(false)}
+            >
+              close
+            </span>
           </div>
 
           <div className="modalContent">{children}</div>

@@ -2,19 +2,12 @@ import React from "react";
 import Toggle from "../../components/Toggle";
 import ColorPicker from "../../components/ColorPicker";
 import axios from "../../utils/axios-instance";
-import Cookies from "js-cookie";
 import { signal } from "@preact/signals";
-import SEOcard from "../../components/SEOcard";
 import SizePicker from "../../components/SizePicker";
 import Toast from "../../components/Toast";
 import ImagePicker from "../../components/ImagePicker";
-import Dropdown from "../../components/Dropdown";
 import config from "../../config";
-import DemoPlayer from "../../components/DemoPlayer";
-import IconButton from "../../components/IconButton";
 import Modal from "../../components/Modal";
-import Loader from "../../components/Loader";
-import Assetscard from "../../components/AssetsCard";
 import ListsInModal from "../../components/ListsInModal";
 import VideoPicker from "../../components/VideoPicker";
 
@@ -535,12 +528,7 @@ const Index = () => {
           justifyContent: "center",
         }}
       >
-        <Loader
-          height="64px"
-          width="64px"
-          borderColor="#f0f0f0"
-          borderBottom="#000000"
-        />
+        <p>Loading..</p>
       </div>
     );
 
@@ -720,7 +708,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./video_behavior.png"
+                src="./icon/video_behavior.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -819,7 +807,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./player_style.png"
+                src="./icon/player_style.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -890,7 +878,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./big_play_button.png"
+                src="./icon/big_play_button.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1021,7 +1009,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./small_icons.png"
+                src="./icon/small_icons.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1176,7 +1164,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./video_progress_bar.png"
+                src="./icon/video_progress_bar.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1391,7 +1379,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./volume_slider.png"
+                src="./icon/volume_slider.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1472,7 +1460,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./settings_menu.png"
+                src="./icon/settings_menu.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1562,7 +1550,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./branding.png"
+                src="./icon/branding.png"
                 alt="no image"
                 width="24px"
                 height="24px"
@@ -1628,7 +1616,7 @@ const Index = () => {
             >
               <img
                 className="icon_image"
-                src="./thumbnail.png"
+                src="./icon/thumbnail.png"
                 alt="no image"
                 width="24px"
                 height="24px"

@@ -1,6 +1,4 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import Loader from "../../components/Loader";
 
 /**
  * This layout returns two spaces divided vertically.

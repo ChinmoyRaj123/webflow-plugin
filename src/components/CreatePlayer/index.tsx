@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { config } from "../../utils/default-config";
 import axios from "../../utils/axios-instance";
 import Cookies from "js-cookie";
-import Loader from "../Loader";
 import Toast from "../Toast";
 import Modal from "../Modal";
 
@@ -72,7 +71,7 @@ const Index = (props: CreatePlayerProps) => {
       >
         <div className="create-player-btn-container">
           {isLoading ? (
-            <Loader />
+            <p>Loading..</p>
           ) : (
             <span
               className="material-symbols-outlined placeholder"

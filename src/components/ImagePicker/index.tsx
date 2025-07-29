@@ -1,9 +1,6 @@
 import React from "react";
 import "./imagepicker.css";
 import axios from "../../utils/axios-instance";
-import Cookies from "js-cookie";
-import Loader from "../Loader";
-// import SparkMd5 from "spark-md5";
 import { Buffer } from "buffer";
 
 type ImagePickerType = {
@@ -186,11 +183,7 @@ const ImagePicker = ({
         <p className="label">{fileName}</p>
         <label style={{ width: "100%" }} htmlFor={pickerId}>
           <div className="imageUpload-button">
-            {isLoading ? (
-              <Loader borderBottom="#000000" borderColor="#f0f0f0" />
-            ) : (
-              "Upload"
-            )}
+            {isLoading ? "Loading.." : "Upload"}
           </div>
         </label>
         <input

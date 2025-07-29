@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import HomeLayout from "./layout/home";
 import Initial from "./pages/Initial";
 import Detail from "./pages/Detail";
-import MediaLibrary from "./pages/MediaLibrary";
 
 const App = () => {
   return (
@@ -17,7 +16,6 @@ const App = () => {
       <Route element={<HomeLayout />}>
         <Route path="/home" element={<Home />}></Route>
         <Route path="/detail" element={<Detail />}></Route>
-        <Route path="/media-library" element={<MediaLibrary />}></Route>
       </Route>
     </Routes>
   );

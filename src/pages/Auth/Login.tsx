@@ -1,9 +1,8 @@
 import axios from "../../utils/axios-instance";
 import Cookies from "js-cookie";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { encodeBase64 } from "../../utils/base64";
-import Loader from "../../components/Loader";
 import config from "../../config";
 
 /**
@@ -272,7 +271,7 @@ const Login = () => {
                 width: "100%",
               }}
             >
-              {loading ? <Loader /> : "Sign In"}
+              {loading ? "Loading.." : "Sign In"}
             </button>
           </div>
 

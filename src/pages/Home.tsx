@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "../components/Error";
 import VideoCard from "../components/VideoCard";
 import CreatePlayer from "../components/CreatePlayer";
 import axios from "../utils/axios-instance";
 import Cookies from "js-cookie";
-import Loader from "../components/Loader";
 // import { videoUrlUpdate, videoUrlExtensionUpdate } from "./Detail";
-import { decodeBase64, encodeBase64 } from "../utils/base64";
+import { encodeBase64 } from "../utils/base64";
 
 /**
  * This page will render after login the system(i.e home page).

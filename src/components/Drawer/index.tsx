@@ -1,8 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import "./drawer.css";
 import ReactPortal from "../ReactPortal";
-import IconButton from "../IconButton";
-import { Link } from "react-router-dom";
 import packagejson from "../../../package.json";
 
 type DrawerProps = {
@@ -26,14 +24,13 @@ const Drawer = (props: DrawerProps) => {
         }}
       >
         <div className="drawerHeader">
-          <IconButton width="1rem" height="1rem" onClick={() => onClose(false)}>
-            <span
-              style={{ fontSize: "1rem" }}
-              className="material-symbols-outlined white"
-            >
-              close
-            </span>
-          </IconButton>
+          <span
+            style={{ fontSize: "1rem" }}
+            className="material-symbols-outlined white"
+            onClick={() => onClose(false)}
+          >
+            close
+          </span>
         </div>
 
         <div className="drawerContent">{children}</div>
