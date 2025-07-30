@@ -865,7 +865,7 @@ const Index = () => {
             style={{
               padding: "0rem 1rem",
               borderBottom: "1px solid var(--stroke)",
-              borderTop: "1px solid var(--stroke)",
+              // borderTop: "1px solid var(--stroke)",
             }}
           >
             <Tabs data={tabList} setActiveTab={setActiveTab} />

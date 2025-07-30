@@ -43,11 +43,11 @@ const Index = (props: SizePickerProps) => {
 
   const renderUnit = () => {
     if (name?.includes("scale")) {
-      return <p className="label">x</p>;
+      return <p className="label">X</p>;
     } else if (name?.includes("opacity")) {
       return <p className="label">%</p>;
     } else {
-      return <p className="label">px</p>;
+      return <p className="label">PX</p>;
     }
   };
 
@@ -72,21 +72,30 @@ const Index = (props: SizePickerProps) => {
         }}
       >
         {rendericon()}
-
-        <input
-          className="size-input"
-          type="number"
-          name={name}
-          defaultValue={value}
-          min={"0"}
-          max={"100"}
-          step={"any"}
-          // value={value}
-          // onChange={onChange}
-          onInput={onChange}
-        />
-
-        {renderUnit()}
+        <div className="size-input-wrapper" style={{ position: "relative" }}>
+          <input
+            className="size-input"
+            type="number"
+            name={name}
+            defaultValue={value}
+            min={"0"}
+            max={"100"}
+            step={"any"}
+            onInput={onChange}
+          />
+          <div
+            className="input-unit"
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "2%",
+              transform: "translate(-50%,-50%)",
+              zIndex: "-1",
+            }}
+          >
+            {renderUnit()}
+          </div>
+        </div>
       </div>
     </div>
   );

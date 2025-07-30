@@ -1,5 +1,5 @@
 .size-input {
-  width: 2.8rem;
+  width: 4rem;
   padding: 0.25rem 0.4rem;
   font-size: 0.85rem;
   background: var(--inputBg);
@@ -17,4 +17,10 @@
 }
 .size-input::placeholder {
   color: var(--placeholder);
+}
+.size-input-wrapper:hover .input-unit{
+  display: none;
+}
+.size-input-wrapper:focus-visible .input-unit{
+  display: none;
 }

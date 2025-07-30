@@ -29,6 +29,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
               <div
                 key={index}
                 className={`tab ${item.name === activeItem ? "active" : ""}`}
+                style={{ paddingBottom: "6px" }}
                 onClick={() => {
                   setActiveItem(item.name);
                   setActiveTab(item.name);
