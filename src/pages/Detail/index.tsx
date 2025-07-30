@@ -738,8 +738,12 @@ const Index = () => {
                                 paddingRight: "0.25rem",
                               }}
                               onClick={() => {
-                                console.log("url", item.url);
-                                videoUrlUpdate.value = item.url;
+                                const url = new URL(
+                                  item.url,
+                                  config.VIDEO_CDN_URL
+                                ).toString();
+                                console.log("url", url);
+                                videoUrlUpdate.value = url;
                                 setOpenModalUpload(false);
                               }}
                             >
