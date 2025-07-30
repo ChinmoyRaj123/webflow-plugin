@@ -3,18 +3,28 @@
   width: 24px;
   border: none;
   outline: none;
+  border-radius: 0.25rem;
+  background-color: var(--primaryDark);
 }
 
 .color-hex-input {
-  width: 4rem;
-  height: 1.5rem;
-  padding: 0.2rem 0.4rem;
-  background-color: var(--surface);
+  width: 4.2rem;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.85rem;
+  background: var(--inputBg);
   outline: none;
   border: 1px solid;
-  border-color: var(--stroke);
+  border-radius: 0.25rem;
+  border-color: var(--inputBorder);
+  box-sizing: border-box;
+  color: var(--white);
+  box-shadow: var(--inputBoxShadow);
+  transition: none;
+}
+.color-hex-input:focus-visible{
+  border-color: var(--blue);
 }
 
 .color-hex-input::placeholder {
-  color: #828282;
+  color: var(--placeholder);
 }

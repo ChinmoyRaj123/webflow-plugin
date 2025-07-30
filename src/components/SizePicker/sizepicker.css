@@ -1,13 +1,20 @@
 .size-input {
   width: 2.8rem;
-  height: 1.5rem;
-  padding: 0.2rem 0.4rem;
-  background-color: var(--surface);
+  padding: 0.25rem 0.4rem;
+  font-size: 0.85rem;
+  background: var(--inputBg);
   outline: none;
   border: 1px solid;
-  border-color: var(--stroke);
+  border-radius: 0.25rem;
+  border-color: var(--inputBorder);
+  box-sizing: border-box;
+  color: var(--white);
+  box-shadow: var(--inputBoxShadow);
+  transition: none;
 }
-
+.size-input:focus-visible{
+  border-color: var(--blue);
+}
 .size-input::placeholder {
-  color: #828282;
+  color: var(--placeholder);
 }

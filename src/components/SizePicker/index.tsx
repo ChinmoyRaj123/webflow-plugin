@@ -13,20 +13,30 @@ const Index = (props: SizePickerProps) => {
 
   const rendericon = () => {
     if (name?.includes("margin")) {
-      return <span className="material-symbols-outlined">padding</span>;
+      return (
+        <span className="material-symbols-outlined icon_image">padding</span>
+      );
     }
     if (name?.includes("opacity")) {
-      return <span className="material-symbols-outlined">opacity</span>;
+      return (
+        <span className="material-symbols-outlined icon_image">opacity</span>
+      );
     }
     if (name?.includes("padding")) {
-      return <span className="material-symbols-outlined">padding</span>;
+      return (
+        <span className="material-symbols-outlined icon_image">padding</span>
+      );
     }
     if (name?.includes("radius")) {
-      return <span className="material-symbols-outlined">line_curve</span>;
+      return (
+        <span className="material-symbols-outlined icon_image">line_curve</span>
+      );
     }
     if (name?.includes("spacing")) {
       return (
-        <span className="material-symbols-outlined">format_line_spacing</span>
+        <span className="material-symbols-outlined icon_image">
+          format_line_spacing
+        </span>
       );
     }
   };

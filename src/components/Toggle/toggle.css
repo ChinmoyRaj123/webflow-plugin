@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid var(--disabled);
+  border: 1px solid var(--primary);
   transition: 0.3s;
   border-radius: .25cm;
 }
@@ -41,18 +41,18 @@ strong {
   width: 5px;
   top: 50%;
   left: 0;
-  background-color: var(--disabled);
+  background-color: var(--primary);
   border-radius: 50%;
   transition: 0.3s;
   transform: translate(25%, -50%);
 }
 
 .toggle-button:checked+.toggle-circle:before {
-  background-color: var(--primary);
+  background-color: var(--white);
 }
 
 .toggle-button:checked+.toggle-circle {
-  border: 1px solid var(--primary);
+  border: 1px solid var(--white);
 }
 
 .toggle-button:checked+.toggle-circle:before {
