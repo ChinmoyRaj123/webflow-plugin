@@ -35,6 +35,7 @@ export default {
     port: 3000,
     headers: {
       "Cache-Control": "no-store",
+      "X-Frame-Options": "ALLOWALL",
     },
   },
 };

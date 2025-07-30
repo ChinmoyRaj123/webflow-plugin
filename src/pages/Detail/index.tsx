@@ -124,6 +124,7 @@ const Index = () => {
   const [popupId, setPopupId] = React.useState("");
   const [deleteId, setDeleteId] = React.useState("");
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     videoUrlExtensionUpdate.value = selectedExtension as string;
@@ -582,6 +583,16 @@ const Index = () => {
     setMuted(!muted);
   };
 
+  React.useEffect(() => {
+    if (inputRef.current) {
+      const input = inputRef.current;
+      const length = input.value.length;
+      input.setSelectionRange(length, length);
+      input.scrollLeft = input.scrollWidth;
+      input.focus();
+    }
+  }, [videoUrlUpdate.value]);
+
   if (isLoadingPlayerData)
     return (
       <div
@@ -631,11 +642,12 @@ const Index = () => {
                   Video Url (only mp4 supported)
                 </p>
                 <input
+                  ref={inputRef}
                   className="input-main"
                   type={"text"}
                   name={"search"}
                   placeholder={"Paste Video Link here..."}
-                  defaultValue={videoUrlUpdate.value}
+                  value={videoUrlUpdate.value}
                   onInput={(e: any) => (videoUrlUpdate.value = e.target.value)}
                 />
               </div>
@@ -672,16 +684,6 @@ const Index = () => {
                     margin: "0.5rem 0",
                   }}
                 >
-                  {/* <div>
-                    <input
-                      className="input-main"
-                      type={"text"}
-                      name={"search"}
-                      placeholder={"Search"}
-                      value={searchTitle}
-                      onChange={(e) => setSearchTitle(e.target.value)}
-                    />
-                  </div> */}
                   <VideoPicker
                     file={file}
                     setFile={setFile}
@@ -722,6 +724,11 @@ const Index = () => {
                                 wordBreak: "break-all",
                                 paddingRight: "0.25rem",
                               }}
+                              onClick={() => {
+                                console.log("url", item.url);
+                                videoUrlUpdate.value = item.url;
+                                setOpenModalUpload(false);
+                              }}
                             >
                               <p className="body">{item.name}</p>
                             </div>
@@ -729,7 +736,7 @@ const Index = () => {
                               <span
                                 id={`more_horiz_${index}`}
                                 className="material-symbols-outlined white media-option-image"
-                                style={{ fontSize: "18px" }}
+                                style={{ fontSize: "18px", zIndex: 1000 }}
                                 onClick={() => handlePopupToggle(item, index)}
                               >
                                 more_horiz
