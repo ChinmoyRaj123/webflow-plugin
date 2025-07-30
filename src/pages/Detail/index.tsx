@@ -11,6 +11,7 @@ import Modal from "../../components/Modal";
 import ListsInModal from "../../components/ListsInModal";
 import VideoPicker from "../../components/VideoPicker";
 import ReactDOM from "react-dom";
+import Tabs from "../../components/Tabs";
 
 export const videoUrlUpdate = signal("");
 const playerNameUpdate = signal("");
@@ -125,6 +126,18 @@ const Index = () => {
   const [deleteId, setDeleteId] = React.useState("");
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const tabList = [
+    { name: "Video Behavior" },
+    { name: "Player Style" },
+    { name: "Play Button" },
+    { name: "Small Icons" },
+    { name: "Progress Bar" },
+    { name: "Volume Slider" },
+    { name: "Settings Menu" },
+    { name: "Branding" },
+    { name: "Thumbnail" },
+  ];
+  const [activeTab, setActiveTab] = React.useState(tabList[0].name);
 
   React.useEffect(() => {
     videoUrlExtensionUpdate.value = selectedExtension as string;
@@ -844,965 +857,794 @@ const Index = () => {
             />
           </div>
 
-          <div style={{ marginBottom: "2rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/video_behavior.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Video Behavior</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"autoplay"}
-                label={"Auto Play"}
-                checked={videoconfigupdate.value.playersettings.autoplay}
-                //checked={autoPlay}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  handleAutoPlayToggle();
-                  videoconfigupdate.value.playersettings.autoplay =
-                    e.target.checked;
-                }}
-              />
-
-              <Toggle
-                name={"muted"}
-                label={"Muted"}
-                checked={muted}
-                onChange={(e: any) => {
-                  if (videoconfigupdate.value.playersettings.autoplay) return;
-                  setMuted(!muted);
-                  videoconfigupdate.value.playersettings.muted =
-                    !videoconfigupdate.value.playersettings.muted;
-                  setReRender(Math.random() * 1000);
-                }}
-              />
-
-              <Toggle
-                name={"loop"}
-                label={"Loop"}
-                checked={videoconfigupdate.value.playersettings.loop}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playersettings.loop =
-                    e.target.checked;
-                }}
-              />
-
-              {/* <Toggle
-                                    name={'use-as-bg-video'}
-                                    label={'Use as BG Video'}
-                                    checked={videoconfigupdate.value.playersettings.use_as_BG_video}
-                                    onChange={(e: any) => { setReRender(Math.random() * 1000); (videoconfigupdate.value.playersettings.use_as_BG_video = e.target.checked) }}
-                                /> */}
-
-              <Toggle
-                name={"video-name"}
-                label={"Video Title"}
-                checked={videoconfigupdate.value.playercontrol.video_name}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.video_name =
-                    e.target.checked;
-                }}
-              />
-
-              <ColorPicker
-                label={"In-Video Text Color"}
-                name={"text-color"}
-                value={videoconfigupdate.value.playerstyle.text_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.text_color =
-                    e.target.value;
-                }}
-              />
-            </div>
+          <div
+            style={{
+              padding: "0rem 1rem",
+              borderBottom: "1px solid var(--stroke)",
+              borderTop: "1px solid var(--stroke)",
+            }}
+          >
+            <Tabs data={tabList} setActiveTab={setActiveTab} />
           </div>
 
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/player_style.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Player Style - Top level</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <SizePicker
-                label={"Inner Padding"}
-                name={"inner-padding"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.player_controls_margin
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.player_controls_margin =
-                    e.target.value;
+          <div style={{ position: "relative" }}>
+            {activeTab === tabList[0].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
                 }}
-              />
-
-              <SizePicker
-                label={"Corner Radius"}
-                name={"corner-radius"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.player_corner_radius}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.player_corner_radius =
-                    e.target.value;
-                }}
-              />
-
-              <Toggle
-                name={"video-gradient"}
-                label={"OsdBar & TopBar Gradient"}
-                checked={videoconfigupdate.value.playercontrol.gradient}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.gradient =
-                    e.target.checked;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/big_play_button.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Big Play Button</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"center-btn-show"}
-                label={"Show"}
-                checked={videoconfigupdate.value.playercontrol.center_playpause}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.center_playpause =
-                    e.target.checked;
-                }}
-              />
-              <SizePicker
-                label={"Size"}
-                name={"center-btn-show"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.center_icon_button_size
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_size =
-                    e.target.value;
-                }}
-              />
-              <ColorPicker
-                label={"Color"}
-                name={"center-btn-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.center_icon_button_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Opacity"}
-                name={"center-btn-opacity"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.center_icon_button_opacity
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Hover Color"}
-                name={"center-btn-hover-color"}
-                value={
-                  videoconfigupdate.value.playerstyle
-                    .center_icon_button_hover_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_hover_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Inner Padding"}
-                name={"center-btn-padding"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.center_icon_button_padding
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_padding =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Corner Radius"}
-                name={"center-btn-corner-radius"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle
-                    .center_icon_button_corner_radius
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.center_icon_button_corner_radius =
-                    e.target.value;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/small_icons.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Small Icons</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"small-icon-play-show"}
-                label={"Play Button"}
-                checked={videoconfigupdate.value.playercontrol.playpause}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.playpause =
-                    e.target.checked;
-                }}
-              />
-
-              <Toggle
-                name={"small-icon-vol-show"}
-                label={"Volume Button"}
-                checked={videoconfigupdate.value.playercontrol.volume}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.volume =
-                    e.target.checked;
-                }}
-              />
-
-              <Toggle
-                name={"small-icon-setting-show"}
-                label={"Settings Button"}
-                checked={videoconfigupdate.value.playercontrol.settings_menu}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.settings_menu =
-                    e.target.checked;
-                }}
-              />
-
-              <Toggle
-                name={"small-icon-fullscreen-show"}
-                label={"Fullscreen Button"}
-                checked={videoconfigupdate.value.playercontrol.full_screen_icon}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.full_screen_icon =
-                    e.target.checked;
-                }}
-              />
-
-              <ColorPicker
-                label={"Color"}
-                name={"small-icon-color"}
-                value={videoconfigupdate.value.playerstyle.icon_button_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_color =
-                    e.target.value;
-                }}
-              />
-              <SizePicker
-                label={"Opacity"}
-                name={"small-icon-opacity"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.icon_button_opacity}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Hover Color"}
-                name={"small-icon-hover-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.icon_button_hover_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_hover_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Size"}
-                name={"small-icon-size"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.icon_button_size}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_size =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Inner Padding"}
-                name={"small-icon-padding"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.icon_button_padding}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_padding =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Corner Radius"}
-                name={"small-icon-corner-radius"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.icon_button_corner_radius
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.icon_button_corner_radius =
-                    e.target.value;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/video_progress_bar.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Video Progress Slider</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"progress-bar-show"}
-                label={"Show"}
-                checked={videoconfigupdate.value.playercontrol.progress_bar}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.progress_bar =
-                    e.target.checked;
-                }}
-              />
-
-              <Toggle
-                name={"progress-bar-time"}
-                label={"Time Stamp"}
-                checked={videoconfigupdate.value.playercontrol.time_stamp}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.time_stamp =
-                    e.target.checked;
-                }}
-              />
-              <SizePicker
-                label={"Spacing from Bottom"}
-                name={"progress-bar-position"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.bottom_bar_spacing}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.bottom_bar_spacing =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Height"}
-                name={"progress-bar-height"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.progress_bar_size}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_size =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Scale on hover"}
-                name={"progress-bar-scale-on-hover"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.progress_bar_hover_scale
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_hover_scale =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Foreground Color"}
-                name={"progress-bar-fg-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.progress_bar_FG_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_FG_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Background Color"}
-                name={"progress-bar-bg-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.progress_bar_BG_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_BG_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Loaded Color"}
-                name={"progress-bar-loaded-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.progress_bar_loaded_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_loaded_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Circle Color"}
-                name={"progress-bar-circle-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.progress_bar_circle_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_circle_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Progress Bar Opacity"}
-                name={"progress-bar-opacity"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.progress_bar_opacity}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.progress_bar_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Tooltip BG Color"}
-                name={"tooltip-bg-color"}
-                value={videoconfigupdate.value.playerstyle.tooltip_BG_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.tooltip_BG_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Tooltip Text Color"}
-                name={"tooltip-text-color"}
-                value={videoconfigupdate.value.playerstyle.tooltip_text_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.tooltip_text_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Tooltip Opacity"}
-                name={"tooltip-opacity"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.tooltip_opacity}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.tooltip_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Tooltip Corner Radius"}
-                name={"tooltip-corner-radius"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.tooltip_corner_radius
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.tooltip_corner_radius =
-                    e.target.value;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/volume_slider.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Volume Slider</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <SizePicker
-                label={"Volume Bar Size"}
-                name={"volume-bar-size"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.volume_bar_size}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.volume_bar_size =
-                    e.target.value;
-                }}
-              />
-              <ColorPicker
-                label={"Volume Bar BG Color"}
-                name={"volume-bar-bg-color"}
-                value={videoconfigupdate.value.playerstyle.volume_bar_BG_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.volume_bar_BG_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Volume Bar FG Color"}
-                name={"volume-bar-fg-color"}
-                value={videoconfigupdate.value.playerstyle.volume_bar_FG_color}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.volume_bar_FG_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Volume Slider Opacity"}
-                name={"volume-bar-opacity"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.volume_bar_opacity}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.volume_bar_opacity =
-                    e.target.value;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/settings_menu.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Settings Menu</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <ColorPicker
-                label={"Background Color"}
-                name={"settting-background-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.settings_menu_BG_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.settings_menu_BG_color =
-                    e.target.value;
-                }}
-              />
-
-              <SizePicker
-                label={"Settings menu opacity"}
-                name={"settings-menu-opacity"}
-                // @ts-ignore
-                value={
-                  videoconfigupdate.value.playerstyle.settings_menu_opacity
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.settings_menu_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Hover Color"}
-                name={"settting-hover-color"}
-                value={
-                  videoconfigupdate.value.playerstyle
-                    .settings_menu_BG_hover_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.settings_menu_BG_hover_color =
-                    e.target.value;
-                }}
-              />
-
-              <ColorPicker
-                label={"Text Color"}
-                name={"settting-test-color"}
-                value={
-                  videoconfigupdate.value.playerstyle.settings_menu_text_color
-                }
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.settings_menu_text_color =
-                    e.target.value;
-                }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/branding.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Branding</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"branding"}
-                label={"Show"}
-                checked={videoconfigupdate.value.playercontrol.branding}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.branding =
-                    e.target.checked;
-                }}
-              />
-
-              <SizePicker
-                label={"Opacity"}
-                name={"branding-opacity"}
-                // @ts-ignore
-                value={videoconfigupdate.value.playerstyle.branding_opacity}
-                // @ts-ignore
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playerstyle.branding_opacity =
-                    e.target.value;
-                }}
-              />
-
-              <div style={{ width: "100%" }}>
-                <ImagePicker
-                  onChange={(val: any) => {
-                    handlePlayerBrandingOnChange(val);
+              >
+                <Toggle
+                  name={"autoplay"}
+                  label={"Auto Play"}
+                  checked={videoconfigupdate.value.playersettings.autoplay}
+                  //checked={autoPlay}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    handleAutoPlayToggle();
+                    videoconfigupdate.value.playersettings.autoplay =
+                      e.target.checked;
                   }}
-                  label="Player Branding"
-                  setImageUploading={setBrandUploading}
+                />
+
+                <Toggle
+                  name={"muted"}
+                  label={"Muted"}
+                  checked={muted}
+                  onChange={(e: any) => {
+                    if (videoconfigupdate.value.playersettings.autoplay) return;
+                    setMuted(!muted);
+                    videoconfigupdate.value.playersettings.muted =
+                      !videoconfigupdate.value.playersettings.muted;
+                    setReRender(Math.random() * 1000);
+                  }}
+                />
+
+                <Toggle
+                  name={"loop"}
+                  label={"Loop"}
+                  checked={videoconfigupdate.value.playersettings.loop}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playersettings.loop =
+                      e.target.checked;
+                  }}
+                />
+
+                <Toggle
+                  name={"video-name"}
+                  label={"Video Title"}
+                  checked={videoconfigupdate.value.playercontrol.video_name}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.video_name =
+                      e.target.checked;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"In-Video Text Color"}
+                  name={"text-color"}
+                  value={videoconfigupdate.value.playerstyle.text_color}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.text_color =
+                      e.target.value;
+                  }}
                 />
               </div>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <div
-              style={{
-                // width: '100%',
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                borderTop: "1px solid #F0F0F0",
-                borderBottom: "1px solid #F0F0F0",
-                padding: "1rem",
-              }}
-            >
-              <img
-                className="icon_image"
-                src="./icon/thumbnail.png"
-                alt="no image"
-                width="24px"
-                height="24px"
-              />
-              <p className="body">Thumbnail</p>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                marginTop: "1.5rem",
-                padding: "0 1rem 0 1rem",
-                boxSizing: "border-box",
-              }}
-            >
-              <Toggle
-                name={"thumbnail"}
-                label={"Show"}
-                checked={videoconfigupdate.value.playercontrol.thumbnail}
-                onChange={(e: any) => {
-                  setReRender(Math.random() * 1000);
-                  videoconfigupdate.value.playercontrol.thumbnail =
-                    e.target.checked;
+            )}
+            {activeTab === tabList[1].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
                 }}
-              />
-
-              <div style={{ width: "100%" }}>
-                <ImagePicker
-                  onChange={(val: any) => {
-                    handlePlayerThumbnailOnChange(val);
+              >
+                <SizePicker
+                  label={"Inner Padding"}
+                  name={"inner-padding"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.player_controls_margin
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.player_controls_margin =
+                      e.target.value;
                   }}
-                  label="Player Thumbnail"
-                  setImageUploading={setThumbnailUploading}
+                />
+
+                <SizePicker
+                  label={"Corner Radius"}
+                  name={"corner-radius"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.player_corner_radius
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.player_corner_radius =
+                      e.target.value;
+                  }}
+                />
+
+                <Toggle
+                  name={"video-gradient"}
+                  label={"OsdBar & TopBar Gradient"}
+                  checked={videoconfigupdate.value.playercontrol.gradient}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.gradient =
+                      e.target.checked;
+                  }}
                 />
               </div>
-            </div>
+            )}
+            {activeTab === tabList[2].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"center-btn-show"}
+                  label={"Show"}
+                  checked={
+                    videoconfigupdate.value.playercontrol.center_playpause
+                  }
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.center_playpause =
+                      e.target.checked;
+                  }}
+                />
+                <SizePicker
+                  label={"Size"}
+                  name={"center-btn-show"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.center_icon_button_size
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_size =
+                      e.target.value;
+                  }}
+                />
+                <ColorPicker
+                  label={"Color"}
+                  name={"center-btn-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.center_icon_button_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Opacity"}
+                  name={"center-btn-opacity"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .center_icon_button_opacity
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Hover Color"}
+                  name={"center-btn-hover-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .center_icon_button_hover_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_hover_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Inner Padding"}
+                  name={"center-btn-padding"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .center_icon_button_padding
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_padding =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Corner Radius"}
+                  name={"center-btn-corner-radius"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .center_icon_button_corner_radius
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.center_icon_button_corner_radius =
+                      e.target.value;
+                  }}
+                />
+              </div>
+            )}
+            {activeTab === tabList[3].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"small-icon-play-show"}
+                  label={"Play Button"}
+                  checked={videoconfigupdate.value.playercontrol.playpause}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.playpause =
+                      e.target.checked;
+                  }}
+                />
+
+                <Toggle
+                  name={"small-icon-vol-show"}
+                  label={"Volume Button"}
+                  checked={videoconfigupdate.value.playercontrol.volume}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.volume =
+                      e.target.checked;
+                  }}
+                />
+
+                <Toggle
+                  name={"small-icon-setting-show"}
+                  label={"Settings Button"}
+                  checked={videoconfigupdate.value.playercontrol.settings_menu}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.settings_menu =
+                      e.target.checked;
+                  }}
+                />
+
+                <Toggle
+                  name={"small-icon-fullscreen-show"}
+                  label={"Fullscreen Button"}
+                  checked={
+                    videoconfigupdate.value.playercontrol.full_screen_icon
+                  }
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.full_screen_icon =
+                      e.target.checked;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Color"}
+                  name={"small-icon-color"}
+                  value={videoconfigupdate.value.playerstyle.icon_button_color}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_color =
+                      e.target.value;
+                  }}
+                />
+                <SizePicker
+                  label={"Opacity"}
+                  name={"small-icon-opacity"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.icon_button_opacity
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Hover Color"}
+                  name={"small-icon-hover-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.icon_button_hover_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_hover_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Size"}
+                  name={"small-icon-size"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.icon_button_size}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_size =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Inner Padding"}
+                  name={"small-icon-padding"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.icon_button_padding
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_padding =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Corner Radius"}
+                  name={"small-icon-corner-radius"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .icon_button_corner_radius
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.icon_button_corner_radius =
+                      e.target.value;
+                  }}
+                />
+              </div>
+            )}
+            {activeTab === tabList[4].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"progress-bar-show"}
+                  label={"Show"}
+                  checked={videoconfigupdate.value.playercontrol.progress_bar}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.progress_bar =
+                      e.target.checked;
+                  }}
+                />
+
+                <Toggle
+                  name={"progress-bar-time"}
+                  label={"Time Stamp"}
+                  checked={videoconfigupdate.value.playercontrol.time_stamp}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.time_stamp =
+                      e.target.checked;
+                  }}
+                />
+                <SizePicker
+                  label={"Spacing from Bottom"}
+                  name={"progress-bar-position"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.bottom_bar_spacing}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.bottom_bar_spacing =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Height"}
+                  name={"progress-bar-height"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.progress_bar_size}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_size =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Scale on hover"}
+                  name={"progress-bar-scale-on-hover"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.progress_bar_hover_scale
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_hover_scale =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Foreground Color"}
+                  name={"progress-bar-fg-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.progress_bar_FG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_FG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Background Color"}
+                  name={"progress-bar-bg-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.progress_bar_BG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_BG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Loaded Color"}
+                  name={"progress-bar-loaded-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .progress_bar_loaded_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_loaded_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Circle Color"}
+                  name={"progress-bar-circle-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .progress_bar_circle_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_circle_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Progress Bar Opacity"}
+                  name={"progress-bar-opacity"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.progress_bar_opacity
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Tooltip BG Color"}
+                  name={"tooltip-bg-color"}
+                  value={videoconfigupdate.value.playerstyle.tooltip_BG_color}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.tooltip_BG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Tooltip Text Color"}
+                  name={"tooltip-text-color"}
+                  value={videoconfigupdate.value.playerstyle.tooltip_text_color}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.tooltip_text_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Tooltip Opacity"}
+                  name={"tooltip-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.tooltip_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.tooltip_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Tooltip Corner Radius"}
+                  name={"tooltip-corner-radius"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.tooltip_corner_radius
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.tooltip_corner_radius =
+                      e.target.value;
+                  }}
+                />
+              </div>
+            )}
+            {activeTab === tabList[5].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <SizePicker
+                  label={"Volume Bar Size"}
+                  name={"volume-bar-size"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.volume_bar_size}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.volume_bar_size =
+                      e.target.value;
+                  }}
+                />
+                <ColorPicker
+                  label={"Volume Bar BG Color"}
+                  name={"volume-bar-bg-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.volume_bar_BG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.volume_bar_BG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Volume Bar FG Color"}
+                  name={"volume-bar-fg-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.volume_bar_FG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.volume_bar_FG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Volume Slider Opacity"}
+                  name={"volume-bar-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.volume_bar_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.volume_bar_opacity =
+                      e.target.value;
+                  }}
+                />
+              </div>
+            )}
+            {activeTab === tabList[6].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <ColorPicker
+                  label={"Background Color"}
+                  name={"settting-background-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.settings_menu_BG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.settings_menu_BG_color =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Settings menu opacity"}
+                  name={"settings-menu-opacity"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.settings_menu_opacity
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.settings_menu_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Hover Color"}
+                  name={"settting-hover-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle
+                      .settings_menu_BG_hover_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.settings_menu_BG_hover_color =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Text Color"}
+                  name={"settting-test-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.settings_menu_text_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.settings_menu_text_color =
+                      e.target.value;
+                  }}
+                />
+              </div>
+            )}
+            {activeTab === tabList[7].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"branding"}
+                  label={"Show"}
+                  checked={videoconfigupdate.value.playercontrol.branding}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.branding =
+                      e.target.checked;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Opacity"}
+                  name={"branding-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.branding_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.branding_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <div style={{ width: "100%" }}>
+                  <ImagePicker
+                    onChange={(val: any) => {
+                      handlePlayerBrandingOnChange(val);
+                    }}
+                    label="Player Branding"
+                    setImageUploading={setBrandUploading}
+                  />
+                </div>
+              </div>
+            )}
+            {activeTab === tabList[8].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "1.5rem",
+                  padding: "0 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"thumbnail"}
+                  label={"Show"}
+                  checked={videoconfigupdate.value.playercontrol.thumbnail}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.thumbnail =
+                      e.target.checked;
+                  }}
+                />
+
+                <div style={{ width: "100%" }}>
+                  <ImagePicker
+                    onChange={(val: any) => {
+                      handlePlayerThumbnailOnChange(val);
+                    }}
+                    label="Player Thumbnail"
+                    setImageUploading={setThumbnailUploading}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </form>
       </div>
