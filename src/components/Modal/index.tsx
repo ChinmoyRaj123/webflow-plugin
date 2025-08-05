@@ -56,7 +56,16 @@ const Modal = (props: ModalProps) => {
       <div className="centered">
         <div className="modal" style={{ width: width, height: height }}>
           <div className="modalHeader">
-            <p className="body">{title}</p>
+            <p
+              className="body"
+              style={{
+                fontStyle: "normal",
+                fontWeight: "600",
+                lineHeight: "1rem",
+              }}
+            >
+              {title}
+            </p>
             <span
               className="material-symbols-outlined white icon_with_hover"
               onClick={() => setOpen(false)}

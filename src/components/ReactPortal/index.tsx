@@ -1,25 +1,27 @@
-import React, { ReactNode } from 'react';
-import { createPortal } from 'react-dom';
+import React, { ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 type ReactPortalProps = {
-  children: ReactNode
-  wrapperId: string
-}
+  children: ReactNode;
+  wrapperId: string;
+};
 
 function ReactPortal({ children, wrapperId }: ReactPortalProps) {
-
-  const [wrapperElement, setWrapperElement] = React.useState<Element | null>(null);
+  const [wrapperElement, setWrapperElement] = React.useState<Element | null>(
+    null
+  );
 
   function createWrapperAndAppendToBody(wrapperId: string) {
-    const wrapperElement = document.createElement('div');
+    const wrapperElement = document.createElement("div");
     wrapperElement.setAttribute("id", wrapperId);
     wrapperElement.style.zIndex = "500";
-    wrapperElement.style.width = "100vw"
-    wrapperElement.style.height = "100vh"
-    wrapperElement.style.background = "rgba(0, 0, 0, 0.7)"
-    wrapperElement.style.position = "absolute"
-    wrapperElement.style.top = "0"
-    wrapperElement.style.left = "0"
+    wrapperElement.style.width = "100vw";
+    wrapperElement.style.height = "100vh";
+    wrapperElement.style.background = "rgba(0, 0, 0, 0.7)";
+    wrapperElement.style.position = "fixed";
+    wrapperElement.style.top = "0";
+    wrapperElement.style.left = "0";
+    wrapperElement.style.overflow = "hidden";
 
     document.body.appendChild(wrapperElement);
     return wrapperElement;
@@ -42,7 +44,7 @@ function ReactPortal({ children, wrapperId }: ReactPortalProps) {
       if (systemCreated && element?.parentNode) {
         element.parentNode.removeChild(element);
       }
-    }
+    };
   }, [wrapperId]);
 
   // wrapperElement state will be null on the very first render.

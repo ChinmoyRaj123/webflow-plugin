@@ -79,18 +79,16 @@ const Index = (props: CreatePlayerProps) => {
       <Modal
         isOpen={openModalAdd}
         setOpen={setOpenModalAdd}
-        title={`Create Player`}
-        size="sm"
+        title={`Create New Player`}
+        size="contain"
       >
-        <div style={{ marginTop: "2rem" }}>
+        <div style={{ padding: "0.5rem" }}>
           <form onSubmit={createPlayer}>
-            <p className="body">Player name</p>
             <input
               className="input-main"
               style={{
                 width: "100%",
                 boxSizing: "border-box",
-                marginTop: "0.5rem",
               }}
               value={playerName}
               onChange={(e: any) => setPlayerName(e.target.value)}
@@ -100,7 +98,12 @@ const Index = (props: CreatePlayerProps) => {
 
             <div className="error-container">
               {error === "emtpy-player-name" && (
-                <p className="error-text required-error-text-space">
+                <p
+                  style={{
+                    marginBottom: "0.5rem",
+                  }}
+                  className="error-text required-error-text-space"
+                >
                   Required field!
                 </p>
               )}
@@ -111,10 +114,9 @@ const Index = (props: CreatePlayerProps) => {
               className="large-primary-btn"
               style={{
                 width: "100%",
-                marginTop: "2rem",
               }}
             >
-              Create
+              Continue
             </button>
           </form>
         </div>
