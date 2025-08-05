@@ -90,28 +90,6 @@ const Index = (props: VideoCardProps) => {
     }
   };
 
-  // const handlePopupToggle = (item: any) => {
-  //   setPopupShow(!popupShow);
-  //   if (popupId === item.id) {
-  //     setPopupId("");
-  //   } else {
-  //     setPopupId(item.id);
-  //     const div = document.querySelector(`#more_horiz_${item.id}`);
-  //     const topOffset = div.getBoundingClientRect().top + window.scrollY;
-  //     const el = document.querySelector(`#media_popup_${item.id}`);
-  //     console.log("el", el);
-
-  //     if (el instanceof HTMLElement) {
-  //       // el.style.visibility = "visible";
-  //       // el.style.opacity = "1";
-  //       // el.style.zIndex = "9999";
-  //       el.style.top = `${topOffset - 10}px`;
-  //       el.style.right = "0%";
-  //       el.style.transform = "translate(-13.5%, -100%)";
-  //     }
-  //   }
-  // };
-
   return (
     // <div className="videocard">
     //   <div

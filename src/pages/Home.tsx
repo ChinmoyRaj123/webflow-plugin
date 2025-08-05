@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 // import { videoUrlUpdate, videoUrlExtensionUpdate } from "./Detail";
 import { encodeBase64 } from "../utils/base64";
 import ReactDOM from "react-dom";
+import Modal from "../components/Modal/index";
 
 /**
  * This page will render after login the system(i.e home page).
@@ -102,6 +103,13 @@ const Home = () => {
     navigate({ pathname: "/detail", search: `?video=${id}` });
   };
 
+  const hideParentPopup = () => {
+    setPopupData();
+    document.getElementById("media_popup").style.visibility = "hidden";
+    document.getElementById("media_popup").style.opacity = "0";
+    document.getElementById("media_popup").style.zIndex = "-1";
+  };
+
   const handlePopupToggle = (item: any, tag: string) => {
     const showPopup = (tag: string) => {
       const div = document.querySelector(tag);
@@ -135,6 +143,77 @@ const Home = () => {
     } else {
       hidePopup();
       setPopupData(undefined);
+    }
+  };
+
+  const [openDuplicateModal, setOpenDuplicateModal] =
+    React.useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
+  const [show, setShow] = React.useState(false);
+  const [showDelete, setShowDelete] = React.useState(false);
+
+  const [showDuplicateTooltip, setShowDuplicateTooltip] = React.useState("0");
+  const [showDeleteTooltip, setShowDeleteTooltip] = React.useState("0");
+
+  const showToast = () => {
+    setShow(true);
+  };
+
+  const hideToast = () => {
+    console.log("hideToast");
+
+    setShow(false);
+  };
+
+  const showToastDelete = () => {
+    setShowDelete(true);
+  };
+
+  const hideToastDelete = () => {
+    setShowDelete(false);
+  };
+
+  const duplicatePlayer = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const newdata = {
+        name: data.name.concat("_copy"),
+        config: data.config,
+        // "media_source": data.source.url,
+        // "media_type": data.source.media_type
+      };
+      const res = await axios.post("/players", newdata, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("s-token")}`,
+        },
+      });
+      setOpenDuplicateModal(false);
+      showToast();
+      setTimeout(() => {
+        setRefetch(Math.random());
+      }, 800);
+      console.log("duplicate player", res);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const deletePlayer = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.delete(`/players/${data.id}`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("s-token")}`,
+        },
+      });
+      console.log("delete", res);
+      setOpenDeleteModal(false);
+      showToastDelete();
+      setTimeout(() => {
+        setRefetch(Math.random());
+      }, 800);
+    } catch (error) {
+      console.log("error deleting player", error);
     }
   };
 
@@ -203,7 +282,10 @@ const Home = () => {
                   >
                     <div
                       className="navigation-popup-mobile"
-                      // onClick={() => copyAssets(item)}
+                      onClick={() => {
+                        hideParentPopup();
+                        setOpenDuplicateModal(true);
+                      }}
                     >
                       <span
                         className="material-symbols-outlined white"
@@ -215,7 +297,9 @@ const Home = () => {
                     </div>
                     <div
                       className="navigation-popup-mobile"
-                      // onClick={() => copyAssets(item)}
+                      onClick={() => {
+                        hideParentPopup();
+                      }}
                     >
                       <span
                         className="material-symbols-outlined white"
@@ -227,11 +311,12 @@ const Home = () => {
                     </div>
                     <div
                       className="navigation-popup-mobile"
-                      // onClick={() => {
-                      //   setOpenModalDelete(true);
-                      //   setDeleteId(item.id);
-                      //   setPopupId("");
-                      // }}
+                      onClick={() => {
+                        setOpenDeleteModal(true);
+                        hideParentPopup();
+                        // setDeleteId(item.id);
+                        // setPopupId("");
+                      }}
                     >
                       <span
                         className="material-symbols-outlined white"
@@ -244,6 +329,50 @@ const Home = () => {
                   </div>,
                   document.body
                 )}
+
+                <Modal
+                  isOpen={openDuplicateModal}
+                  setOpen={setOpenDuplicateModal}
+                  title={`Duplicate player`}
+                  size="contain"
+                >
+                  <p className="body">
+                    Are you sure want to duplicate player ?
+                  </p>
+                  <form onSubmit={duplicatePlayer}>
+                    <button
+                      type="submit"
+                      className="large-primary-btn"
+                      style={{
+                        width: "100%",
+                        margin: "2rem 0",
+                      }}
+                    >
+                      Yes
+                    </button>
+                  </form>
+                </Modal>
+
+                <Modal
+                  isOpen={openDeleteModal}
+                  setOpen={setOpenDeleteModal}
+                  title={`Delete player`}
+                  size="contain"
+                >
+                  <p className="body">Are you sure want to delete player ?</p>
+                  <form onSubmit={deletePlayer}>
+                    <button
+                      type="submit"
+                      className="large-primary-btn"
+                      style={{
+                        width: "100%",
+                        margin: "2rem 0",
+                      }}
+                    >
+                      Yes
+                    </button>
+                  </form>
+                </Modal>
               </>
             );
           })}

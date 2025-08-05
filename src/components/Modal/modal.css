@@ -29,6 +29,7 @@
 
 .modalContent {
   box-sizing: "border-box";
+  padding: 0.75rem 0.5rem;
 }
 .modalClose{
   position: absolute;

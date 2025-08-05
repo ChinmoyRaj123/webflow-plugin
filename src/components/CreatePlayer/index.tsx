@@ -82,7 +82,7 @@ const Index = (props: CreatePlayerProps) => {
         title={`Create New Player`}
         size="contain"
       >
-        <div style={{ padding: "0.5rem" }}>
+        <div>
           <form onSubmit={createPlayer}>
             <input
               className="input-main"
