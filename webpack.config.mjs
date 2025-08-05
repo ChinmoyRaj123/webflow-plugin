@@ -37,5 +37,8 @@ export default {
       "Cache-Control": "no-store",
       "X-Frame-Options": "ALLOWALL",
     },
+    devMiddleware: {
+      writeToDisk: true, // ✅ This ensures `public/bundle.js` is physically updated
+    },
   },
 };

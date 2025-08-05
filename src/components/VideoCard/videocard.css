@@ -30,3 +30,28 @@
   height: 4px;
   border-radius: 4px;
 }
+.videocard-name{
+  color: var(--Action-actionPrimaryTextHover, #FFF);
+  text-align: left;
+  font-family: Inter;
+  font-size: 0.78125rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1rem;
+  margin-bottom: 0.5rem;
+
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.videocard-timeline{
+  color: var(--text3);
+  font-family: Inter;
+  font-size: 0.71875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1rem;
+  letter-spacing: -0.00719rem;
+}

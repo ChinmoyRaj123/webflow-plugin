@@ -6,6 +6,7 @@ import axios from "../utils/axios-instance";
 import Cookies from "js-cookie";
 // import { videoUrlUpdate, videoUrlExtensionUpdate } from "./Detail";
 import { encodeBase64 } from "../utils/base64";
+import ReactDOM from "react-dom";
 
 /**
  * This page will render after login the system(i.e home page).
@@ -25,6 +26,7 @@ const Home = () => {
   const [refetch, setRefetch] = React.useState(0);
   const [isLoading, setLoading] = React.useState(false);
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
+  const [popupData, setPopupData] = React.useState<any>();
 
   const fetchSubscription = async () => {
     try {
@@ -100,29 +102,54 @@ const Home = () => {
     navigate({ pathname: "/detail", search: `?video=${id}` });
   };
 
-  // if (isLoading)
-  //   return (
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         alignItems: "center",
-  //         justifyContent: "center",
-  //       }}
-  //     >
-  //       {/* <Loader
-  //         height="64px"
-  //         width="64px"
-  //         borderColor="#f0f0f0"
-  //         borderBottom="#000000"
-  //       /> */}
-  //       <p>Loader</p>
-  //     </div>
-  //   );
+  const handlePopupToggle = (item: any, tag: string) => {
+    const showPopup = (tag: string) => {
+      const div = document.querySelector(tag);
+      const topOffset = div?.getBoundingClientRect().top ?? 0 + window.scrollY;
+      const el = document.querySelector(`#media_popup`);
+      if (el instanceof HTMLElement) {
+        el.style.visibility = "visible";
+        el.style.zIndex = "9999";
+        el.style.opacity = "1";
+        el.style.top = `${topOffset - 10}px`;
+        el.style.right = "0%";
+        el.style.transform = "translate(-13%, -100%)";
+      }
+    };
 
-  // if (error) return <Error errorMessage="Error fetching data" />;
+    const hidePopup = () => {
+      const el = document.querySelector(`#media_popup`);
+      if (el instanceof HTMLElement) {
+        el.style.visibility = "hidden";
+        el.style.zIndex = "-1";
+        el.style.opacity = "0";
+        el.style.top = "0";
+        el.style.right = "0%";
+        el.style.transform = "translate(0%, 0%)";
+      }
+    };
+
+    if (!popupData || popupData.id !== item.id) {
+      setPopupData(item);
+      showPopup(tag);
+    } else {
+      hidePopup();
+      setPopupData(undefined);
+    }
+  };
 
   return (
     <div className="home-layout">
+      <div className="home-data-info-container">
+        <div>
+          <p className="home-data-info">3/10 Video left | 200mb/video</p>
+        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <a href="/" target="_blank" style={{ textDecoration: "none" }}>
+            <p className="home-data-info-cta">Upgrade Plan</p>
+          </a>
+        </div>
+      </div>
       <div className="home-header">
         <input
           className="input-main"
@@ -131,28 +158,95 @@ const Home = () => {
           placeholder={"Search"}
           value={searchTitle}
           onChange={(e) => setSearchTitle(e.target.value)}
+          style={{ flex: 2 }}
         />
+        <div style={{ flex: 1 }}>
+          <CreatePlayer width="100%" setRefetch={setRefetch} />
+        </div>
       </div>
 
       {searchData === null || searchData.length === 0 ? (
-        <CreatePlayer width="100%" setRefetch={setRefetch} />
+        <div>
+          <p>No data</p>
+        </div>
       ) : (
         <div className="home-card-grid">
           {searchData.map((item: any, index: number) => {
             return (
-              <div style={{ width: "100%", aspectRatio: "16/9" }} key={index}>
+              <>
                 <VideoCard
+                  key={index}
                   data={item}
-                  setRefetch={setRefetch}
                   handleCardClick={handleCardClick}
+                  setRefetch={setRefetch}
+                  handlePopupToggle={handlePopupToggle}
                 />
-              </div>
+
+                {ReactDOM.createPortal(
+                  <div
+                    id={`media_popup`}
+                    style={{
+                      zIndex: "-1",
+                      visibility: "hidden",
+                      opacity: "0",
+                      position: "absolute",
+                      minWidth: "7rem",
+                      top: "0%",
+                      right: "0%",
+                      padding: "2px 0",
+                      background: "var(--primary)",
+                      borderRadius: "0.25rem",
+                      gap: "1rem",
+                      filter:
+                        "drop-shadow(rgba(0, 0, 0, 0.6) 0px 0.5px 0px) drop-shadow(rgba(0, 0, 0, 0.18) 0px 2px 6px) drop-shadow(rgba(0, 0, 0, 0.12) 0px 4px 8px) drop-shadow(rgba(0, 0, 0, 0.08) 0px 8px 16px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 12px 25px)",
+                    }}
+                  >
+                    <div
+                      className="navigation-popup-mobile"
+                      // onClick={() => copyAssets(item)}
+                    >
+                      <span
+                        className="material-symbols-outlined white"
+                        style={{ fontSize: "14px" }}
+                      >
+                        file_copy
+                      </span>
+                      <p className="body">Duplicate</p>
+                    </div>
+                    <div
+                      className="navigation-popup-mobile"
+                      // onClick={() => copyAssets(item)}
+                    >
+                      <span
+                        className="material-symbols-outlined white"
+                        style={{ fontSize: "14px" }}
+                      >
+                        edit
+                      </span>
+                      <p className="body">Rename</p>
+                    </div>
+                    <div
+                      className="navigation-popup-mobile"
+                      // onClick={() => {
+                      //   setOpenModalDelete(true);
+                      //   setDeleteId(item.id);
+                      //   setPopupId("");
+                      // }}
+                    >
+                      <span
+                        className="material-symbols-outlined white"
+                        style={{ fontSize: "14px" }}
+                      >
+                        delete
+                      </span>
+                      <p className="body">Delete</p>
+                    </div>
+                  </div>,
+                  document.body
+                )}
+              </>
             );
           })}
-
-          <div style={{ width: "100%", aspectRatio: "16/9" }}>
-            <CreatePlayer width="100%" setRefetch={setRefetch} />
-          </div>
         </div>
       )}
     </div>

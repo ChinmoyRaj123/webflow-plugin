@@ -62,30 +62,19 @@ const Index = (props: CreatePlayerProps) => {
 
   return (
     <>
-      <div
-        className="create-player-container"
-        style={{ width: width || "100%" }}
+      <button
+        className="large-primary-btn"
+        style={{
+          width: "100%",
+          padding: "0.25rem",
+          // margin: "2rem 0",
+        }}
         onClick={() => {
           setOpenModalAdd(true);
         }}
       >
-        <div className="create-player-btn-container">
-          {isLoading ? (
-            <p>Loading..</p>
-          ) : (
-            <span
-              className="material-symbols-outlined placeholder"
-              style={{ fontSize: "48px" }}
-            >
-              add
-            </span>
-          )}
-        </div>
-
-        <div className="create-player-text-container">
-          <p className="body">Create New Player</p>
-        </div>
-      </div>
+        Create Player
+      </button>
 
       <Modal
         isOpen={openModalAdd}
