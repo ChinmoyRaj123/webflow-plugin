@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { encodeBase64 } from "../utils/base64";
 import { config } from "../utils/default-config";
 import Modal from "../components/Modal";
+import Popover from "../components/Popover";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,9 +17,18 @@ const Home = () => {
   const [refetch, setRefetch] = React.useState(0);
   const [isLoading, setLoading] = React.useState(false);
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
+  const user = JSON.parse(localStorage.getItem("s-user"));
   const [mediaCount, setMediaCount] = React.useState(0);
   const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
   const [playerName, setPlayerName] = React.useState("");
+
+  const topbarData = [
+    { name: "Documents" },
+    { name: "Get Help" },
+    { name: "Terms & Conditions" },
+    { name: "Privacy Policy" },
+    { name: "Logout" },
+  ];
 
   const fetchSubscription = async () => {
     try {
@@ -137,8 +147,80 @@ const Home = () => {
     }
   };
 
+  const handleSignOut = () => {
+    console.log("handleSignOut");
+    Cookies.remove("s-token");
+    Cookies.remove("splay-token");
+    Cookies.remove("s-user");
+    Cookies.remove("s_subs");
+    localStorage.removeItem("s-token");
+    localStorage.removeItem("s-user");
+    localStorage.removeItem("splay-token");
+    // navigator({ pathname: '/signin' })
+    navigate("/signin");
+  };
+
+  const handleTopbarClick = (name: string) => {
+    switch (name) {
+      case "Documents":
+        window.open("https://www.skara.app/video-player/splay", "_blank");
+        break;
+      case "Get Help":
+        window.open("https://www.skara.app/video-player/splay", "_blank");
+        break;
+      case "Terms & Conditions":
+        window.open("https://www.skara.app/video-player/splay", "_blank");
+        break;
+      case "Privacy Policy":
+        window.open("https://www.skara.app/video-player/splay", "_blank");
+        break;
+      case "Logout":
+        handleSignOut();
+        break;
+    }
+  };
+
   return (
     <div className="home-layout">
+      <div
+        className="home-topbar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0.5rem 0",
+        }}
+      >
+        <p className="body-dark">
+          {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s Dashboard
+        </p>
+        <div className="media-options">
+          <Popover
+            position={"bottom"}
+            trigger={
+              <span
+                className="material-symbols-outlined white media-option-image"
+                style={{ fontSize: "18px" }}
+              >
+                menu
+              </span>
+            }
+            content={
+              <div>
+                {topbarData.map((item, index) => {
+                  return (
+                    <TopbarContent
+                      key={index}
+                      handleOnClick={(e) => handleTopbarClick(e)}
+                      contentName={item.name}
+                    />
+                  );
+                })}
+              </div>
+            }
+          />
+        </div>
+      </div>
       <div className="home-data-info-container">
         <div>
           <p className="home-data-info">
@@ -257,3 +339,23 @@ const Home = () => {
 };
 
 export default Home;
+
+type TopbarContentType = {
+  handleOnClick: (val: string) => void;
+  contentName: string;
+};
+
+const TopbarContent = ({ handleOnClick, contentName }: TopbarContentType) => {
+  return (
+    <div
+      className="navigation-popup-mobile text-with-hover"
+      onClick={() => {
+        handleOnClick(contentName);
+      }}
+    >
+      <p className={`${contentName === "Logout" ? "logout-text" : "body"}`}>
+        {contentName || "Duplicate"}
+      </p>
+    </div>
+  );
+};

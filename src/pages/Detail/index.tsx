@@ -624,20 +624,45 @@ const Index = () => {
         <form onSubmit={handleSubmit}>
           <div
             style={{
-              position: "absolute",
-              top: "-15px",
-              right: "1rem",
-              zIndex: "10",
-              boxSizing: "border-box",
-              transform: "translate(0,-50%)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: "0.5rem 0.5rem 0 0.5rem",
             }}
           >
+            <div
+              className="back_button"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "default",
+              }}
+              onClick={() => {
+                window.history.back();
+              }}
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "18px" }}
+              >
+                chevron_left
+              </span>
+              <p className="body">Back</p>
+            </div>
             <button
               type="submit"
               className="large-primary-btn"
-              style={{ padding: "0.175rem 1rem" }}
+              style={{ padding: "0.175rem 0.5rem" }}
             >
-              Embed
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span
+                  className="material-symbols-outlined white"
+                  style={{ fontSize: "18px" }}
+                >
+                  code
+                </span>
+                Embed
+              </div>
             </button>
           </div>
 
@@ -682,7 +707,7 @@ const Index = () => {
                 </div>
               </button>
               <p className="label">Or</p>
-              <p className="body">Paste a mp4 or hls url</p>
+              <p className="body">Paste a MP4 or HLS url</p>
             </div>
 
             {/* video upload section or choose from the list using modal */}

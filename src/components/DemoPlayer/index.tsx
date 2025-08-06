@@ -185,7 +185,7 @@ const DemoPlayer = ({
   brandUploading,
   thumbnailUploading,
 }: DemoPlayerType) => {
-  const scaledValue = 0.35;
+  const scaledValue = 0.4;
   const [toggleSetting, setToggleSetting] = React.useState(false);
   const [settingsBG1, setSettingBG1] = React.useState(
     config.playerstyle.settings_menu_BG_color
@@ -274,7 +274,10 @@ const DemoPlayer = ({
               Number(config.playerstyle.player_controls_margin) * scaledValue
             }px 0px ${
               Number(config.playerstyle.player_controls_margin) * scaledValue
-            }px` || "9px 9px 0px 9px",
+            }px` ||
+            `${30 * scaledValue}px ${30 * scaledValue}px 0px ${
+              30 * scaledValue
+            }px`,
         }}
       >
         <div
@@ -385,7 +388,10 @@ const DemoPlayer = ({
             }px 
             ${
               Number(config.playerstyle.player_controls_margin) * scaledValue
-            }px` || "0px 9px 9px 9px",
+            }px` ||
+            `0px ${30 * scaledValue}px ${30 * scaledValue}px ${
+              30 * scaledValue
+            }px`,
         }}
       >
         <div
@@ -394,7 +400,7 @@ const DemoPlayer = ({
             marginBottom:
               `${
                 Number(config.playerstyle.bottom_bar_spacing) * scaledValue
-              }px` || "3.6px",
+              }px` || `${12 * scaledValue}px`,
             position: "relative",
             height: `calc(2 * ${
               Number(config.playerstyle.progress_bar_size) * scaledValue
@@ -430,9 +436,9 @@ const DemoPlayer = ({
                 display: config.playercontrol.progress_bar ? "flex" : "none",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "19.5px",
-                height: "9px",
-                top: `calc(-14.4px + ${
+                width: `${65 * scaledValue}px`,
+                height: `${30 * scaledValue}px`,
+                top: `calc(-${48 * scaledValue}px + ${
                   Number(config.playerstyle.progress_bar_size) * scaledValue
                 }px)`,
                 left: "27%",
@@ -458,7 +464,7 @@ const DemoPlayer = ({
               width: config.playercontrol.time_stamp ? "max-content" : "0%",
               textAlign: "right",
               display: config.playercontrol.time_stamp ? "block" : "none",
-              paddingLeft: "5px",
+              paddingLeft: `${5 * scaledValue}px`,
             }}
           >
             <p
@@ -561,9 +567,9 @@ const DemoPlayer = ({
             <div
               style={{
                 width: "auto",
-                height: "12px",
+                height: `${40 * scaledValue}px`,
                 // aspectRatio: '16/9',
-                maxHeight: "15px",
+                maxHeight: `${50 * scaledValue}px`,
                 display: "flex",
                 alignItems: "flex-end",
                 zIndex: config.playercontrol.branding ? 0 : -100,
@@ -643,7 +649,10 @@ const DemoPlayer = ({
         >
           <div style={{ display: "flex", gap: `${0.25 * scaledValue}rem` }}>
             <img
-              style={{ width: "7px", height: "7px" }}
+              style={{
+                width: `${24 * scaledValue}px`,
+                height: `${24 * scaledValue}px`,
+              }}
               src="./icon/tune.svg"
             ></img>
             <p
@@ -665,7 +674,10 @@ const DemoPlayer = ({
               720p24
             </p>
             <img
-              style={{ width: "7px", height: "7px" }}
+              style={{
+                width: `${24 * scaledValue}px`,
+                height: `${24 * scaledValue}px`,
+              }}
               src="./icon/chevron_right.svg"
             ></img>
           </div>
@@ -686,7 +698,10 @@ const DemoPlayer = ({
         >
           <div style={{ display: "flex", gap: `${0.25 * scaledValue}rem` }}>
             <img
-              style={{ width: "7px", height: "7px" }}
+              style={{
+                width: `${24 * scaledValue}px`,
+                height: `${24 * scaledValue}px`,
+              }}
               src="./icon/slow_motion_video.svg"
             ></img>
             <p
@@ -708,7 +723,10 @@ const DemoPlayer = ({
               Normal
             </p>
             <img
-              style={{ width: "7px", height: "7px" }}
+              style={{
+                width: `${24 * scaledValue}px`,
+                height: `${24 * scaledValue}px`,
+              }}
               src="./icon/chevron_right.svg"
             ></img>
           </div>

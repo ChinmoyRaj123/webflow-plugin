@@ -17,7 +17,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
     <div className="tabs-container">
       <span
         className="material-symbols-outlined arrow arrow-left"
-        style={{ cursor: "default", fontSize: "1.45rem" }}
+        style={{ cursor: "default", fontSize: "1.25rem", userSelect: "none" }}
         onClick={() => scrollTabs(-150)}
       >
         keyboard_arrow_left
@@ -43,7 +43,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
       </div>
       <span
         className="material-symbols-outlined arrow arrow-right"
-        style={{ cursor: "default", fontSize: "1.45rem" }}
+        style={{ cursor: "default", fontSize: "1.25rem", userSelect: "none" }}
         onClick={() => scrollTabs(150)}
       >
         keyboard_arrow_right
