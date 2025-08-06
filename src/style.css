@@ -462,7 +462,7 @@
     letter-spacing: -0.00719rem;
   }
   .home-data-info-cta{
-    color: var(--Blue-blueText, #8AC2FF);
+    color: var(--blueText);
     text-align: center;
     font-family: Inter;
     font-size: 0.71875rem;
@@ -471,6 +471,7 @@
     line-height: 1rem;
     letter-spacing: -0.00719rem;
   }
+  
   
   .home-card-grid {
     display: flex;
@@ -622,11 +623,11 @@
   }
   .back_button span,
   .back_button p{
-    color: var(--blue);
+    color: var(--actionPrimaryBackground);
   }
   .back_button:hover span,
   .back_button:hover p{
-    color: var(--blueHover);
+    color: var(--actionPrimaryBackgroundHover);
   }
   
   .detail-sub-container-1 {

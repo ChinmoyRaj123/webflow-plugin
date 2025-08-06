@@ -8,6 +8,7 @@ import { encodeBase64 } from "../utils/base64";
 import { config } from "../utils/default-config";
 import Modal from "../components/Modal";
 import Popover from "../components/Popover";
+import mainconfig from "../config/index";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -228,7 +229,11 @@ const Home = () => {
           </p>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <a href="/" target="_blank" style={{ textDecoration: "none" }}>
+          <a
+            href={`${mainconfig.HOSTED_URL}/forgot-password`}
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
             <p className="home-data-info-cta">Upgrade Plan</p>
           </a>
         </div>
