@@ -471,8 +471,9 @@
   .home-card-grid {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 2.3rem;
-    row-gap: 0.5rem;
+    max-height: 21rem;
+    overflow-y: scroll;
+    padding-right: 4px;
   }
   
   /* CSS for Authentication */
@@ -651,6 +652,7 @@
   .video-player-url-section {
     box-sizing: border-box;
     width: 100%;
+    padding: 0.5rem;
   }
   
   .detail-card {
@@ -818,6 +820,15 @@
     gap:0.5rem;
 }
 
+.text-with-hover span,
+.text-with-hover p {
+  color: var(--text2)
+}
+.text-with-hover:hover span,
+.text-with-hover:hover p{
+  color: var(--white)
+}
+
 .navigation-popup-mobile:hover{
     background: var(--primaryHover);
   }
@@ -840,11 +851,11 @@
     }
   
     .large-primary-btn {
-      padding: 0.25rem 1rem;
+      padding: 0.25rem 0.5rem;
     }
   
     .large-secondary-btn {
-      padding: 0.25rem 1rem;
+      padding: 0.25rem 0.5rem;
     }
   
     .large-gethelp-btn {
@@ -877,12 +888,6 @@
   
     .right-container {
       width: 35rem;
-    }
-  
-    .video-player-url-section {
-      box-sizing: border-box;
-      padding: 0.8rem 1rem;
-      margin: 1rem 0;
     }
   }
   

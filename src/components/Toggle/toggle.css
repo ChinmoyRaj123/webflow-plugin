@@ -1,8 +1,8 @@
 .toggle-container {
   position: relative;
   display: inline-block;
-  width: 20px;
-  height: 10px;
+  width: 32px;
+  height: 19px;
 }
 
 .toggle-button {
@@ -35,16 +35,15 @@ strong {
 
 .toggle-circle:before {
   position: absolute;
-  /* margin: 0 2px; */
   content: "";
-  height: 5px;
-  width: 5px;
+  height: 14px;
+  width: 14px;
   top: 50%;
   left: 0;
   background-color: var(--primary);
   border-radius: 50%;
   transition: 0.3s;
-  transform: translate(25%, -50%);
+  transform: translate(15%, -50%);
 }
 
 .toggle-button:checked+.toggle-circle:before {
@@ -52,9 +51,10 @@ strong {
 }
 
 .toggle-button:checked+.toggle-circle {
-  border: 1px solid var(--white);
+  border: 1px solid var(--blue);
+  background: var(--blue);
 }
 
 .toggle-button:checked+.toggle-circle:before {
-  transform: translate(240%, -50%);
+  transform: translate(110%, -50%);
 }

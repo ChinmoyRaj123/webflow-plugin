@@ -38,8 +38,6 @@ const Index = (props: CreatePlayerProps) => {
       const data = {
         name: playerName,
         config: config,
-        // "media_source": 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
-        // "media_type": 'm3u8',
       };
 
       const res = await axios.post("/players", data, {

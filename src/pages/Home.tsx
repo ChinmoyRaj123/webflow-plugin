@@ -4,20 +4,9 @@ import VideoCard from "../components/VideoCard";
 import CreatePlayer from "../components/CreatePlayer";
 import axios from "../utils/axios-instance";
 import Cookies from "js-cookie";
-// import { videoUrlUpdate, videoUrlExtensionUpdate } from "./Detail";
 import { encodeBase64 } from "../utils/base64";
-import ReactDOM from "react-dom";
-import Modal from "../components/Modal/index";
-
-/**
- * This page will render after login the system(i.e home page).
- * Artists data are listed in this page.
- * Artist data can be search, filter from this page,
- * Card component is used which renders the profile card.
- * Count Card component is used which renders music platform analytics card.
- * Dropdown component is used which renders dropdown to filter the data by gender and country.
- * Error component is used which renders no artist found or error fetching data.
- */
+import { config } from "../utils/default-config";
+import Modal from "../components/Modal";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,7 +16,9 @@ const Home = () => {
   const [refetch, setRefetch] = React.useState(0);
   const [isLoading, setLoading] = React.useState(false);
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
-  const [popupData, setPopupData] = React.useState<any>();
+  const [mediaCount, setMediaCount] = React.useState(0);
+  const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
+  const [playerName, setPlayerName] = React.useState("");
 
   const fetchSubscription = async () => {
     try {
@@ -60,6 +51,19 @@ const Home = () => {
     }
   };
 
+  const fetchMediaList = async () => {
+    try {
+      const res = await axios.get("/videos", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setMediaCount(res.data.length);
+    } catch (error) {
+      console.log("error fetching media", error);
+    }
+  };
+
   const fetchPlayer = async () => {
     setLoading(true);
     setError(false);
@@ -80,12 +84,11 @@ const Home = () => {
 
   React.useEffect(() => {
     fetchSubscription();
+    fetchMediaList();
   }, []);
 
   React.useEffect(() => {
     fetchPlayer();
-    // videoUrlUpdate.value = "";
-    // videoUrlExtensionUpdate.value = "";
   }, [refetch]);
 
   const searchData =
@@ -103,117 +106,34 @@ const Home = () => {
     navigate({ pathname: "/detail", search: `?video=${id}` });
   };
 
-  const hideParentPopup = () => {
-    setPopupData();
-    document.getElementById("media_popup").style.visibility = "hidden";
-    document.getElementById("media_popup").style.opacity = "0";
-    document.getElementById("media_popup").style.zIndex = "-1";
-  };
-
-  const handlePopupToggle = (item: any, tag: string) => {
-    const showPopup = (tag: string) => {
-      const div = document.querySelector(tag);
-      const topOffset = div?.getBoundingClientRect().top ?? 0 + window.scrollY;
-      const el = document.querySelector(`#media_popup`);
-      if (el instanceof HTMLElement) {
-        el.style.visibility = "visible";
-        el.style.zIndex = "9999";
-        el.style.opacity = "1";
-        el.style.top = `${topOffset - 10}px`;
-        el.style.right = "0%";
-        el.style.transform = "translate(-13%, -100%)";
-      }
-    };
-
-    const hidePopup = () => {
-      const el = document.querySelector(`#media_popup`);
-      if (el instanceof HTMLElement) {
-        el.style.visibility = "hidden";
-        el.style.zIndex = "-1";
-        el.style.opacity = "0";
-        el.style.top = "0";
-        el.style.right = "0%";
-        el.style.transform = "translate(0%, 0%)";
-      }
-    };
-
-    if (!popupData || popupData.id !== item.id) {
-      setPopupData(item);
-      showPopup(tag);
-    } else {
-      hidePopup();
-      setPopupData(undefined);
-    }
-  };
-
-  const [openDuplicateModal, setOpenDuplicateModal] =
-    React.useState<boolean>(false);
-  const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
-  const [show, setShow] = React.useState(false);
-  const [showDelete, setShowDelete] = React.useState(false);
-
-  const [showDuplicateTooltip, setShowDuplicateTooltip] = React.useState("0");
-  const [showDeleteTooltip, setShowDeleteTooltip] = React.useState("0");
-
-  const showToast = () => {
-    setShow(true);
-  };
-
-  const hideToast = () => {
-    console.log("hideToast");
-
-    setShow(false);
-  };
-
-  const showToastDelete = () => {
-    setShowDelete(true);
-  };
-
-  const hideToastDelete = () => {
-    setShowDelete(false);
-  };
-
-  const duplicatePlayer = async (e: React.SyntheticEvent) => {
+  const createPlayer = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (playerName === "") return setError("emtpy-player-name");
     try {
-      const newdata = {
-        name: data.name.concat("_copy"),
-        config: data.config,
-        // "media_source": data.source.url,
-        // "media_type": data.source.media_type
+      setLoading(true);
+      const data = {
+        name: playerName,
+        config: config,
       };
-      const res = await axios.post("/players", newdata, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("s-token")}`,
-        },
-      });
-      setOpenDuplicateModal(false);
-      showToast();
-      setTimeout(() => {
-        setRefetch(Math.random());
-      }, 800);
-      console.log("duplicate player", res);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
 
-  const deletePlayer = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    try {
-      const res = await axios.delete(`/players/${data.id}`, {
+      const res = await axios.post("/players", data, {
         headers: {
-          Authorization: `Bearer ${Cookies.get("s-token")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("delete", res);
-      setOpenDeleteModal(false);
-      showToastDelete();
+      setLoading(false);
+      setOpenModalAdd(false);
       setTimeout(() => {
         setRefetch(Math.random());
-      }, 800);
+      }, 500);
+      webflow.notify({
+        type: "Success",
+        message: "Player Created Successfully!",
+      });
     } catch (error) {
-      console.log("error deleting player", error);
+      setLoading(false);
+      console.log("error creating player", error);
+      setError("");
     }
   };
 
@@ -221,7 +141,9 @@ const Home = () => {
     <div className="home-layout">
       <div className="home-data-info-container">
         <div>
-          <p className="home-data-info">3/10 Video left | 200mb/video</p>
+          <p className="home-data-info">
+            {10 - mediaCount}/10 Video left | 200mb/video
+          </p>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <a href="/" target="_blank" style={{ textDecoration: "none" }}>
@@ -229,155 +151,107 @@ const Home = () => {
           </a>
         </div>
       </div>
-      <div className="home-header">
-        <input
-          className="input-main"
-          type={"text"}
-          name={"search"}
-          placeholder={"Search"}
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-          style={{ flex: 2 }}
-        />
-        <div style={{ flex: 1 }}>
-          <CreatePlayer width="100%" setRefetch={setRefetch} />
-        </div>
-      </div>
 
-      {searchData === null || searchData.length === 0 ? (
+      {isLoading ? (
+        <p className="body" style={{ marginTop: "0.5rem" }}>
+          Loading...
+        </p>
+      ) : searchData === null || searchData.length === 0 ? (
         <div>
-          <p>No data</p>
+          <p className="body" style={{ textAlign: "center" }}>
+            Click on "Create Player" to get started.
+          </p>
+          <button
+            className="large-primary-btn"
+            style={{
+              marginTop: "0.5rem",
+              width: "100%",
+              padding: "0.25rem",
+            }}
+            onClick={() => {
+              setOpenModalAdd(true);
+            }}
+          >
+            Create Player
+          </button>
         </div>
       ) : (
-        <div className="home-card-grid">
-          {searchData.map((item: any, index: number) => {
-            return (
-              <>
+        <>
+          <div className="home-header">
+            <input
+              className="input-main"
+              type={"text"}
+              name={"search"}
+              placeholder={"Search"}
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
+              style={{ flex: 2 }}
+            />
+            <div style={{ flex: 1 }}>
+              <CreatePlayer width="100%" setRefetch={setRefetch} />
+            </div>
+          </div>
+          <div className="home-card-grid">
+            {searchData.map((item: any, index: number) => {
+              return (
                 <VideoCard
                   key={index}
+                  indexValue={index}
                   data={item}
                   handleCardClick={handleCardClick}
                   setRefetch={setRefetch}
-                  handlePopupToggle={handlePopupToggle}
                 />
-
-                {ReactDOM.createPortal(
-                  <div
-                    id={`media_popup`}
-                    style={{
-                      zIndex: "-1",
-                      visibility: "hidden",
-                      opacity: "0",
-                      position: "absolute",
-                      minWidth: "7rem",
-                      top: "0%",
-                      right: "0%",
-                      padding: "2px 0",
-                      background: "var(--primary)",
-                      borderRadius: "0.25rem",
-                      gap: "1rem",
-                      filter:
-                        "drop-shadow(rgba(0, 0, 0, 0.6) 0px 0.5px 0px) drop-shadow(rgba(0, 0, 0, 0.18) 0px 2px 6px) drop-shadow(rgba(0, 0, 0, 0.12) 0px 4px 8px) drop-shadow(rgba(0, 0, 0, 0.08) 0px 8px 16px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 12px 25px)",
-                    }}
-                  >
-                    <div
-                      className="navigation-popup-mobile"
-                      onClick={() => {
-                        hideParentPopup();
-                        setOpenDuplicateModal(true);
-                      }}
-                    >
-                      <span
-                        className="material-symbols-outlined white"
-                        style={{ fontSize: "14px" }}
-                      >
-                        file_copy
-                      </span>
-                      <p className="body">Duplicate</p>
-                    </div>
-                    <div
-                      className="navigation-popup-mobile"
-                      onClick={() => {
-                        hideParentPopup();
-                      }}
-                    >
-                      <span
-                        className="material-symbols-outlined white"
-                        style={{ fontSize: "14px" }}
-                      >
-                        edit
-                      </span>
-                      <p className="body">Rename</p>
-                    </div>
-                    <div
-                      className="navigation-popup-mobile"
-                      onClick={() => {
-                        setOpenDeleteModal(true);
-                        hideParentPopup();
-                        // setDeleteId(item.id);
-                        // setPopupId("");
-                      }}
-                    >
-                      <span
-                        className="material-symbols-outlined white"
-                        style={{ fontSize: "14px" }}
-                      >
-                        delete
-                      </span>
-                      <p className="body">Delete</p>
-                    </div>
-                  </div>,
-                  document.body
-                )}
-
-                <Modal
-                  isOpen={openDuplicateModal}
-                  setOpen={setOpenDuplicateModal}
-                  title={`Duplicate player`}
-                  size="contain"
-                >
-                  <p className="body">
-                    Are you sure want to duplicate player ?
-                  </p>
-                  <form onSubmit={duplicatePlayer}>
-                    <button
-                      type="submit"
-                      className="large-primary-btn"
-                      style={{
-                        width: "100%",
-                        margin: "2rem 0",
-                      }}
-                    >
-                      Yes
-                    </button>
-                  </form>
-                </Modal>
-
-                <Modal
-                  isOpen={openDeleteModal}
-                  setOpen={setOpenDeleteModal}
-                  title={`Delete player`}
-                  size="contain"
-                >
-                  <p className="body">Are you sure want to delete player ?</p>
-                  <form onSubmit={deletePlayer}>
-                    <button
-                      type="submit"
-                      className="large-primary-btn"
-                      style={{
-                        width: "100%",
-                        margin: "2rem 0",
-                      }}
-                    >
-                      Yes
-                    </button>
-                  </form>
-                </Modal>
-              </>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </>
       )}
+
+      <Modal
+        isOpen={openModalAdd}
+        setOpen={setOpenModalAdd}
+        title={`Create New Player`}
+        size="contain"
+      >
+        <div>
+          <form onSubmit={createPlayer}>
+            <input
+              className="input-main"
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+              }}
+              value={playerName}
+              onChange={(e: any) => setPlayerName(e.target.value)}
+              name={"player-name"}
+              placeholder="Enter player name"
+            />
+
+            <div className="error-container">
+              {error === "emtpy-player-name" && (
+                <p
+                  style={{
+                    marginBottom: "0.5rem",
+                  }}
+                  className="error-text required-error-text-space"
+                >
+                  Required field!
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="large-primary-btn"
+              style={{
+                width: "100%",
+              }}
+            >
+              Continue
+            </button>
+          </form>
+        </div>
+      </Modal>
     </div>
   );
 };

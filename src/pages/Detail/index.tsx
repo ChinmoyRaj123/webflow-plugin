@@ -8,10 +8,10 @@ import Toast from "../../components/Toast";
 import ImagePicker from "../../components/ImagePicker";
 import config from "../../config";
 import Modal from "../../components/Modal";
-import ListsInModal from "../../components/ListsInModal";
 import VideoPicker from "../../components/VideoPicker";
 import ReactDOM from "react-dom";
 import Tabs from "../../components/Tabs";
+import DemoPlayer from "../../components/DemoPlayer";
 
 export const videoUrlUpdate = signal("");
 const playerNameUpdate = signal("");
@@ -122,6 +122,8 @@ const Index = () => {
   const [videoUrlFromModal, setVideoUrlFromModal] = React.useState<any>();
   const [openUpload, setOpenUpload] = React.useState<boolean>(false);
   const [searchTitle, setSearchTitle] = React.useState("");
+  const [brandUploading, setBrandUploading] = React.useState(false);
+  const [thumbnailUploading, setThumbnailUploading] = React.useState(false);
   const [popupId, setPopupId] = React.useState("");
   const [deleteId, setDeleteId] = React.useState("");
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
@@ -468,9 +470,6 @@ const Index = () => {
     setEmbedCode(snipet);
   };
 
-  const [brandUploading, setBrandUploading] = React.useState(false);
-  const [thumbnailUploading, setThumbnailUploading] = React.useState(false);
-
   const handlePlayerThumbnailOnChange = (val: string) => {
     let image = new URL(val, config.IMAGE_CDN_URL).toString();
     console.log("thumb", val);
@@ -643,38 +642,48 @@ const Index = () => {
           </div>
 
           <div className="video-player-url-section">
-            <div>
-              <div
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  marginBottom: "1rem",
-                }}
-              >
-                <p className="label" style={{ marginBottom: "0.5rem" }}>
-                  Video Url (only mp4 supported)
-                </p>
-                <input
-                  ref={inputRef}
-                  className="input-main"
-                  type={"text"}
-                  name={"search"}
-                  placeholder={"Paste Video Link here..."}
-                  value={videoUrlUpdate.value}
-                  onInput={(e: any) => (videoUrlUpdate.value = e.target.value)}
-                />
-              </div>
-            </div>
-
-            <p className="label">Or</p>
-            <button
-              type="button"
-              className="large-primary-btn"
-              style={{ marginTop: "1rem" }}
-              onClick={() => setOpenModalUpload(true)}
+            <div
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+              }}
             >
-              Select URL
-            </button>
+              <input
+                ref={inputRef}
+                className="input-main"
+                type={"text"}
+                name={"search"}
+                placeholder={"Paste Video Link here..."}
+                defaultValue={videoUrlUpdate.value}
+                onInput={(e: any) => (videoUrlUpdate.value = e.target.value)}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                marginTop: "0.5rem",
+              }}
+            >
+              <button
+                type="button"
+                className="large-secondary-btn"
+                onClick={() => setOpenModalUpload(true)}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span
+                    className="material-symbols-outlined white"
+                    style={{ fontSize: "18px" }}
+                  >
+                    add
+                  </span>
+                  Upload Video
+                </div>
+              </button>
+              <p className="label">Or</p>
+              <p className="body">Paste a mp4 or hls url</p>
+            </div>
 
             {/* video upload section or choose from the list using modal */}
             <Modal
@@ -790,7 +799,7 @@ const Index = () => {
                                     </span>
                                     <p className="body">Copy Link</p>
                                   </div>
-                                  <div
+                                  {/* <div
                                     className="navigation-popup-mobile"
                                     onClick={() => {
                                       setOpenModalDelete(true);
@@ -805,7 +814,7 @@ const Index = () => {
                                       delete
                                     </span>
                                     <p className="body">Delete</p>
-                                  </div>
+                                  </div> */}
                                 </div>,
                                 document.body
                               )}
@@ -843,21 +852,12 @@ const Index = () => {
             </Modal>
           </div>
 
-          <div
-            style={{
-              padding: "0rem 1rem 2rem 1rem",
-            }}
-          >
-            <p className="label">Player name</p>
-
-            <input
-              style={{ width: "100%" }}
-              className="input-main"
-              type={"text"}
-              name={"videotitle"}
-              placeholder="Enter player name"
-              defaultValue={playerNameUpdate.value}
-              onInput={(e: any) => (playerNameUpdate.value = e.target.value)}
+          <div style={{ margin: "0.5rem" }}>
+            <DemoPlayer
+              config={videoconfigupdate.value}
+              brandUploading={brandUploading}
+              thumbnailUploading={thumbnailUploading}
+              reRender={reRender}
             />
           </div>
 
@@ -871,13 +871,19 @@ const Index = () => {
             <Tabs data={tabList} setActiveTab={setActiveTab} />
           </div>
 
-          <div style={{ position: "relative" }}>
+          <div
+            style={{
+              position: "relative",
+              maxHeight: "8.5rem",
+              overflowY: "scroll",
+            }}
+          >
             {activeTab === tabList[0].name && (
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -946,8 +952,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -997,8 +1003,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1110,8 +1116,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1250,8 +1256,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1447,8 +1453,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1510,8 +1516,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1578,8 +1584,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1622,8 +1628,8 @@ const Index = () => {
               <div
                 style={{
                   width: "100%",
-                  marginTop: "1.5rem",
-                  padding: "0 1rem 0 1rem",
+                  marginTop: "0.5rem",
+                  padding: "0 1rem",
                   boxSizing: "border-box",
                 }}
               >

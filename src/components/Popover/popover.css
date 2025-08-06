@@ -1,0 +1,22 @@
+.popover-wrapper {
+    position: relative; 
+    display: inline-block;
+}
+
+.popover-content {
+    display: none;
+    position: absolute; 
+    background: var(--primary);
+    border: 1px solid var(--stroke);
+    border-radius: 0.25rem;
+    min-width: 7rem;
+    gap: 1rem;
+    filter:drop-shadow(rgba(0, 0, 0, 0.6) 0px 0.5px 0px) drop-shadow(rgba(0, 0, 0, 0.18) 0px 2px 6px) drop-shadow(rgba(0, 0, 0, 0.12) 0px 4px 8px) drop-shadow(rgba(0, 0, 0, 0.08) 0px 8px 16px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 12px 25px);    
+}
+.popover-content-bottom{
+    bottom: 0;
+}
+.popover-content.show {
+    display: block;
+    z-index: 10;
+}
