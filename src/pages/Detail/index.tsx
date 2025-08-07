@@ -129,12 +129,12 @@ const Index = () => {
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const tabList = [
-    { name: "Playback Behavior" },
-    { name: "Player Style" },
-    { name: "Control Style" },
+    { name: "Behavior" },
+    { name: "Styling" },
+    { name: "Controls" },
     { name: "Progress Bar" },
     { name: "Volume Bar" },
-    { name: "Settings Style" },
+    { name: "Settings Menu" },
     { name: "Metadata" },
   ];
   const [activeTab, setActiveTab] = React.useState(tabList[0].name);
@@ -1009,16 +1009,6 @@ const Index = () => {
                   }}
                 />
 
-                <div style={{ width: "100%" }}>
-                  <ImagePicker
-                    onChange={(val: any) => {
-                      handlePlayerBrandingOnChange(val);
-                    }}
-                    label="Player Branding"
-                    setImageUploading={setBrandUploading}
-                  />
-                </div>
-
                 <SizePicker
                   label={"Branding Opacity"}
                   name={"branding-opacity"}
@@ -1031,6 +1021,16 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
+
+                <div style={{ width: "100%" }}>
+                  <ImagePicker
+                    onChange={(val: any) => {
+                      handlePlayerBrandingOnChange(val);
+                    }}
+                    label="Player Branding"
+                    setImageUploading={setBrandUploading}
+                  />
+                </div>
               </div>
             )}
 
@@ -1145,8 +1145,13 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
-                <div style={{ borderTop: "1px solid red", paddingTop: "1rem" }}>
-                  <p className="body">Control Icons(Mini Controls)</p>
+                <div
+                  style={{
+                    borderTop: "1px solid var(--border1)",
+                    padding: "1rem 0",
+                  }}
+                >
+                  <p className="subtitle-three">Mini Controls Style</p>
                 </div>
                 <Toggle
                   name={"small-icon-play-show"}
@@ -1291,7 +1296,7 @@ const Index = () => {
                 />
 
                 <SizePicker
-                  label={"Height"}
+                  label={"Bar Thickness"}
                   name={"progress-bar-height"}
                   // @ts-ignore
                   value={videoconfigupdate.value.playerstyle.progress_bar_size}
@@ -1343,6 +1348,15 @@ const Index = () => {
                       e.target.checked;
                   }}
                 />
+
+                <div
+                  style={{
+                    borderTop: "1px solid var(--border1)",
+                    padding: "1rem 0",
+                  }}
+                >
+                  <p className="subtitle-three">Progress Bar Colors</p>
+                </div>
 
                 <ColorPicker
                   label={"Foreground Color"}
@@ -1401,6 +1415,15 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
+
+                <div
+                  style={{
+                    borderTop: "1px solid var(--border1)",
+                    padding: "1rem 0",
+                  }}
+                >
+                  <p className="subtitle-three">Tooltip Styles</p>
+                </div>
 
                 <ColorPicker
                   label={"Tooltip BG Color"}
@@ -1626,6 +1649,50 @@ const Index = () => {
                   }}
                 />
 
+                <div
+                  style={{
+                    width: "100%",
+                    paddingBottom: "1rem",
+                  }}
+                >
+                  <p className="body" style={{ marginBottom: "0.25rem" }}>
+                    Title
+                  </p>
+                  <input
+                    className="input-main"
+                    type={"text"}
+                    defaultValue={videoconfigupdate.value.videotitle}
+                    onChange={(e: any) => {
+                      setReRender(Math.random() * 1000);
+                      videoconfigupdate.value.videotitle = e.target.value;
+                    }}
+                    name={"video_title"}
+                    placeholder="Enter video title"
+                    autoComplete="off"
+                  ></input>
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    paddingBottom: "1rem",
+                  }}
+                >
+                  <p className="body" style={{ marginBottom: "0.25rem" }}>
+                    Description
+                  </p>
+                  <input
+                    className="input-main"
+                    type={"text"}
+                    defaultValue={videoconfigupdate.value.videodescription}
+                    onChange={(e: any) => {
+                      setReRender(Math.random() * 1000);
+                      videoconfigupdate.value.videodescription = e.target.value;
+                    }}
+                    name={"video_description"}
+                    placeholder="Enter video description"
+                    autoComplete="off"
+                  ></input>
+                </div>
                 <ColorPicker
                   label={"Text Color"}
                   name={"text-color"}
@@ -1637,10 +1704,9 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
-
                 <Toggle
                   name={"thumbnail"}
-                  label={"Show"}
+                  label={"Thumbnail"}
                   checked={videoconfigupdate.value.playercontrol.thumbnail}
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);

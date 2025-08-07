@@ -192,6 +192,10 @@
     font-size: 1.2rem;
     color: var(--white);
   }
+  .subtitle-three {
+    font-size: 1rem;
+    color: var(--white);
+  }
   
   .label {
     font-size: 0.65rem;

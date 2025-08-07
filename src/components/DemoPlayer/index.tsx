@@ -309,7 +309,7 @@ const DemoPlayer = ({
               fontSize: `${1 * scaledValue + 0.25}rem`,
             }}
           >
-            Video title
+            {config.videotitle || "Video title"}
           </p>
         </div>
         <div
