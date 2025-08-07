@@ -129,15 +129,13 @@ const Index = () => {
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const tabList = [
-    { name: "Video Behavior" },
+    { name: "Playback Behavior" },
     { name: "Player Style" },
-    { name: "Play Button" },
-    { name: "Small Icons" },
+    { name: "Control Style" },
     { name: "Progress Bar" },
-    { name: "Volume Slider" },
-    { name: "Settings Menu" },
-    { name: "Branding" },
-    { name: "Thumbnail" },
+    { name: "Volume Bar" },
+    { name: "Settings Style" },
+    { name: "Metadata" },
   ];
   const [activeTab, setActiveTab] = React.useState(tabList[0].name);
 
@@ -948,29 +946,6 @@ const Index = () => {
                       e.target.checked;
                   }}
                 />
-
-                <Toggle
-                  name={"video-name"}
-                  label={"Video Title"}
-                  checked={videoconfigupdate.value.playercontrol.video_name}
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.video_name =
-                      e.target.checked;
-                  }}
-                />
-
-                <ColorPicker
-                  label={"In-Video Text Color"}
-                  name={"text-color"}
-                  value={videoconfigupdate.value.playerstyle.text_color}
-                  // @ts-ignore
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.text_color =
-                      e.target.value;
-                  }}
-                />
               </div>
             )}
             {activeTab === tabList[1].name && (
@@ -1022,8 +997,43 @@ const Index = () => {
                       e.target.checked;
                   }}
                 />
+
+                <Toggle
+                  name={"branding"}
+                  label={"Branding"}
+                  checked={videoconfigupdate.value.playercontrol.branding}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.branding =
+                      e.target.checked;
+                  }}
+                />
+
+                <div style={{ width: "100%" }}>
+                  <ImagePicker
+                    onChange={(val: any) => {
+                      handlePlayerBrandingOnChange(val);
+                    }}
+                    label="Player Branding"
+                    setImageUploading={setBrandUploading}
+                  />
+                </div>
+
+                <SizePicker
+                  label={"Branding Opacity"}
+                  name={"branding-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.branding_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.branding_opacity =
+                      e.target.value;
+                  }}
+                />
               </div>
             )}
+
             {activeTab === tabList[2].name && (
               <div
                 style={{
@@ -1035,7 +1045,7 @@ const Index = () => {
               >
                 <Toggle
                   name={"center-btn-show"}
-                  label={"Show"}
+                  label={"Primary Play Button"}
                   checked={
                     videoconfigupdate.value.playercontrol.center_playpause
                   }
@@ -1135,17 +1145,9 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
-              </div>
-            )}
-            {activeTab === tabList[3].name && (
-              <div
-                style={{
-                  width: "100%",
-                  marginTop: "0.5rem",
-                  padding: "0 1rem",
-                  boxSizing: "border-box",
-                }}
-              >
+                <div style={{ borderTop: "1px solid red", paddingTop: "1rem" }}>
+                  <p className="body">Control Icons(Mini Controls)</p>
+                </div>
                 <Toggle
                   name={"small-icon-play-show"}
                   label={"Play Button"}
@@ -1153,28 +1155,6 @@ const Index = () => {
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
                     videoconfigupdate.value.playercontrol.playpause =
-                      e.target.checked;
-                  }}
-                />
-
-                <Toggle
-                  name={"small-icon-vol-show"}
-                  label={"Volume Button"}
-                  checked={videoconfigupdate.value.playercontrol.volume}
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.volume =
-                      e.target.checked;
-                  }}
-                />
-
-                <Toggle
-                  name={"small-icon-setting-show"}
-                  label={"Settings Button"}
-                  checked={videoconfigupdate.value.playercontrol.settings_menu}
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.settings_menu =
                       e.target.checked;
                   }}
                 />
@@ -1277,7 +1257,7 @@ const Index = () => {
                 />
               </div>
             )}
-            {activeTab === tabList[4].name && (
+            {activeTab === tabList[3].name && (
               <div
                 style={{
                   width: "100%",
@@ -1288,7 +1268,7 @@ const Index = () => {
               >
                 <Toggle
                   name={"progress-bar-show"}
-                  label={"Show"}
+                  label={"Progress Bar"}
                   checked={videoconfigupdate.value.playercontrol.progress_bar}
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
@@ -1297,18 +1277,8 @@ const Index = () => {
                   }}
                 />
 
-                <Toggle
-                  name={"progress-bar-time"}
-                  label={"Time Stamp"}
-                  checked={videoconfigupdate.value.playercontrol.time_stamp}
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.time_stamp =
-                      e.target.checked;
-                  }}
-                />
                 <SizePicker
-                  label={"Spacing from Bottom"}
+                  label={"Space from Bottom"}
                   name={"progress-bar-position"}
                   // @ts-ignore
                   value={videoconfigupdate.value.playerstyle.bottom_bar_spacing}
@@ -1334,6 +1304,21 @@ const Index = () => {
                 />
 
                 <SizePicker
+                  label={"Opacity"}
+                  name={"progress-bar-opacity"}
+                  // @ts-ignore
+                  value={
+                    videoconfigupdate.value.playerstyle.progress_bar_opacity
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.progress_bar_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <SizePicker
                   label={"Scale on hover"}
                   name={"progress-bar-scale-on-hover"}
                   // @ts-ignore
@@ -1345,6 +1330,17 @@ const Index = () => {
                     setReRender(Math.random() * 1000);
                     videoconfigupdate.value.playerstyle.progress_bar_hover_scale =
                       e.target.value;
+                  }}
+                />
+
+                <Toggle
+                  name={"progress-bar-time"}
+                  label={"Show Time Stamp"}
+                  checked={videoconfigupdate.value.playercontrol.time_stamp}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.time_stamp =
+                      e.target.checked;
                   }}
                 />
 
@@ -1406,21 +1402,6 @@ const Index = () => {
                   }}
                 />
 
-                <SizePicker
-                  label={"Progress Bar Opacity"}
-                  name={"progress-bar-opacity"}
-                  // @ts-ignore
-                  value={
-                    videoconfigupdate.value.playerstyle.progress_bar_opacity
-                  }
-                  // @ts-ignore
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.progress_bar_opacity =
-                      e.target.value;
-                  }}
-                />
-
                 <ColorPicker
                   label={"Tooltip BG Color"}
                   name={"tooltip-bg-color"}
@@ -1474,7 +1455,7 @@ const Index = () => {
                 />
               </div>
             )}
-            {activeTab === tabList[5].name && (
+            {activeTab === tabList[4].name && (
               <div
                 style={{
                   width: "100%",
@@ -1483,6 +1464,16 @@ const Index = () => {
                   boxSizing: "border-box",
                 }}
               >
+                <Toggle
+                  name={"small-icon-vol-show"}
+                  label={"Volume Button"}
+                  checked={videoconfigupdate.value.playercontrol.volume}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.volume =
+                      e.target.checked;
+                  }}
+                />
                 <SizePicker
                   label={"Volume Bar Size"}
                   name={"volume-bar-size"}
@@ -1492,6 +1483,18 @@ const Index = () => {
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
                     videoconfigupdate.value.playerstyle.volume_bar_size =
+                      e.target.value;
+                  }}
+                />
+                <SizePicker
+                  label={"Volume Bar Opacity"}
+                  name={"volume-bar-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.volume_bar_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.volume_bar_opacity =
                       e.target.value;
                   }}
                 />
@@ -1522,22 +1525,9 @@ const Index = () => {
                       e.target.value;
                   }}
                 />
-
-                <SizePicker
-                  label={"Volume Slider Opacity"}
-                  name={"volume-bar-opacity"}
-                  // @ts-ignore
-                  value={videoconfigupdate.value.playerstyle.volume_bar_opacity}
-                  // @ts-ignore
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.volume_bar_opacity =
-                      e.target.value;
-                  }}
-                />
               </div>
             )}
-            {activeTab === tabList[6].name && (
+            {activeTab === tabList[5].name && (
               <div
                 style={{
                   width: "100%",
@@ -1546,17 +1536,14 @@ const Index = () => {
                   boxSizing: "border-box",
                 }}
               >
-                <ColorPicker
-                  label={"Background Color"}
-                  name={"settting-background-color"}
-                  value={
-                    videoconfigupdate.value.playerstyle.settings_menu_BG_color
-                  }
-                  // @ts-ignore
+                <Toggle
+                  name={"small-icon-setting-show"}
+                  label={"Settings Button"}
+                  checked={videoconfigupdate.value.playercontrol.settings_menu}
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.settings_menu_BG_color =
-                      e.target.value;
+                    videoconfigupdate.value.playercontrol.settings_menu =
+                      e.target.checked;
                   }}
                 />
 
@@ -1571,6 +1558,20 @@ const Index = () => {
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
                     videoconfigupdate.value.playerstyle.settings_menu_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <ColorPicker
+                  label={"Background Color"}
+                  name={"settting-background-color"}
+                  value={
+                    videoconfigupdate.value.playerstyle.settings_menu_BG_color
+                  }
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.settings_menu_BG_color =
                       e.target.value;
                   }}
                 />
@@ -1605,7 +1606,7 @@ const Index = () => {
                 />
               </div>
             )}
-            {activeTab === tabList[7].name && (
+            {activeTab === tabList[6].name && (
               <div
                 style={{
                   width: "100%",
@@ -1615,49 +1616,28 @@ const Index = () => {
                 }}
               >
                 <Toggle
-                  name={"branding"}
-                  label={"Show"}
-                  checked={videoconfigupdate.value.playercontrol.branding}
+                  name={"video-name"}
+                  label={"Video Title"}
+                  checked={videoconfigupdate.value.playercontrol.video_name}
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.branding =
+                    videoconfigupdate.value.playercontrol.video_name =
                       e.target.checked;
                   }}
                 />
 
-                <SizePicker
-                  label={"Opacity"}
-                  name={"branding-opacity"}
-                  // @ts-ignore
-                  value={videoconfigupdate.value.playerstyle.branding_opacity}
+                <ColorPicker
+                  label={"Text Color"}
+                  name={"text-color"}
+                  value={videoconfigupdate.value.playerstyle.text_color}
                   // @ts-ignore
                   onChange={(e: any) => {
                     setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.branding_opacity =
+                    videoconfigupdate.value.playerstyle.text_color =
                       e.target.value;
                   }}
                 />
 
-                <div style={{ width: "100%" }}>
-                  <ImagePicker
-                    onChange={(val: any) => {
-                      handlePlayerBrandingOnChange(val);
-                    }}
-                    label="Player Branding"
-                    setImageUploading={setBrandUploading}
-                  />
-                </div>
-              </div>
-            )}
-            {activeTab === tabList[8].name && (
-              <div
-                style={{
-                  width: "100%",
-                  marginTop: "0.5rem",
-                  padding: "0 1rem",
-                  boxSizing: "border-box",
-                }}
-              >
                 <Toggle
                   name={"thumbnail"}
                   label={"Show"}
