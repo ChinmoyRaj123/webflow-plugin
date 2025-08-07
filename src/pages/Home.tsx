@@ -13,10 +13,12 @@ import mainconfig from "../config/index";
 const Home = () => {
   const navigate = useNavigate();
   const [searchTitle, setSearchTitle] = React.useState("");
+  const [avtivePlan, setActivePlan] = React.useState(false);
   const [data, setData] = React.useState<any>([]);
   const [error, setError] = React.useState(false);
   const [refetch, setRefetch] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
+  const [isSubsLoading, setSubsLoading] = React.useState(true);
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
   const user = JSON.parse(localStorage.getItem("s-user"));
   const [mediaCount, setMediaCount] = React.useState(0);
@@ -38,6 +40,16 @@ const Home = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      const allPlans = await axios.get("/plans", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const planDetails = allPlans.data.find(
+        (item: any) => item.id === res.data.subscription.plan_id
+      );
+      setActivePlan(planDetails);
+
       if (res.data?.subscription?.status === "active") {
         localStorage.setItem(
           "s_subs",
@@ -53,12 +65,15 @@ const Home = () => {
         //   pathname: "/checkout",
         //   search: `?planid=${res.data.subscription?.plan_id}&s_id=${res.data.subscription?.provider?.subscription_id}`,
         // });
+        navigate("/subscription");
       }
     } catch (error: any) {
       console.log("error in subscription", error);
-      // if (error?.response?.status === 404) {
-      //   navigate("/plans");
-      // }
+      if (error?.response?.status === 404) {
+        navigate("/subscription");
+      }
+    } finally {
+      setSubsLoading(false);
     }
   };
 
@@ -148,7 +163,6 @@ const Home = () => {
   };
 
   const handleSignOut = () => {
-    console.log("handleSignOut");
     Cookies.remove("s-token");
     Cookies.remove("splay-token");
     Cookies.remove("s-user");
@@ -181,176 +195,202 @@ const Home = () => {
   };
 
   return (
-    <div className="home-layout">
-      <div style={{ flex: 1 }}>
+    <div>
+      {isSubsLoading ? (
         <div
-          className="home-topbar"
           style={{
+            height: "100vh",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
-            margin: "0.5rem 0",
           }}
         >
-          <p className="body-dark">
-            {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s Dashboard
-          </p>
-          <div className="media-options">
-            <Popover
-              position={"bottom"}
-              trigger={
-                <span
-                  className="material-symbols-outlined white media-option-image"
-                  style={{ fontSize: "18px", cursor: "default" }}
+          <p className="body">Loading...</p>
+        </div>
+      ) : (
+        <div className="home-layout">
+          <div>
+            <div
+              className="home-topbar"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                margin: "0.5rem 0",
+              }}
+            >
+              <p className="body-dark">
+                {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s
+                Dashboard
+              </p>
+              <div className="media-options">
+                <Popover
+                  position={"bottom"}
+                  trigger={
+                    <span
+                      className="material-symbols-outlined white media-option-image"
+                      style={{ fontSize: "18px", cursor: "default" }}
+                    >
+                      menu
+                    </span>
+                  }
+                  content={
+                    <div>
+                      {topbarData.map((item, index) => {
+                        return (
+                          <TopbarContent
+                            key={index}
+                            handleOnClick={(e) => handleTopbarClick(e)}
+                            contentName={item.name}
+                          />
+                        );
+                      })}
+                    </div>
+                  }
+                />
+              </div>
+            </div>
+            <div className="home-data-info-container">
+              <div>
+                <p
+                  className="subtitle-three"
+                  style={{ display: "inline-block" }}
                 >
-                  menu
-                </span>
-              }
-              content={
-                <div>
-                  {topbarData.map((item, index) => {
+                  Usage:&nbsp;
+                </p>
+                <p
+                  className="home-data-info"
+                  style={{ display: "inline-block" }}
+                >
+                  {mediaCount}/{avtivePlan.total_video_upload_limit} Video |{" "}
+                  {avtivePlan.per_video_upload_limit}mb/video
+                </p>
+              </div>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <a
+                  href={`${mainconfig.HOSTED_URL}/forgot-password`}
+                  target="_blank"
+                  style={{ textDecoration: "none", cursor: "default" }}
+                >
+                  <p className="home-data-info-cta">Upgrade Plan</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ flex: 1, marginTop: "0.5rem" }}>
+            {isLoading ? (
+              <p
+                className="body"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                Loading...
+              </p>
+            ) : searchData === null || searchData.length === 0 ? (
+              <div>
+                <p className="body" style={{ textAlign: "center" }}>
+                  Click on "Create Player" to get started.
+                </p>
+                <button
+                  className="large-primary-btn"
+                  style={{
+                    marginTop: "0.5rem",
+                    width: "100%",
+                    padding: "0.25rem",
+                  }}
+                  onClick={() => {
+                    setOpenModalAdd(true);
+                  }}
+                >
+                  Create Player
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="home-header">
+                  <input
+                    className="input-main"
+                    type={"text"}
+                    name={"search"}
+                    placeholder={"Search"}
+                    value={searchTitle}
+                    onChange={(e) => setSearchTitle(e.target.value)}
+                    style={{ flex: 2 }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <CreatePlayer width="100%" setRefetch={setRefetch} />
+                  </div>
+                </div>
+                <div className="home-card-grid">
+                  {searchData.map((item: any, index: number) => {
                     return (
-                      <TopbarContent
+                      <VideoCard
                         key={index}
-                        handleOnClick={(e) => handleTopbarClick(e)}
-                        contentName={item.name}
+                        indexValue={index}
+                        data={item}
+                        handleCardClick={handleCardClick}
+                        setRefetch={setRefetch}
                       />
                     );
                   })}
                 </div>
-              }
-            />
+              </>
+            )}
           </div>
-        </div>
-        <div className="home-data-info-container">
-          <div>
-            <p className="home-data-info">
-              {10 - mediaCount}/10 Video left | 200mb/video
-            </p>
-          </div>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <a
-              href={`${mainconfig.HOSTED_URL}/forgot-password`}
-              target="_blank"
-              style={{ textDecoration: "none", cursor: "default" }}
-            >
-              <p className="home-data-info-cta">Upgrade Plan</p>
-            </a>
-          </div>
-        </div>
-      </div>
 
-      <div style={{ flex: 1 }}>
-        {isLoading ? (
-          <p
-            className="body"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-start",
-              width: "100%",
-              height: "100%",
-            }}
+          <Modal
+            isOpen={openModalAdd}
+            setOpen={setOpenModalAdd}
+            title={`Create New Player`}
+            size="contain"
           >
-            Loading...
-          </p>
-        ) : searchData === null || searchData.length === 0 ? (
-          <div>
-            <p className="body" style={{ textAlign: "center" }}>
-              Click on "Create Player" to get started.
-            </p>
-            <button
-              className="large-primary-btn"
-              style={{
-                marginTop: "0.5rem",
-                width: "100%",
-                padding: "0.25rem",
-              }}
-              onClick={() => {
-                setOpenModalAdd(true);
-              }}
-            >
-              Create Player
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="home-header">
-              <input
-                className="input-main"
-                type={"text"}
-                name={"search"}
-                placeholder={"Search"}
-                value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
-                style={{ flex: 2 }}
-              />
-              <div style={{ flex: 1 }}>
-                <CreatePlayer width="100%" setRefetch={setRefetch} />
-              </div>
-            </div>
-            <div className="home-card-grid">
-              {searchData.map((item: any, index: number) => {
-                return (
-                  <VideoCard
-                    key={index}
-                    indexValue={index}
-                    data={item}
-                    handleCardClick={handleCardClick}
-                    setRefetch={setRefetch}
-                  />
-                );
-              })}
-            </div>
-          </>
-        )}
-      </div>
-
-      <Modal
-        isOpen={openModalAdd}
-        setOpen={setOpenModalAdd}
-        title={`Create New Player`}
-        size="contain"
-      >
-        <div>
-          <form onSubmit={createPlayer}>
-            <input
-              className="input-main"
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-              value={playerName}
-              onChange={(e: any) => setPlayerName(e.target.value)}
-              name={"player-name"}
-              placeholder="Enter player name"
-            />
-
-            <div className="error-container">
-              {error === "emtpy-player-name" && (
-                <p
+            <div>
+              <form onSubmit={createPlayer}>
+                <input
+                  className="input-main"
                   style={{
-                    marginBottom: "0.5rem",
+                    width: "100%",
+                    boxSizing: "border-box",
                   }}
-                  className="error-text required-error-text-space"
-                >
-                  Required field!
-                </p>
-              )}
-            </div>
+                  value={playerName}
+                  onChange={(e: any) => setPlayerName(e.target.value)}
+                  name={"player-name"}
+                  placeholder="Enter player name"
+                />
 
-            <button
-              type="submit"
-              className="large-primary-btn"
-              style={{
-                width: "100%",
-              }}
-            >
-              Continue
-            </button>
-          </form>
+                <div className="error-container">
+                  {error === "emtpy-player-name" && (
+                    <p
+                      style={{
+                        marginBottom: "0.5rem",
+                      }}
+                      className="error-text required-error-text-space"
+                    >
+                      Required field!
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="large-primary-btn"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  Continue
+                </button>
+              </form>
+            </div>
+          </Modal>
         </div>
-      </Modal>
+      )}
     </div>
   );
 };

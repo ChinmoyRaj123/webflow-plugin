@@ -457,6 +457,7 @@
   .home-data-info-container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0.5rem 0;
     padding: 0.5rem;
     border-radius: 0.25rem;
@@ -487,7 +488,7 @@
   .home-card-grid {
     display: flex;
     flex-wrap: wrap;
-    max-height: 20rem;
+    max-height: 20.8rem;
     overflow-y: scroll;
     padding-right: 4px;
     margin-bottom: 0.5rem;

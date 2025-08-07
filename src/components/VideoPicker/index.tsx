@@ -64,10 +64,12 @@ const VideoPicker = (props: VideoPickerProps) => {
       setLoading(false);
       setProgress(0);
       if (error.response.status === 400) {
-        await webflow.notify({
-          type: "Error",
-          message: `${XMLParser(error.response?.data)?.message || ""}`,
-        });
+        if (error.response.data.error) {
+          await webflow.notify({
+            type: "Error",
+            message: `${error.response?.data.error || ""}`,
+          });
+        }
       }
     }
   };
@@ -102,16 +104,18 @@ const VideoPicker = (props: VideoPickerProps) => {
         .then((response) => {
           resolve(response);
         })
-        .catch((error) => {
-          console.log("error while uploading", error);
+        .catch(async (error) => {
+          console.log("error while uploading to s3", error.response.status);
+          if (error.response.status === 400) {
+            await webflow.notify({
+              type: "Error",
+              message: `${XMLParser(error.response?.data).message || ""}`,
+            });
+          }
           reject(error);
         });
     });
   };
-
-  React.useEffect(() => {
-    console.log("progress", progress);
-  }, [progress]);
 
   return (
     <div className="video-picker-container">

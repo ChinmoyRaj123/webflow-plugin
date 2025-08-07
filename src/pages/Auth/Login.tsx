@@ -137,9 +137,7 @@ const Login = () => {
 
   // this function redirects a user to register page
   const handleAccountCreateClick = () => {
-    navigate({
-      pathname: "/register",
-    });
+    window.open(`${config.HOSTED_URL}/register`, "_blank");
   };
 
   return (
@@ -275,7 +273,7 @@ const Login = () => {
             </button>
           </div>
 
-          <div style={{ marginTop: "0.5rem" }}>
+          <div style={{ marginTop: "1rem" }}>
             <a
               href={`${config.HOSTED_URL}/forgot-password`}
               style={{

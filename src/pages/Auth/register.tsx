@@ -294,11 +294,25 @@ const Register = () => {
               className="large-primary-btn"
               style={{
                 width: "100%",
-                margin: "2rem 0",
+                margin: "0.5rem 0",
               }}
             >
               {loading ? "Loading.." : "Verify otp"}
             </button>
+            <div style={{ marginTop: "0.5rem" }}>
+              <p className="body" style={{ display: "inline-block" }}>
+                Already have an account?
+              </p>
+              <p
+                className="home-data-info-cta"
+                style={{ display: "inline-block", cursor: "default" }}
+                onClick={() => {
+                  navigate("/signin");
+                }}
+              >
+                &nbsp; Sign In
+              </p>
+            </div>
           </form>
         )}
 

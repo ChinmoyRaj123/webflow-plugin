@@ -4,7 +4,6 @@ import ColorPicker from "../../components/ColorPicker";
 import axios from "../../utils/axios-instance";
 import { signal } from "@preact/signals";
 import SizePicker from "../../components/SizePicker";
-import Toast from "../../components/Toast";
 import ImagePicker from "../../components/ImagePicker";
 import config from "../../config";
 import Modal from "../../components/Modal";
@@ -98,30 +97,19 @@ const Index = () => {
   const videoId = params.get("video");
   const [selectedExtension, setSelectedExtension] =
     React.useState<string>("mp4");
-  const [mediaTypeName, setMediaTypeName] = React.useState("");
-  const [show, setShow] = React.useState(false);
   const [reRender, setReRender] = React.useState(0);
-  const [copied, setCopied] = React.useState(false);
-  const [copiedLink, setCopiedLink] = React.useState(false);
-  const [copiedToken, setCopiedToken] = React.useState(false);
-  const [copiedPlayerId, setCopiedPlayerId] = React.useState(false);
   const [isLoadingEmbed, setLoadingEmbed] = React.useState(false);
   const [isLoadingPlayerData, setLoadingPlayerData] = React.useState(true);
-  const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [embedUrl, setEmbedUrl] = React.useState("");
   const [videoTitle, setVideoTitle] = React.useState("");
   const [videoDescription, setVideoDescription] = React.useState("");
   const [muted, setMuted] = React.useState<boolean>();
-  const [token, setToken] = React.useState("");
   const [sourceEmpty, setSourceEmpty] = React.useState(false);
   const [sourceId, setSourceId] = React.useState("");
   const [openModalUpload, setOpenModalUpload] = React.useState<boolean>(false);
   const [media, setMedia] = React.useState([]);
   const [refetch, setRefetch] = React.useState(0);
   const [file, setFile] = React.useState<any>();
-  const [videoUrlFromModal, setVideoUrlFromModal] = React.useState<any>();
-  const [openUpload, setOpenUpload] = React.useState<boolean>(false);
-  const [searchTitle, setSearchTitle] = React.useState("");
   const [brandUploading, setBrandUploading] = React.useState(false);
   const [thumbnailUploading, setThumbnailUploading] = React.useState(false);
   const [popupId, setPopupId] = React.useState("");
@@ -139,25 +127,6 @@ const Index = () => {
   ];
   const [activeTab, setActiveTab] = React.useState(tabList[0].name);
 
-  React.useEffect(() => {
-    videoUrlExtensionUpdate.value = selectedExtension as string;
-
-    if (selectedExtension === "hls") {
-      setMediaTypeName("hls");
-    } else {
-      setMediaTypeName("mp4");
-    }
-    // console.log("selectedExtension", selectedExtension);
-  }, [selectedExtension]);
-
-  const showToast = () => {
-    setShow(true);
-  };
-
-  const hideToast = () => {
-    setShow(false);
-  };
-
   const generateToken = async (player_id: string) => {
     setLoadingEmbed(true);
     try {
@@ -170,7 +139,6 @@ const Index = () => {
       generateCode(
         `${config.BASE_URL}/players/embed/${player_id}/${res.data.token}`
       );
-      setToken(res.data.token);
       setLoadingEmbed(false);
     } catch (error) {
       setLoadingEmbed(false);
@@ -403,7 +371,7 @@ const Index = () => {
       // "media_type": videoUrlExtensionUpdate.value
     };
     try {
-      const res = await axios.put(`/players/${videoId}`, data, {
+      await axios.put(`/players/${videoId}`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -411,9 +379,6 @@ const Index = () => {
       await addSource(sourceId);
       await handleEmbedVideoPlayer();
       setLoadingEmbed(false);
-      // console.log('update', res);
-      // showToast();
-      //webflownotify
     } catch (error) {
       setLoadingEmbed(false);
       console.log("error updating video", error);
@@ -421,30 +386,42 @@ const Index = () => {
   };
 
   const handleEmbedVideoPlayer = async () => {
-    const divElement = await webflow.getSelectedElement();
-    if (divElement?.children) {
-      const children = await divElement.getChildren();
-      if (children.length > 0) {
-        await Promise.all(children.map((child) => child.remove()));
+    try {
+      const divElement = await webflow.getSelectedElement();
+      if (divElement?.children) {
+        const children = await divElement.getChildren();
+        if (children.length > 0) {
+          await Promise.all(children.map((child) => child.remove()));
+        }
+        const domElement = await divElement.append(webflow.elementPresets.DOM);
+        if (domElement.type === "DOM") {
+          await domElement.setTag("iframe");
+          await domElement.setAttribute("class", "splay_videoplayer_iframe");
+          await domElement.setAttribute("src", embedUrl);
+          await domElement.setAttribute(
+            "title",
+            `${isLoadingEmbed ? videoTitle : "Video title"}`
+          );
+          await domElement.setAttribute("width", "100%");
+          await domElement.setAttribute("height", "100%");
+          await domElement.setAttribute("frameborder", "0");
+          await domElement.setAttribute("allowfullscreen", "true");
+          await domElement.setTextContent(
+            `${isLoadingEmbed ? videoDescription : "Video description"}`
+          );
+          await domElement.setAttribute("style", "pointer-events: auto;");
+        }
+      } else {
+        await webflow.notify({
+          type: "Error",
+          message: "Select an element to embed the videoplayer",
+        });
       }
-      const domElement = await divElement.append(webflow.elementPresets.DOM);
-      if (domElement.type === "DOM") {
-        await domElement.setTag("iframe");
-        await domElement.setAttribute("class", "splay_videoplayer_iframe");
-        await domElement.setAttribute("src", embedUrl);
-        await domElement.setAttribute(
-          "title",
-          `${isLoadingEmbed ? videoTitle : "Video title"}`
-        );
-        await domElement.setAttribute("width", "100%");
-        await domElement.setAttribute("height", "100%");
-        await domElement.setAttribute("frameborder", "0");
-        await domElement.setAttribute("allowfullscreen", "true");
-        await domElement.setTextContent(
-          `${isLoadingEmbed ? videoDescription : "Video description"}`
-        );
-        await domElement.setAttribute("style", "pointer-events: auto;");
-      }
+    } catch (error) {
+      await webflow.notify({
+        type: "Error",
+        message: "Select an element to embed the videoplayer",
+      });
     }
   };
 
@@ -480,51 +457,6 @@ const Index = () => {
     console.log("branding", image);
     videoconfigupdate.value.playerBrandingImageUrl = image;
     setReRender(Math.random() * 1000);
-  };
-
-  const handleCopyClipboard = async (val: string) => {
-    setCopied(false);
-    setCopiedLink(false);
-    setCopiedPlayerId(false);
-    setCopiedToken(false);
-    // hideCopyT()
-    console.log("val", val);
-
-    try {
-      const element = document.querySelector(`#${val}`);
-      console.log("element", element);
-
-      // @ts-ignore
-      element?.select();
-      // @ts-ignore
-      element?.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      if (val === "embed-link-code") {
-        setCopied(true);
-      } else if (val === "embed-token") {
-        setCopiedToken(true);
-      } else if (val === "embed-player-id") {
-        setCopiedPlayerId(true);
-      } else {
-        setCopiedLink(true);
-      }
-      // showCopyT()
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-      setCopied(false);
-      setCopiedLink(false);
-      setCopiedPlayerId(false);
-      setCopiedToken(false);
-      // hideCopyT()
-    }
-  };
-
-  const handleMediaTypeSelection = (val: string) => {
-    if (val === "hls") {
-      setSelectedExtension("hls");
-    } else {
-      setSelectedExtension("mp4");
-    }
   };
 
   const handlePopupToggle = (item: any, index: number) => {
@@ -733,9 +665,9 @@ const Index = () => {
                   <VideoPicker
                     file={file}
                     setFile={setFile}
-                    setVideoUrl={setVideoUrlFromModal}
+                    setVideoUrl={(e) => console.log("xx", e)}
                     setRefetch={(e: string) => setRefetch(e)}
-                    setOpenModalUpload={setOpenUpload}
+                    setOpenModalUpload={(e) => console.log("yy", e)}
                   />
                 </div>
 
@@ -848,7 +780,15 @@ const Index = () => {
                       );
                     })
                   ) : (
-                    <p className="body">No media found</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p className="body">No video found</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -1732,20 +1672,6 @@ const Index = () => {
           </div>
         </form>
       </div>
-      <Toast show={show} hideToast={hideToast}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <span className="material-symbols-outlined positive">done</span>
-          <p className="subtitle-two" style={{ marginLeft: "1rem" }}>
-            Player Updated
-          </p>
-        </div>
-      </Toast>
     </div>
   );
 };
