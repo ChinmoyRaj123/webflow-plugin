@@ -10,7 +10,7 @@
 .color-hex-input {
   width: 4.2rem;
   padding: 0.25rem 0.4rem;
-  font-size: 0.85rem;
+  font-size: 0.71875rem;
   background: var(--inputBg);
   outline: none;
   border: 1px solid;

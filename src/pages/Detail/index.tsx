@@ -610,9 +610,10 @@ const Index = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          height: "100vh",
         }}
       >
-        <p>Loading..</p>
+        <p className="body">Loading...</p>
       </div>
     );
 
@@ -1664,6 +1665,7 @@ const Index = () => {
                     defaultValue={videoconfigupdate.value.videotitle}
                     onChange={(e: any) => {
                       setReRender(Math.random() * 1000);
+                      setVideoTitle(e.target.value);
                       videoconfigupdate.value.videotitle = e.target.value;
                     }}
                     name={"video_title"}
@@ -1686,6 +1688,7 @@ const Index = () => {
                     defaultValue={videoconfigupdate.value.videodescription}
                     onChange={(e: any) => {
                       setReRender(Math.random() * 1000);
+                      setVideoDescription(e.target.value);
                       videoconfigupdate.value.videodescription = e.target.value;
                     }}
                     name={"video_description"}

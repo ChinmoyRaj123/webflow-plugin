@@ -16,7 +16,7 @@ const Home = () => {
   const [data, setData] = React.useState<any>([]);
   const [error, setError] = React.useState(false);
   const [refetch, setRefetch] = React.useState(0);
-  const [isLoading, setLoading] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
   const user = JSON.parse(localStorage.getItem("s-user"));
   const [mediaCount, setMediaCount] = React.useState(0);
@@ -76,7 +76,6 @@ const Home = () => {
   };
 
   const fetchPlayer = async () => {
-    setLoading(true);
     setError(false);
     try {
       const res = await axios.get("/players", {
@@ -183,116 +182,129 @@ const Home = () => {
 
   return (
     <div className="home-layout">
-      <div
-        className="home-topbar"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "0.5rem 0",
-        }}
-      >
-        <p className="body-dark">
-          {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s Dashboard
-        </p>
-        <div className="media-options">
-          <Popover
-            position={"bottom"}
-            trigger={
-              <span
-                className="material-symbols-outlined white media-option-image"
-                style={{ fontSize: "18px" }}
-              >
-                menu
-              </span>
-            }
-            content={
-              <div>
-                {topbarData.map((item, index) => {
-                  return (
-                    <TopbarContent
-                      key={index}
-                      handleOnClick={(e) => handleTopbarClick(e)}
-                      contentName={item.name}
-                    />
-                  );
-                })}
-              </div>
-            }
-          />
-        </div>
-      </div>
-      <div className="home-data-info-container">
-        <div>
-          <p className="home-data-info">
-            {10 - mediaCount}/10 Video left | 200mb/video
+      <div style={{ flex: 1 }}>
+        <div
+          className="home-topbar"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            margin: "0.5rem 0",
+          }}
+        >
+          <p className="body-dark">
+            {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s Dashboard
           </p>
+          <div className="media-options">
+            <Popover
+              position={"bottom"}
+              trigger={
+                <span
+                  className="material-symbols-outlined white media-option-image"
+                  style={{ fontSize: "18px", cursor: "default" }}
+                >
+                  menu
+                </span>
+              }
+              content={
+                <div>
+                  {topbarData.map((item, index) => {
+                    return (
+                      <TopbarContent
+                        key={index}
+                        handleOnClick={(e) => handleTopbarClick(e)}
+                        contentName={item.name}
+                      />
+                    );
+                  })}
+                </div>
+              }
+            />
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <a
-            href={`${mainconfig.HOSTED_URL}/forgot-password`}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <p className="home-data-info-cta">Upgrade Plan</p>
-          </a>
+        <div className="home-data-info-container">
+          <div>
+            <p className="home-data-info">
+              {10 - mediaCount}/10 Video left | 200mb/video
+            </p>
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <a
+              href={`${mainconfig.HOSTED_URL}/forgot-password`}
+              target="_blank"
+              style={{ textDecoration: "none", cursor: "default" }}
+            >
+              <p className="home-data-info-cta">Upgrade Plan</p>
+            </a>
+          </div>
         </div>
       </div>
 
-      {isLoading ? (
-        <p className="body" style={{ marginTop: "0.5rem" }}>
-          Loading...
-        </p>
-      ) : searchData === null || searchData.length === 0 ? (
-        <div>
-          <p className="body" style={{ textAlign: "center" }}>
-            Click on "Create Player" to get started.
-          </p>
-          <button
-            className="large-primary-btn"
+      <div style={{ flex: 1 }}>
+        {isLoading ? (
+          <p
+            className="body"
             style={{
-              marginTop: "0.5rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
               width: "100%",
-              padding: "0.25rem",
-            }}
-            onClick={() => {
-              setOpenModalAdd(true);
+              height: "100%",
             }}
           >
-            Create Player
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="home-header">
-            <input
-              className="input-main"
-              type={"text"}
-              name={"search"}
-              placeholder={"Search"}
-              value={searchTitle}
-              onChange={(e) => setSearchTitle(e.target.value)}
-              style={{ flex: 2 }}
-            />
-            <div style={{ flex: 1 }}>
-              <CreatePlayer width="100%" setRefetch={setRefetch} />
+            Loading...
+          </p>
+        ) : searchData === null || searchData.length === 0 ? (
+          <div>
+            <p className="body" style={{ textAlign: "center" }}>
+              Click on "Create Player" to get started.
+            </p>
+            <button
+              className="large-primary-btn"
+              style={{
+                marginTop: "0.5rem",
+                width: "100%",
+                padding: "0.25rem",
+              }}
+              onClick={() => {
+                setOpenModalAdd(true);
+              }}
+            >
+              Create Player
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="home-header">
+              <input
+                className="input-main"
+                type={"text"}
+                name={"search"}
+                placeholder={"Search"}
+                value={searchTitle}
+                onChange={(e) => setSearchTitle(e.target.value)}
+                style={{ flex: 2 }}
+              />
+              <div style={{ flex: 1 }}>
+                <CreatePlayer width="100%" setRefetch={setRefetch} />
+              </div>
             </div>
-          </div>
-          <div className="home-card-grid">
-            {searchData.map((item: any, index: number) => {
-              return (
-                <VideoCard
-                  key={index}
-                  indexValue={index}
-                  data={item}
-                  handleCardClick={handleCardClick}
-                  setRefetch={setRefetch}
-                />
-              );
-            })}
-          </div>
-        </>
-      )}
+            <div className="home-card-grid">
+              {searchData.map((item: any, index: number) => {
+                return (
+                  <VideoCard
+                    key={index}
+                    indexValue={index}
+                    data={item}
+                    handleCardClick={handleCardClick}
+                    setRefetch={setRefetch}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
 
       <Modal
         isOpen={openModalAdd}

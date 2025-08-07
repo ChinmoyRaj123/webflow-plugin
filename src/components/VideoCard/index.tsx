@@ -18,35 +18,12 @@ type VideoCardProps = {
 
 const Index = (props: VideoCardProps) => {
   const { handleCardClick, data, setRefetch, indexValue } = props;
-  const [popupId, setPopupId] = React.useState("");
-  const [popupShow, setPopupShow] = React.useState(false);
-
+  const accessToken = JSON.parse(localStorage.getItem("s-token"));
   const [openDuplicateModal, setOpenDuplicateModal] =
     React.useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
-  const [show, setShow] = React.useState(false);
-  const [showDelete, setShowDelete] = React.useState(false);
-
-  const [showDuplicateTooltip, setShowDuplicateTooltip] = React.useState("0");
-  const [showDeleteTooltip, setShowDeleteTooltip] = React.useState("0");
-
-  const showToast = () => {
-    setShow(true);
-  };
-
-  const hideToast = () => {
-    console.log("hideToast");
-
-    setShow(false);
-  };
-
-  const showToastDelete = () => {
-    setShowDelete(true);
-  };
-
-  const hideToastDelete = () => {
-    setShowDelete(false);
-  };
+  const [openRenameModal, setOpenRenameModal] = React.useState<boolean>(false);
+  const [playerName, setPlayerName] = React.useState(data.name);
 
   const duplicatePlayer = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -57,16 +34,17 @@ const Index = (props: VideoCardProps) => {
       };
       const res = await axios.post("/players", newdata, {
         headers: {
-          Authorization: `Bearer ${Cookies.get("s-token")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       setOpenDuplicateModal(false);
-      showToast();
+      webflow.notify({ type: "Success", message: "Player duplicated!" });
       setTimeout(() => {
         setRefetch(Math.random());
       }, 800);
       console.log("duplicate player", res);
     } catch (error) {
+      webflow.notify({ type: "Error", message: "Player duplication failed!" });
       console.log("error", error);
     }
   };
@@ -76,16 +54,40 @@ const Index = (props: VideoCardProps) => {
     try {
       const res = await axios.delete(`/players/${data.id}`, {
         headers: {
-          Authorization: `Bearer ${Cookies.get("s-token")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log("delete", res);
       setOpenDeleteModal(false);
-      showToastDelete();
+      webflow.notify({ type: "Success", message: "Player deleted!" });
       setTimeout(() => {
         setRefetch(Math.random());
       }, 800);
     } catch (error) {
+      webflow.notify({ type: "Error", message: "Player deletion failed!" });
+      console.log("error deleting player", error);
+    }
+  };
+
+  const renamePlayer = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const modifiedData = { ...data, name: playerName };
+    try {
+      const res = await axios.put(`/players/${data.id}`, modifiedData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setOpenRenameModal(false);
+      webflow.notify({
+        type: "Success",
+        message: "Player renamed successfully!",
+      });
+      setTimeout(() => {
+        setRefetch(Math.random());
+      }, 800);
+    } catch (error) {
+      webflow.notify({ type: "Error", message: "Player rename failed!" });
       console.log("error deleting player", error);
     }
   };
@@ -139,7 +141,7 @@ const Index = (props: VideoCardProps) => {
           >
             <p className="videocard-name">{data.name}</p>
             <p className="videocard-timeline">
-              last edit {timeAgo(data.created_at)}
+              last edit {timeAgo(data.updated_at)}
             </p>
           </div>
         </div>
@@ -172,7 +174,9 @@ const Index = (props: VideoCardProps) => {
                 </div>
                 <div
                   className="navigation-popup-mobile text-with-hover"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setOpenRenameModal(true);
+                  }}
                 >
                   <span
                     className="material-symbols-outlined white"
@@ -236,10 +240,42 @@ const Index = (props: VideoCardProps) => {
             className="large-primary-btn"
             style={{
               width: "100%",
-              margin: "2rem 0",
+              margin: "0.5rem 0",
             }}
           >
             Yes
+          </button>
+        </form>
+      </Modal>
+      <Modal
+        isOpen={openRenameModal}
+        setOpen={setOpenRenameModal}
+        title={`Rename the player`}
+        size="contain"
+      >
+        <p className="body">Player Name</p>
+        <form onSubmit={renamePlayer}>
+          <input
+            className="input-main"
+            style={{ marginTop: "0.25rem" }}
+            type={"text"}
+            defaultValue={playerName}
+            onChange={(e: any) => {
+              setPlayerName(e.target.value);
+            }}
+            name={"player_name"}
+            placeholder="Enter player name"
+            autoComplete="off"
+          ></input>
+          <button
+            type="submit"
+            className="large-primary-btn"
+            style={{
+              width: "100%",
+              margin: "0.5rem 0",
+            }}
+          >
+            Rename
           </button>
         </form>
       </Modal>

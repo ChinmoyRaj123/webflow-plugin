@@ -1,7 +1,10 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 * {
   padding: 0;
   margin: 0;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   box-sizing: border-box;
 }
 
@@ -193,7 +196,8 @@
     color: var(--white);
   }
   .subtitle-three {
-    font-size: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--white);
   }
   
@@ -203,7 +207,7 @@
     /* line-height: 1.225rem; */
   }
   .tab {
-    font-size: 0.75rem;
+    font-size: 0.71875rem;
     color: var(--tabColor);
     line-height: 1.225rem;
     cursor: default;
@@ -213,11 +217,11 @@
   }
   
   .body {
-    font-size: 0.85rem;
+    font-size: 0.71875rem;
     color: var(--white);
   }
   .body-dark {
-    font-size: 0.85rem;
+    font-size: 0.71875rem;
     color: var(--text2);
   }
   
@@ -227,7 +231,7 @@
     border: 0px solid var(--primary);
     background: var(--blue);
     color: var(--white);
-    font-size: 0.85rem;
+    font-size: 0.71875rem;
     cursor: pointer;
     box-shadow: 0px 0.5px 1px 0px rgba(0, 0, 0, 0.8),0px 0.5px 0.5px 0px rgba(255, 255, 255, 0.20) inset;
   }
@@ -247,7 +251,7 @@
     background-color: var(--primary);
     border-radius: 0.25rem;
     border: 1px solid var(--primary);
-    font-size: 0.75rem;
+    font-size: 0.71875rem;
     cursor: pointer;
     box-shadow: 0px 0.5px 1px 0px rgba(0, 0, 0, 0.8),0px 0.5px 0.5px 0px rgba(255, 255, 255, 0.20) inset;
   }
@@ -382,7 +386,7 @@
   .input-main {
     width: 100%;
     padding: 0.25rem 1rem;
-    font-size: 0.85rem;
+    font-size: 0.71875rem;
     background: var(--inputBg);
     outline: none;
     border: 1px solid;
@@ -429,7 +433,7 @@
   }
   
   .home-header {
-    margin-top: 0.75rem;
+    /* margin-top: 0.75rem; */
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
@@ -445,6 +449,9 @@
   
   .home-layout {
     padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
   }
 
   .home-data-info-container{
@@ -458,7 +465,6 @@
   .home-data-info{
     color: var(--Text-text2, #BDBDBD);
     text-align: center;
-    font-family: Inter;
     font-size: 0.71875rem;
     font-style: normal;
     font-weight: 400;
@@ -468,21 +474,23 @@
   .home-data-info-cta{
     color: var(--blueText);
     text-align: center;
-    font-family: Inter;
     font-size: 0.71875rem;
     font-style: normal;
     font-weight: 600;
     line-height: 1rem;
     letter-spacing: -0.00719rem;
   }
-  
+  .home-data-info-cta:hover{
+    color: var(--blueHover);
+  }
   
   .home-card-grid {
     display: flex;
     flex-wrap: wrap;
-    max-height: 21rem;
+    max-height: 20rem;
     overflow-y: scroll;
     padding-right: 4px;
+    margin-bottom: 0.5rem;
   }
   
   /* CSS for Authentication */
@@ -627,11 +635,11 @@
   }
   .back_button span,
   .back_button p{
-    color: var(--actionPrimaryBackground);
+    color: var(--blueText);
   }
   .back_button:hover span,
   .back_button:hover p{
-    color: var(--actionPrimaryBackgroundHover);
+    color: var(--blueHover);
   }
   
   .detail-sub-container-1 {
@@ -828,7 +836,6 @@
     border: 0px solid var(--primary);
     color: var(--black);
     font-size: 1rem;
-    font-family: "Satoshi-Regular";
     cursor: pointer;
     line-height: 1.225rem;
     display: flex;
@@ -869,10 +876,6 @@
   
     .subtitle-two {
       font-size: 1rem;
-    }
-  
-    .body {
-      font-size: 0.8rem;
     }
   
     .large-primary-btn {
@@ -967,11 +970,7 @@
     .home-header-filter {
       display: block;
     }
-  
-    .home-layout {
-      padding: 0 0.5rem;
-    }
-  
+
     /* .hide-scroll {
       flex-wrap: wrap;
     } */
