@@ -22,14 +22,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+  padding: 0.5rem;
   border-bottom: 1px solid;
   border-color: var(--stroke);
 }
 
 .modalContent {
   box-sizing: "border-box";
-  padding: 0.75rem 0.5rem;
 }
 .modalClose{
   position: absolute;

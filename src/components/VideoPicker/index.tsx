@@ -120,17 +120,12 @@ const VideoPicker = (props: VideoPickerProps) => {
   return (
     <div className="video-picker-container">
       <form>
-        <div
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
+        <div>
           <div
             style={{
               display: "flex",
               gap: "1rem",
               alignItems: "center",
-              marginBottom: "0.25rem",
             }}
           >
             <div style={{ flex: 2 }}>

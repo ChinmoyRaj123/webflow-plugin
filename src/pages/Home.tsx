@@ -9,11 +9,12 @@ import { config } from "../utils/default-config";
 import Modal from "../components/Modal";
 import Popover from "../components/Popover";
 import mainconfig from "../config/index";
+import { videoUrlExtensionUpdate, videoUrlUpdate } from "./Detail";
 
 const Home = () => {
   const navigate = useNavigate();
   const [searchTitle, setSearchTitle] = React.useState("");
-  const [avtivePlan, setActivePlan] = React.useState(false);
+  const [activePlan, setActivePlan] = React.useState(false);
   const [data, setData] = React.useState<any>([]);
   const [error, setError] = React.useState(false);
   const [refetch, setRefetch] = React.useState(0);
@@ -114,6 +115,8 @@ const Home = () => {
 
   React.useEffect(() => {
     fetchPlayer();
+    videoUrlUpdate.value = "";
+    videoUrlExtensionUpdate.value = "";
   }, [refetch]);
 
   const searchData =
@@ -250,35 +253,37 @@ const Home = () => {
                 />
               </div>
             </div>
-            <div className="home-data-info-container">
-              <div>
-                <p
-                  className="subtitle-three"
-                  style={{ display: "inline-block" }}
-                >
-                  Usage:&nbsp;
-                </p>
-                <p
-                  className="home-data-info"
-                  style={{ display: "inline-block" }}
-                >
-                  {mediaCount}/{avtivePlan.total_video_upload_limit} Video |{" "}
-                  {avtivePlan.per_video_upload_limit}mb/video
-                </p>
+            {activePlan && activePlan.amount === 0 && (
+              <div className="home-data-info-container">
+                <div>
+                  <p
+                    className="subtitle-three"
+                    style={{ display: "inline-block" }}
+                  >
+                    Usage:&nbsp;
+                  </p>
+                  <p
+                    className="home-data-info"
+                    style={{ display: "inline-block" }}
+                  >
+                    {mediaCount}/{activePlan.total_video_upload_limit} Video |{" "}
+                    {activePlan.per_video_upload_limit}mb/video
+                  </p>
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <a
+                    href={`${mainconfig.HOSTED_URL}/forgot-password`}
+                    target="_blank"
+                    style={{ textDecoration: "none", cursor: "default" }}
+                  >
+                    <p className="home-data-info-cta">Upgrade Plan</p>
+                  </a>
+                </div>
               </div>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <a
-                  href={`${mainconfig.HOSTED_URL}/forgot-password`}
-                  target="_blank"
-                  style={{ textDecoration: "none", cursor: "default" }}
-                >
-                  <p className="home-data-info-cta">Upgrade Plan</p>
-                </a>
-              </div>
-            </div>
+            )}
           </div>
 
-          <div style={{ flex: 1, marginTop: "0.5rem" }}>
+          <div style={{ flex: 1, marginTop: "0.25rem" }}>
             {isLoading ? (
               <p
                 className="body"
@@ -327,7 +332,15 @@ const Home = () => {
                     <CreatePlayer width="100%" setRefetch={setRefetch} />
                   </div>
                 </div>
-                <div className="home-card-grid">
+                <div
+                  className="home-card-grid"
+                  style={{
+                    maxHeight:
+                      activePlan && activePlan.amount === 0
+                        ? "20.8rem"
+                        : "23.5rem",
+                  }}
+                >
                   {searchData.map((item: any, index: number) => {
                     return (
                       <VideoCard

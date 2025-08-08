@@ -535,6 +535,14 @@ const Index = () => {
     }
   }, [videoUrlUpdate.value]);
 
+  const getFileName = (url: string) => {
+    const parts = url.split("/");
+    return parts[parts.length - 1];
+  };
+
+  const truncate = (text: string, maxLength = 40): string =>
+    text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
   if (isLoadingPlayerData)
     return (
       <div
@@ -604,7 +612,7 @@ const Index = () => {
                 boxSizing: "border-box",
               }}
             >
-              <input
+              {/* <input
                 ref={inputRef}
                 className="input-main"
                 type={"text"}
@@ -612,7 +620,31 @@ const Index = () => {
                 placeholder={"Paste Video Link here..."}
                 defaultValue={videoUrlUpdate.value}
                 onInput={(e: any) => (videoUrlUpdate.value = e.target.value)}
-              />
+                /> */}
+              <div
+                className="input-main"
+                style={{
+                  cursor: "default",
+                  borderColor:
+                    videoUrlUpdate && videoUrlUpdate.value
+                      ? "var(--inputBorder)"
+                      : "var(--redBorder)",
+                }}
+              >
+                <p
+                  className="body"
+                  style={{
+                    color:
+                      videoUrlUpdate && videoUrlUpdate.value
+                        ? "var(--white)"
+                        : "var(--tabColor)",
+                  }}
+                >
+                  {videoUrlUpdate?.value
+                    ? truncate(getFileName(videoUrlUpdate.value))
+                    : "No video is uploaded yet, upload a video now."}
+                </p>
+              </div>
             </div>
             <div
               style={{
@@ -637,29 +669,26 @@ const Index = () => {
                   Upload Video
                 </div>
               </button>
-              <p className="label">Or</p>
-              <p className="body">Paste a MP4 or HLS url</p>
+              {/* <p className="label">Or</p> */}
+              {/* <p className="body">Paste a MP4 or HLS url</p> */}
             </div>
 
-            {/* video upload section or choose from the list using modal */}
             <Modal
               isOpen={openModalUpload}
               setOpen={setOpenModalUpload}
-              title={`Upload Video or Choose from the List`}
+              title={`Upload a video and select from media library`}
               size="contain"
             >
-              <div
-                style={{
-                  padding: "0.5rem 1rem",
-                  overflowY: "scroll",
-                }}
-              >
+              <div>
+                <p className="subtitle-three" style={{ padding: "0.5rem" }}>
+                  Upload video
+                </p>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: "2rem",
-                    margin: "0.5rem 0",
+                    margin: "0rem 0.5rem 1rem",
                   }}
                 >
                   <VideoPicker
@@ -673,8 +702,19 @@ const Index = () => {
 
                 <div
                   style={{
+                    borderTop: "1px solid",
+                    borderColor: "var(--stroke)",
+                    padding: "0.5rem",
+                  }}
+                >
+                  <p className="subtitle-three">Media Library</p>
+                </div>
+                <div
+                  style={{
                     maxHeight: "16rem",
                     overflowY: "scroll",
+                    paddingRight: "0.125rem",
+                    margin: "0 0.5rem",
                   }}
                 >
                   {media && media.length > 0 ? (
@@ -683,8 +723,9 @@ const Index = () => {
                         <div
                           key={index}
                           style={{
-                            padding: "0.25rem 0",
-                            paddingLeft: "0.25rem",
+                            paddingBottom:
+                              index === media.length - 1 ? "2px" : "0.25rem",
+                            // paddingLeft: "0.25rem",
                           }}
                         >
                           <div
