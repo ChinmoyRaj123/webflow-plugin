@@ -92,7 +92,7 @@ const Index = (props: VideoCardProps) => {
     <div
       style={{
         width: "100%",
-        padding: "0.25rem 0",
+        paddingTop: indexValue === 0 ? "0" : "0.25rem",
         paddingLeft: "0.25rem",
       }}
     >

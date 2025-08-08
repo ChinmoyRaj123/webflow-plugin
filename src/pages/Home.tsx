@@ -349,8 +349,8 @@ const Home = () => {
                   style={{
                     height:
                       activePlan && activePlan.amount === 0
-                        ? "20.8rem"
-                        : "23.5rem",
+                        ? "20.5rem"
+                        : "23.2rem",
                   }}
                 >
                   {searchData.map((item: any, index: number) => {
