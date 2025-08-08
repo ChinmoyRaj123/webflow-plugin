@@ -403,6 +403,7 @@ const Index = () => {
             "title",
             `${videoTitle || "Video title"}`
           );
+          await domElement.setTextContent("splay_video_player-loading");
           await domElement.setAttribute("width", "100%");
           await domElement.setAttribute("height", "100%");
           await domElement.setAttribute("frameborder", "0");
