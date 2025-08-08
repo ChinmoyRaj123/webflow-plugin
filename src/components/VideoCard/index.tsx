@@ -149,12 +149,23 @@ const Index = (props: VideoCardProps) => {
           <Popover
             position={indexValue === 0 ? "bottom" : "top"}
             trigger={
-              <span
-                className="material-symbols-outlined white media-option-image"
-                style={{ fontSize: "18px" }}
+              <div
+                className="media-option-image"
+                style={{
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "default",
+                }}
               >
-                more_horiz
-              </span>
+                <img
+                  style={{ width: "100%", height: "100%" }}
+                  src={"./icon/More.svg"}
+                ></img>
+              </div>
             }
             content={
               <div>

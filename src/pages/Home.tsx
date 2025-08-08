@@ -230,12 +230,23 @@ const Home = () => {
                 <Popover
                   position={"bottom"}
                   trigger={
-                    <span
-                      className="material-symbols-outlined white media-option-image"
-                      style={{ fontSize: "18px", cursor: "default" }}
+                    <div
+                      className="media-option-image"
+                      style={{
+                        width: "1.5rem",
+                        height: "1.5rem",
+                        boxSizing: "border-box",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "default",
+                      }}
                     >
-                      menu
-                    </span>
+                      <img
+                        style={{ width: "100%", height: "100%" }}
+                        src={"./icon/hamburger.svg"}
+                      ></img>
+                    </div>
                   }
                   content={
                     <div>
@@ -335,7 +346,7 @@ const Home = () => {
                 <div
                   className="home-card-grid"
                   style={{
-                    maxHeight:
+                    height:
                       activePlan && activePlan.amount === 0
                         ? "20.8rem"
                         : "23.5rem",
