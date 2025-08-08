@@ -15,12 +15,12 @@ const Tabs = ({ data, setActiveTab }: any) => {
 
   return (
     <div className="tabs-container">
-      <span
-        className="material-symbols-outlined arrow arrow-left"
-        style={{ cursor: "default", fontSize: "1.25rem", userSelect: "none" }}
-        onClick={() => scrollTabs(-150)}
-      >
-        keyboard_arrow_left
+      <span className=" arrow arrow-left">
+        <img
+          onClick={() => scrollTabs(-150)}
+          style={{ width: "100%", height: "100%" }}
+          src={"./icon/chevron_left.svg"}
+        ></img>
       </span>
       <div className="tabs-wrapper">
         <div className="tabs">
@@ -29,7 +29,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
               <div
                 key={index}
                 className={`tab ${item.name === activeItem ? "active" : ""}`}
-                style={{ paddingBottom: "6px" }}
+                style={{ paddingBottom: "4px" }}
                 onClick={() => {
                   setActiveItem(item.name);
                   setActiveTab(item.name);
@@ -41,12 +41,12 @@ const Tabs = ({ data, setActiveTab }: any) => {
           })}
         </div>
       </div>
-      <span
-        className="material-symbols-outlined arrow arrow-right"
-        style={{ cursor: "default", fontSize: "1.25rem", userSelect: "none" }}
-        onClick={() => scrollTabs(150)}
-      >
-        keyboard_arrow_right
+      <span className=" arrow arrow-right">
+        <img
+          onClick={() => scrollTabs(150)}
+          style={{ width: "100%", height: "100%" }}
+          src={"./icon/chevron_right.svg"}
+        ></img>
       </span>
     </div>
   );

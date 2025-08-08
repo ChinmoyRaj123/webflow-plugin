@@ -589,19 +589,21 @@ const Index = () => {
               </span>
               <p className="body">Back</p>
             </div>
-            <button
-              type="submit"
-              className="large-primary-btn"
-              style={{ padding: "0.175rem 0.5rem" }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span
-                  className="material-symbols-outlined white"
-                  style={{ fontSize: "18px" }}
-                >
-                  code
-                </span>
-                Embed
+            <button type="submit" className="large-primary-btn">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.25rem",
+                }}
+              >
+                <img
+                  style={{ width: "1rem", height: "1rem" }}
+                  src={"./icon/embed.svg"}
+                />
+                <p className="body" style={{ paddingTop: "1px" }}>
+                  Embed
+                </p>
               </div>
             </button>
           </div>
@@ -613,15 +615,6 @@ const Index = () => {
                 boxSizing: "border-box",
               }}
             >
-              {/* <input
-                ref={inputRef}
-                className="input-main"
-                type={"text"}
-                name={"search"}
-                placeholder={"Paste Video Link here..."}
-                defaultValue={videoUrlUpdate.value}
-                onInput={(e: any) => (videoUrlUpdate.value = e.target.value)}
-                /> */}
               <div
                 className="input-main"
                 style={{
@@ -660,14 +653,20 @@ const Index = () => {
                 className="large-secondary-btn"
                 onClick={() => setOpenModalUpload(true)}
               >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <span
-                    className="material-symbols-outlined white"
-                    style={{ fontSize: "18px" }}
-                  >
-                    add
-                  </span>
-                  Upload Video
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.125rem",
+                  }}
+                >
+                  <img
+                    style={{ width: "1rem", height: "1rem" }}
+                    src={"./icon/add.svg"}
+                  />
+                  <p className="body" style={{ paddingTop: "1px" }}>
+                    Upload Video
+                  </p>
                 </div>
               </button>
               {/* <p className="label">Or</p> */}
@@ -732,10 +731,10 @@ const Index = () => {
                           <div
                             className="large-secondary-btn"
                             style={{
-                              paddingRight: 0,
                               display: "flex",
                               justifyContent: "space-between",
                               alignItems: "center",
+                              padding: "0.5rem",
                             }}
                           >
                             <div
@@ -755,67 +754,6 @@ const Index = () => {
                               }}
                             >
                               <p className="body">{item.name}</p>
-                            </div>
-                            <div className="media-options">
-                              <span
-                                id={`more_horiz_${index}`}
-                                className="material-symbols-outlined white media-option-image"
-                                style={{ fontSize: "18px", zIndex: 1000 }}
-                                onClick={() => handlePopupToggle(item, index)}
-                              >
-                                more_horiz
-                              </span>
-                              {ReactDOM.createPortal(
-                                <div
-                                  id={`media_popup_${index}`}
-                                  style={{
-                                    zIndex: popupId === item.id ? 9999 : -1,
-                                    visibility: "hidden",
-                                    opacity: "0",
-                                    position: "absolute",
-                                    minWidth: "7rem",
-                                    top: "0%",
-                                    right: "50%",
-                                    transform: "translate(50%, 0%)",
-                                    padding: "2px 0",
-                                    background: "var(--primary)",
-                                    borderRadius: "0.25rem",
-                                    gap: "1rem",
-                                    filter:
-                                      "drop-shadow(rgba(0, 0, 0, 0.6) 0px 0.5px 0px) drop-shadow(rgba(0, 0, 0, 0.18) 0px 2px 6px) drop-shadow(rgba(0, 0, 0, 0.12) 0px 4px 8px) drop-shadow(rgba(0, 0, 0, 0.08) 0px 8px 16px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 12px 25px)",
-                                  }}
-                                >
-                                  <div
-                                    className="navigation-popup-mobile"
-                                    onClick={() => copyAssets(item)}
-                                  >
-                                    <span
-                                      className="material-symbols-outlined white"
-                                      style={{ fontSize: "14px" }}
-                                    >
-                                      file_copy
-                                    </span>
-                                    <p className="body">Copy Link</p>
-                                  </div>
-                                  {/* <div
-                                    className="navigation-popup-mobile"
-                                    onClick={() => {
-                                      setOpenModalDelete(true);
-                                      setDeleteId(item.id);
-                                      setPopupId("");
-                                    }}
-                                  >
-                                    <span
-                                      className="material-symbols-outlined white"
-                                      style={{ fontSize: "14px" }}
-                                    >
-                                      delete
-                                    </span>
-                                    <p className="body">Delete</p>
-                                  </div> */}
-                                </div>,
-                                document.body
-                              )}
                             </div>
                           </div>
                         </div>

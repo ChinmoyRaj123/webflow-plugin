@@ -246,7 +246,7 @@
   }
   
   .large-secondary-btn {
-    padding: 0.175rem 1rem;
+    padding: 0.25rem 1rem;
     color: var(--white);
     background-color: var(--primary);
     border-radius: 0.25rem;
@@ -809,8 +809,10 @@
 .media-option-image{
     border-radius: 0.25rem;
     padding: 3px;
-}
-.media-option-image:hover{
+    filter:  brightness(0.6);
+  }
+  .media-option-image:hover{
+    filter:  brightness(1);
     background: rgba(255, 255, 255, 0.07);
 }
 
@@ -879,7 +881,7 @@
     .large-primary-btn {
       padding: 0.25rem 0.5rem;
     }
-  
+
     .large-secondary-btn {
       padding: 0.25rem 0.5rem;
     }
