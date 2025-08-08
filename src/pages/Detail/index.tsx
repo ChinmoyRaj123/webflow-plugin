@@ -125,6 +125,7 @@ const Index = () => {
     { name: "Volume Bar" },
     { name: "Settings Menu" },
     { name: "Metadata" },
+    { name: "Branding" },
   ];
   const [activeTab, setActiveTab] = React.useState(tabList[0].name);
 
@@ -827,7 +828,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -874,7 +875,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -918,40 +919,6 @@ const Index = () => {
                       e.target.checked;
                   }}
                 />
-
-                <Toggle
-                  name={"branding"}
-                  label={"Branding"}
-                  checked={videoconfigupdate.value.playercontrol.branding}
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playercontrol.branding =
-                      e.target.checked;
-                  }}
-                />
-
-                <SizePicker
-                  label={"Branding Opacity"}
-                  name={"branding-opacity"}
-                  // @ts-ignore
-                  value={videoconfigupdate.value.playerstyle.branding_opacity}
-                  // @ts-ignore
-                  onChange={(e: any) => {
-                    setReRender(Math.random() * 1000);
-                    videoconfigupdate.value.playerstyle.branding_opacity =
-                      e.target.value;
-                  }}
-                />
-
-                <div style={{ width: "100%" }}>
-                  <ImagePicker
-                    onChange={(val: any) => {
-                      handlePlayerBrandingOnChange(val);
-                    }}
-                    label="Player Branding"
-                    setImageUploading={setBrandUploading}
-                  />
-                </div>
               </div>
             )}
 
@@ -960,7 +927,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1188,7 +1155,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1404,7 +1371,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1476,7 +1443,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1555,7 +1522,7 @@ const Index = () => {
                 style={{
                   width: "100%",
                   marginTop: "0.5rem",
-                  padding: "0 1rem",
+                  padding: "0.5rem 1rem 0 1rem",
                   boxSizing: "border-box",
                 }}
               >
@@ -1645,6 +1612,50 @@ const Index = () => {
                     }}
                     label="Player Thumbnail"
                     setImageUploading={setThumbnailUploading}
+                  />
+                </div>
+              </div>
+            )}
+            {activeTab === tabList[7].name && (
+              <div
+                style={{
+                  width: "100%",
+                  marginTop: "0.5rem",
+                  padding: "0.5rem 1rem 0 1rem",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Toggle
+                  name={"branding"}
+                  label={"Branding"}
+                  checked={videoconfigupdate.value.playercontrol.branding}
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playercontrol.branding =
+                      e.target.checked;
+                  }}
+                />
+
+                <SizePicker
+                  label={"Branding Opacity"}
+                  name={"branding-opacity"}
+                  // @ts-ignore
+                  value={videoconfigupdate.value.playerstyle.branding_opacity}
+                  // @ts-ignore
+                  onChange={(e: any) => {
+                    setReRender(Math.random() * 1000);
+                    videoconfigupdate.value.playerstyle.branding_opacity =
+                      e.target.value;
+                  }}
+                />
+
+                <div style={{ width: "100%" }}>
+                  <ImagePicker
+                    onChange={(val: any) => {
+                      handlePlayerBrandingOnChange(val);
+                    }}
+                    label="Player Branding"
+                    setImageUploading={setBrandUploading}
                   />
                 </div>
               </div>
