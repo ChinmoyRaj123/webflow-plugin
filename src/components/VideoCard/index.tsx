@@ -2,10 +2,6 @@ import React from "react";
 import "./videocard.css";
 import Modal from "../Modal";
 import axios from "../../utils/axios-instance";
-import Cookies from "js-cookie";
-import Toast from "../Toast";
-import config from "../../config";
-import ReactDOM from "react-dom";
 import { timeAgo } from "../../utils/helper";
 import Popover from "../Popover";
 
@@ -223,19 +219,21 @@ const Index = (props: VideoCardProps) => {
         title={`Duplicate player`}
         size="contain"
       >
-        <p className="body">Are you sure want to duplicate player ?</p>
-        <form onSubmit={duplicatePlayer}>
-          <button
-            type="submit"
-            className="large-primary-btn"
-            style={{
-              width: "100%",
-              margin: "0.5rem 0",
-            }}
-          >
-            Yes
-          </button>
-        </form>
+        <div style={{ margin: "0.5rem" }}>
+          <p className="body">Are you sure want to duplicate player ?</p>
+          <form onSubmit={duplicatePlayer}>
+            <button
+              type="submit"
+              className="large-primary-btn"
+              style={{
+                width: "100%",
+                margin: "0.5rem 0",
+              }}
+            >
+              Yes
+            </button>
+          </form>
+        </div>
       </Modal>
 
       <Modal
@@ -244,19 +242,21 @@ const Index = (props: VideoCardProps) => {
         title={`Delete player`}
         size="contain"
       >
-        <p className="body">Are you sure want to delete player ?</p>
-        <form onSubmit={deletePlayer}>
-          <button
-            type="submit"
-            className="large-primary-btn"
-            style={{
-              width: "100%",
-              margin: "0.5rem 0",
-            }}
-          >
-            Yes
-          </button>
-        </form>
+        <div style={{ margin: "0.5rem" }}>
+          <p className="body">Are you sure want to delete player ?</p>
+          <form onSubmit={deletePlayer}>
+            <button
+              type="submit"
+              className="large-primary-btn"
+              style={{
+                width: "100%",
+                margin: "0.5rem 0",
+              }}
+            >
+              Yes
+            </button>
+          </form>
+        </div>
       </Modal>
       <Modal
         isOpen={openRenameModal}
@@ -264,31 +264,33 @@ const Index = (props: VideoCardProps) => {
         title={`Rename the player`}
         size="contain"
       >
-        <p className="body">Player Name</p>
-        <form onSubmit={renamePlayer}>
-          <input
-            className="input-main"
-            style={{ marginTop: "0.25rem" }}
-            type={"text"}
-            defaultValue={playerName}
-            onChange={(e: any) => {
-              setPlayerName(e.target.value);
-            }}
-            name={"player_name"}
-            placeholder="Enter player name"
-            autoComplete="off"
-          ></input>
-          <button
-            type="submit"
-            className="large-primary-btn"
-            style={{
-              width: "100%",
-              margin: "0.5rem 0",
-            }}
-          >
-            Rename
-          </button>
-        </form>
+        <div style={{ margin: "0.5rem" }}>
+          <p className="body">Player Name</p>
+          <form onSubmit={renamePlayer}>
+            <input
+              className="input-main"
+              style={{ marginTop: "0.25rem" }}
+              type={"text"}
+              defaultValue={playerName}
+              onChange={(e: any) => {
+                setPlayerName(e.target.value);
+              }}
+              name={"player_name"}
+              placeholder="Enter player name"
+              autoComplete="off"
+            ></input>
+            <button
+              type="submit"
+              className="large-primary-btn"
+              style={{
+                width: "100%",
+                margin: "0.5rem 0",
+              }}
+            >
+              Rename
+            </button>
+          </form>
+        </div>
       </Modal>
     </div>
   );

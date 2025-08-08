@@ -3,8 +3,6 @@ import "./create-player.css";
 import { useNavigate } from "react-router-dom";
 import { config } from "../../utils/default-config";
 import axios from "../../utils/axios-instance";
-import Cookies from "js-cookie";
-import Toast from "../Toast";
 import Modal from "../Modal";
 
 type CreatePlayerProps = {
@@ -14,21 +12,11 @@ type CreatePlayerProps = {
 
 const Index = (props: CreatePlayerProps) => {
   const { width, setRefetch } = props;
-  const navigate = useNavigate();
   const [isLoading, setLoading] = React.useState(false);
-  const [show, setShow] = React.useState(false);
   const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
   const [playerName, setPlayerName] = React.useState("");
   const [error, setError] = React.useState("");
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
-
-  const showToast = () => {
-    setShow(true);
-  };
-
-  const hideToast = () => {
-    setShow(false);
-  };
 
   const createPlayer = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -40,7 +28,7 @@ const Index = (props: CreatePlayerProps) => {
         config: config,
       };
 
-      const res = await axios.post("/players", data, {
+      await axios.post("/players", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -50,9 +38,16 @@ const Index = (props: CreatePlayerProps) => {
       setTimeout(() => {
         setRefetch(Math.random());
       }, 500);
-      showToast();
+      webflow.notify({
+        type: "Success",
+        message: "Player created successfully!",
+      });
     } catch (error) {
       setLoading(false);
+      webflow.notify({
+        type: "Error",
+        message: "Error creating player!",
+      });
       console.log("error creating player", error);
       setError("");
     }
@@ -80,7 +75,7 @@ const Index = (props: CreatePlayerProps) => {
         title={`Create New Player`}
         size="contain"
       >
-        <div>
+        <div style={{ margin: "0.5rem" }}>
           <form onSubmit={createPlayer}>
             <input
               className="input-main"
@@ -119,21 +114,6 @@ const Index = (props: CreatePlayerProps) => {
           </form>
         </div>
       </Modal>
-
-      <Toast show={show} hideToast={hideToast}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <span className="material-symbols-outlined positive">done</span>
-          <p className="subtitle-two" style={{ marginLeft: "1rem" }}>
-            Player Created
-          </p>
-        </div>
-      </Toast>
     </>
   );
 };

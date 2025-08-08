@@ -10,6 +10,7 @@ import Modal from "../components/Modal";
 import Popover from "../components/Popover";
 import mainconfig from "../config/index";
 import { videoUrlExtensionUpdate, videoUrlUpdate } from "./Detail";
+import Loader from "../components/Loader";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -203,12 +204,13 @@ const Home = () => {
         <div
           style={{
             height: "100vh",
+            width: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <p className="body">Loading...</p>
+          <Loader />
         </div>
       ) : (
         <div className="home-layout">
@@ -296,8 +298,7 @@ const Home = () => {
 
           <div style={{ flex: 1, marginTop: "0.25rem" }}>
             {isLoading ? (
-              <p
-                className="body"
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -306,8 +307,8 @@ const Home = () => {
                   height: "100%",
                 }}
               >
-                Loading...
-              </p>
+                <Loader />
+              </div>
             ) : searchData === null || searchData.length === 0 ? (
               <div>
                 <p className="body" style={{ textAlign: "center" }}>

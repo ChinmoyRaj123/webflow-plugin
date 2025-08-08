@@ -1,11 +1,7 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Navigation from "../../components/Navigation";
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import navigation from "../../database/navigation.json";
 import Cookies from "js-cookie";
-import packagejson from "../../../package.json";
 
 /**
  * This layout returns two spaces divided horizontally.

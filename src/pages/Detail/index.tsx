@@ -11,6 +11,7 @@ import VideoPicker from "../../components/VideoPicker";
 import ReactDOM from "react-dom";
 import Tabs from "../../components/Tabs";
 import DemoPlayer from "../../components/DemoPlayer";
+import Loader from "../../components/Loader";
 
 export const videoUrlUpdate = signal("");
 const playerNameUpdate = signal("");
@@ -553,7 +554,7 @@ const Index = () => {
           height: "100vh",
         }}
       >
-        <p className="body">Loading...</p>
+        <Loader />
       </div>
     );
 

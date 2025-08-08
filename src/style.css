@@ -486,10 +486,8 @@
   }
   
   .home-card-grid {
-    display: flex;
-    flex-wrap: wrap;
     overflow-y: scroll;
-    padding-right: 4px;
+    padding-right: 2px;
     margin-bottom: 0.5rem;
   }
   
