@@ -8,7 +8,6 @@ import ImagePicker from "../../components/ImagePicker";
 import config from "../../config";
 import Modal from "../../components/Modal";
 import VideoPicker from "../../components/VideoPicker";
-import ReactDOM from "react-dom";
 import Tabs from "../../components/Tabs";
 import DemoPlayer from "../../components/DemoPlayer";
 import Loader from "../../components/Loader";
@@ -402,15 +401,12 @@ const Index = () => {
           await domElement.setAttribute("src", embedUrl);
           await domElement.setAttribute(
             "title",
-            `${isLoadingEmbed ? videoTitle : "Video title"}`
+            `${videoTitle || "Video title"}`
           );
           await domElement.setAttribute("width", "100%");
           await domElement.setAttribute("height", "100%");
           await domElement.setAttribute("frameborder", "0");
           await domElement.setAttribute("allowfullscreen", "true");
-          await domElement.setTextContent(
-            `${isLoadingEmbed ? videoDescription : "Video description"}`
-          );
           await domElement.setAttribute("style", "pointer-events: auto;");
         }
       } else {
@@ -429,22 +425,6 @@ const Index = () => {
 
   const generateCode = (url: string) => {
     setEmbedUrl(url);
-    let snipet = `<iframe
-            title="${isLoadingEmbed ? videoTitle : "Video title"}"
-            width="100%"
-            height="100%"
-            loading="lazy"
-            frameborder="0"
-            allowfullscreen
-            src="${url}"
-            style="border: none; outline: none; padding: 0; margin: 0;  cursor: pointer;"
-        >
-         <meta name="description" content="${
-           isLoadingEmbed ? videoDescription : "Video description"
-         }">
-        </iframe>
-       `;
-    setEmbedCode(snipet);
   };
 
   const handlePlayerThumbnailOnChange = (val: string) => {
