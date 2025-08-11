@@ -160,6 +160,7 @@ const Index = (props: VideoCardProps) => {
                 <img
                   style={{ width: "100%", height: "100%" }}
                   src={"./icon/More.svg"}
+                  alt="more_icon"
                 ></img>
               </div>
             }

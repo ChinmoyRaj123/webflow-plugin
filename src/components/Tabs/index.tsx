@@ -20,6 +20,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
           onClick={() => scrollTabs(-150)}
           style={{ width: "100%", height: "100%" }}
           src={"./icon/chevron_left.svg"}
+          alt="left_arrow"
         ></img>
       </span>
       <div className="tabs-wrapper">
@@ -46,6 +47,7 @@ const Tabs = ({ data, setActiveTab }: any) => {
           onClick={() => scrollTabs(150)}
           style={{ width: "100%", height: "100%" }}
           src={"./icon/chevron_right.svg"}
+          alt="right_arrow"
         ></img>
       </span>
     </div>

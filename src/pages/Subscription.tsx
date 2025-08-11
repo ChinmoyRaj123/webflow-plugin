@@ -68,6 +68,7 @@ const Subscription = () => {
                 <img
                   style={{ width: "100%", height: "100%" }}
                   src={"./icon/hamburger.svg"}
+                  alt="nav_menu"
                 ></img>
               </div>
             }

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import CreatePlayer from "../components/CreatePlayer";
 import axios from "../utils/axios-instance";
-import Cookies from "js-cookie";
 import { encodeBase64 } from "../utils/base64";
 import { config } from "../utils/default-config";
 import Modal from "../components/Modal";
@@ -14,6 +13,8 @@ import Loader from "../components/Loader";
 
 const Home = () => {
   const navigate = useNavigate();
+  const accessToken = JSON.parse(localStorage.getItem("s-token"));
+  const user = JSON.parse(localStorage.getItem("s-user"));
   const [searchTitle, setSearchTitle] = React.useState("");
   const [activePlan, setActivePlan] = React.useState(false);
   const [data, setData] = React.useState<any>([]);
@@ -21,8 +22,6 @@ const Home = () => {
   const [refetch, setRefetch] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
   const [isSubsLoading, setSubsLoading] = React.useState(true);
-  const accessToken = JSON.parse(localStorage.getItem("s-token"));
-  const user = JSON.parse(localStorage.getItem("s-user"));
   const [mediaCount, setMediaCount] = React.useState(0);
   const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
   const [playerName, setPlayerName] = React.useState("");
@@ -57,16 +56,7 @@ const Home = () => {
           "s_subs",
           encodeBase64(res.data.subscription?.plan_id)
         );
-        Cookies.set("s_subs", encodeBase64(res.data.subscription?.plan_id), {
-          expires: 7,
-          secure: true,
-          sameSite: "Strict",
-        });
       } else {
-        // navigate({
-        //   pathname: "/checkout",
-        //   search: `?planid=${res.data.subscription?.plan_id}&s_id=${res.data.subscription?.provider?.subscription_id}`,
-        // });
         navigate("/subscription");
       }
     } catch (error: any) {
@@ -130,7 +120,6 @@ const Home = () => {
       }
     });
 
-  //redirects the user to detail page when interacted with card button.
   const handleCardClick = (id: string) => {
     navigate({ pathname: "/detail", search: `?video=${id}` });
   };
@@ -145,7 +134,7 @@ const Home = () => {
         config: config,
       };
 
-      const res = await axios.post("/players", data, {
+      await axios.post("/players", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -167,14 +156,10 @@ const Home = () => {
   };
 
   const handleSignOut = () => {
-    Cookies.remove("s-token");
-    Cookies.remove("splay-token");
-    Cookies.remove("s-user");
-    Cookies.remove("s_subs");
     localStorage.removeItem("s-token");
-    localStorage.removeItem("s-user");
     localStorage.removeItem("splay-token");
-    // navigator({ pathname: '/signin' })
+    localStorage.removeItem("s-user");
+    localStorage.removeItem("s_subs");
     navigate("/signin");
   };
 
@@ -247,6 +232,7 @@ const Home = () => {
                       <img
                         style={{ width: "100%", height: "100%" }}
                         src={"./icon/hamburger.svg"}
+                        alt="nav_menu"
                       ></img>
                     </div>
                   }

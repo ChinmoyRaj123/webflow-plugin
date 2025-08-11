@@ -582,6 +582,7 @@ const Index = () => {
                 <img
                   style={{ width: "1rem", height: "1rem" }}
                   src={"./icon/embed.svg"}
+                  alt="embed_icon"
                 />
                 <p className="body" style={{ paddingTop: "1px" }}>
                   Embed
@@ -645,6 +646,7 @@ const Index = () => {
                   <img
                     style={{ width: "1rem", height: "1rem" }}
                     src={"./icon/add.svg"}
+                    alt="add_icon"
                   />
                   <p className="body" style={{ paddingTop: "1px" }}>
                     Upload Video

@@ -281,47 +281,13 @@
   
   .fixed-button-style {
     width: 100%;
-    /* margin: 2rem 0; */
   }
-  
-  /* .small-primary-btn {
-    padding: 0.5rem 1rem;
-    height: 2.25rem;
-    border-radius: 0.25rem;
-    border: 0px solid var(--primary);
-    color: var(--white);
-    background: var(--primary);
-    font-size: 0.875rem;
-    cursor: pointer;
-  } */
-  
-  /* .small-primary-btn:hover {
-    background: var(--black);
-    transition: all 0.4s ease-in-out;
-  } */
-  
-  /* .small-secondary-btn {
-    padding: 0.5rem 1rem;
-    height: 2.25rem;
-    color: var(--primary);
-    border-radius: 0.25rem;
-    border: 1px solid var(--primary);
-    font-size: 0.875rem;
-    cursor: pointer;
-  } */
-  
-  /* .small-secondary-btn:hover {
-    border: 1px solid var(--black);
-    color: var(--black);
-    transition: all 0.4s ease-in-out;
-  } */
   
   .large-navigation-btn {
     height: 2.5rem;
     padding: 0.5rem 1.5rem;
     border-radius: 0.25rem;
     border: 1px solid var(--white);
-    /* background: var(--surface); */
     color: var(--black);
     font-size: 1rem;
     cursor: pointer;
@@ -333,7 +299,6 @@
   
   .large-navigation-btn:hover {
     border: 1px solid var(--stroke);
-    /* background: var(--white); */
     transition: all 0.4s ease-in-out;
   }
   
@@ -491,8 +456,6 @@
     margin-bottom: 0.5rem;
   }
   
-  /* CSS for Authentication */
-  
   .auth-layout-main {
     display: flex;
     width: 100%;
@@ -529,7 +492,6 @@
     align-items: center;
   }
   
-  /* CSS for Authentication */
   .auth-form {
     padding: 0.5rem;
     border-radius: 0.25rem;
@@ -587,7 +549,6 @@
     margin: 5rem 0;
   }
   
-  /* CSS for detail page */
   .home-layout-body {
     width: 100%;
     height: 100%;
@@ -596,7 +557,6 @@
   
   .left-navigation {
     width: 15rem;
-    /* background-color: var(--surface); */
     border-right: 1px solid var(--stroke);
     height: calc(100vh - 80px);
     position: fixed;
@@ -610,15 +570,12 @@
     left: 15rem;
     top: 80px;
     height: calc(100vh - 80px);
-    /* background-color: var(--surface); */
-    /* border: 1px solid var(--stroke); */
     z-index: 20;
     overflow-y: scroll;
   }
   
   .detail-main {
     width: 100%;
-    /* height: calc(100vh - 30px); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -863,7 +820,7 @@
 
 .navigation-popup-mobile:hover{
     background: var(--primaryHover);
-  }
+}
   
   @media only screen and (max-width: 1590px) {
     .heading {

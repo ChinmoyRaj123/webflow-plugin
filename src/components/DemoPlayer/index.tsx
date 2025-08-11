@@ -82,7 +82,11 @@ const IconButton = ({
         onHoverOutStyle();
       }}
     >
-      <img style={{ width: "100%", height: "100%" }} src={src}></img>
+      <img
+        style={{ width: "100%", height: "100%" }}
+        src={src}
+        alt="small_icon"
+      ></img>
     </div>
   );
 };
@@ -579,7 +583,7 @@ const DemoPlayer = ({
               {!brandUploading ? (
                 <img
                   src={logo || "./logo-white.png"}
-                  alt="no-image"
+                  alt="logo"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -654,6 +658,7 @@ const DemoPlayer = ({
                 height: `${24 * scaledValue}px`,
               }}
               src="./icon/tune.svg"
+              alt="settings_icon"
             ></img>
             <p
               style={{
@@ -679,6 +684,7 @@ const DemoPlayer = ({
                 height: `${24 * scaledValue}px`,
               }}
               src="./icon/chevron_right.svg"
+              alt="right_arrow"
             ></img>
           </div>
         </div>
@@ -703,6 +709,7 @@ const DemoPlayer = ({
                 height: `${24 * scaledValue}px`,
               }}
               src="./icon/slow_motion_video.svg"
+              alt="playback_speed"
             ></img>
             <p
               style={{
@@ -728,6 +735,7 @@ const DemoPlayer = ({
                 height: `${24 * scaledValue}px`,
               }}
               src="./icon/chevron_right.svg"
+              alt="right_arrow"
             ></img>
           </div>
         </div>
