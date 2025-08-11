@@ -552,25 +552,30 @@ const Index = () => {
               margin: "0.5rem 0.5rem 0 0.5rem",
             }}
           >
-            <div
+            <button
+              type="button"
               className="back_button"
               style={{
                 display: "flex",
                 alignItems: "center",
                 cursor: "default",
+                background: "transparent",
+                border: "none",
+                padding: "0.25rem 0",
               }}
               onClick={() => {
                 window.history.back();
               }}
             >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontSize: "18px" }}
-              >
-                chevron_left
-              </span>
-              <p className="body">Back</p>
-            </div>
+              <img
+                style={{ width: "1rem", height: "1rem" }}
+                src={"./icon/blue_chevron_left.svg"}
+                alt="left_arrow"
+              ></img>
+              <p className="body" style={{ paddingTop: "1px" }}>
+                Back
+              </p>
+            </button>
             <button
               aria-label="Embed"
               type="submit"

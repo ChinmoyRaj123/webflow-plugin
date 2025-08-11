@@ -588,13 +588,14 @@
     display: flex;
     /* margin: 0 1rem; */
   }
-  .back_button span,
   .back_button p{
     color: var(--blueText);
   }
-  .back_button:hover span,
   .back_button:hover p{
     color: var(--blueHover);
+  }
+  .back_button:hover img{
+    content: url("../public/icon/blue_chevron_left_hover.svg");
   }
   
   .detail-sub-container-1 {

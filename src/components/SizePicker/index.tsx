@@ -14,28 +14,40 @@ const Index = (props: SizePickerProps) => {
   const rendericon = () => {
     if (name?.includes("margin")) {
       return (
-        <button style={{ border: "none", background: "transparent" }}>
+        <button
+          type="button"
+          style={{ border: "none", background: "transparent" }}
+        >
           <span className="material-symbols-outlined icon_image">padding</span>
         </button>
       );
     }
     if (name?.includes("opacity")) {
       return (
-        <button style={{ border: "none", background: "transparent" }}>
+        <button
+          type="button"
+          style={{ border: "none", background: "transparent" }}
+        >
           <span className="material-symbols-outlined icon_image">opacity</span>
         </button>
       );
     }
     if (name?.includes("padding")) {
       return (
-        <button style={{ border: "none", background: "transparent" }}>
+        <button
+          type="button"
+          style={{ border: "none", background: "transparent" }}
+        >
           <span className="material-symbols-outlined icon_image">padding</span>
         </button>
       );
     }
     if (name?.includes("radius")) {
       return (
-        <button style={{ border: "none", background: "transparent" }}>
+        <button
+          type="button"
+          style={{ border: "none", background: "transparent" }}
+        >
           <span className="material-symbols-outlined icon_image">
             line_curve
           </span>
@@ -44,7 +56,10 @@ const Index = (props: SizePickerProps) => {
     }
     if (name?.includes("spacing")) {
       return (
-        <button style={{ border: "none", background: "transparent" }}>
+        <button
+          type="button"
+          style={{ border: "none", background: "transparent" }}
+        >
           <span className="material-symbols-outlined icon_image">
             format_line_spacing
           </span>
