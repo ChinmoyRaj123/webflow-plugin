@@ -96,8 +96,7 @@ const Index = (props: VideoCardProps) => {
         paddingLeft: "0.25rem",
       }}
     >
-      <button
-        type="button"
+      <div
         aria-label="video card"
         className="large-secondary-btn"
         style={{
@@ -109,6 +108,7 @@ const Index = (props: VideoCardProps) => {
         }}
       >
         <div
+          tabIndex={0}
           style={{
             display: "flex",
             gap: "0.5rem",
@@ -215,7 +215,7 @@ const Index = (props: VideoCardProps) => {
             }
           />
         </button>
-      </button>
+      </div>
 
       <Modal
         isOpen={openDuplicateModal}

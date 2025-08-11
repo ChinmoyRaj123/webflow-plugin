@@ -112,7 +112,6 @@ const Index = () => {
   const [file, setFile] = React.useState<any>();
   const [brandUploading, setBrandUploading] = React.useState(false);
   const [thumbnailUploading, setThumbnailUploading] = React.useState(false);
-  const [popupId, setPopupId] = React.useState("");
   const [deleteId, setDeleteId] = React.useState("");
   const [openModalDelete, setOpenModalDelete] = React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -131,15 +130,7 @@ const Index = () => {
   const generateToken = async (player_id: string) => {
     setLoadingEmbed(true);
     try {
-      const res = await axios.get(`/players/${player_id}/tokens`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      // console.log('token generated', res);
-      generateCode(
-        `${config.BASE_URL}/players/embed/${player_id}/${res.data.token}`
-      );
+      generateCode(`${config.BASE_URL}/players/embed/${player_id}`);
       setLoadingEmbed(false);
     } catch (error) {
       setLoadingEmbed(false);
@@ -410,6 +401,10 @@ const Index = () => {
           await domElement.setAttribute("allowfullscreen", "true");
           await domElement.setAttribute("style", "pointer-events: auto;");
         }
+        await webflow.notify({
+          type: "Success",
+          message: "Videoplayer embeded successfully!",
+        });
       } else {
         await webflow.notify({
           type: "Error",
