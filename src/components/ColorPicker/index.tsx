@@ -42,7 +42,6 @@ const Index = (props: ColorPickerProps) => {
           id={name}
           name={name}
           value={newValue}
-          // onChange={() => { onChange(); setReRender(Math.random() * 1000) }}
           onChange={(e) => {
             setNewValue(e.target.value);
           }}
@@ -61,9 +60,6 @@ const Index = (props: ColorPickerProps) => {
           onChange={(e) => {
             setNewValue(e.target.value);
           }}
-          // value={newValue}
-          // defaultValue={newValue}
-          // onInput={() => { onChange(); setReRender(Math.random() * 1000) }}
         />
       </div>
     </div>

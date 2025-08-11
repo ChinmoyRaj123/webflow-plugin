@@ -762,6 +762,8 @@
     cursor: pointer;
     user-select: none;
     margin-right: 0.25rem;
+    border:none;
+    background: transparent;
 }
 .media-option-image{
     border-radius: 0.25rem;

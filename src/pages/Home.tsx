@@ -213,7 +213,7 @@ const Home = () => {
                 {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s
                 Dashboard
               </p>
-              <div className="media-options">
+              <button aria-label="more_icon" className="media-options">
                 <Popover
                   position={"bottom"}
                   trigger={
@@ -250,7 +250,7 @@ const Home = () => {
                     </div>
                   }
                 />
-              </div>
+              </button>
             </div>
             {activePlan && activePlan.amount === 0 && (
               <div className="home-data-info-container">

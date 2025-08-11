@@ -29,6 +29,7 @@
     transition: background-color 0.3s;
     font-size:  0.71875rem;
     color: var(--tabColor);
+    border: 2px solid transparent;
 }
 
 .tab:hover {
@@ -47,7 +48,6 @@
     -webkit-filter: invert(100%);
     filter: invert(100%);
     border-radius: 0.25rem;
-
     width: 1.25rem;
     height: 1.25rem;
     box-sizing: border-box;
@@ -57,6 +57,8 @@
     cursor: default;
     user-select: none;
     filter: brightness(0) invert(1) brightness(0.6);
+    background: transparent;
+    border: none;
 }
 
 .arrow:hover {

@@ -96,13 +96,15 @@ const Index = (props: VideoCardProps) => {
         paddingLeft: "0.25rem",
       }}
     >
-      <div
+      <button
+        aria-label="video card"
         className="large-secondary-btn"
         style={{
           padding: "0.5rem",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          width: "100%",
         }}
       >
         <div
@@ -141,7 +143,7 @@ const Index = (props: VideoCardProps) => {
             </p>
           </div>
         </div>
-        <div className="media-options">
+        <button aria-label="more_icon" className="media-options">
           <Popover
             position={indexValue === 0 ? "bottom" : "top"}
             trigger={
@@ -211,8 +213,8 @@ const Index = (props: VideoCardProps) => {
               </div>
             }
           />
-        </div>
-      </div>
+        </button>
+      </button>
 
       <Modal
         isOpen={openDuplicateModal}

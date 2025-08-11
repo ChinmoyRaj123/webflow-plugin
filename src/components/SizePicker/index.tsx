@@ -14,29 +14,41 @@ const Index = (props: SizePickerProps) => {
   const rendericon = () => {
     if (name?.includes("margin")) {
       return (
-        <span className="material-symbols-outlined icon_image">padding</span>
+        <button style={{ border: "none", background: "transparent" }}>
+          <span className="material-symbols-outlined icon_image">padding</span>
+        </button>
       );
     }
     if (name?.includes("opacity")) {
       return (
-        <span className="material-symbols-outlined icon_image">opacity</span>
+        <button style={{ border: "none", background: "transparent" }}>
+          <span className="material-symbols-outlined icon_image">opacity</span>
+        </button>
       );
     }
     if (name?.includes("padding")) {
       return (
-        <span className="material-symbols-outlined icon_image">padding</span>
+        <button style={{ border: "none", background: "transparent" }}>
+          <span className="material-symbols-outlined icon_image">padding</span>
+        </button>
       );
     }
     if (name?.includes("radius")) {
       return (
-        <span className="material-symbols-outlined icon_image">line_curve</span>
+        <button style={{ border: "none", background: "transparent" }}>
+          <span className="material-symbols-outlined icon_image">
+            line_curve
+          </span>
+        </button>
       );
     }
     if (name?.includes("spacing")) {
       return (
-        <span className="material-symbols-outlined icon_image">
-          format_line_spacing
-        </span>
+        <button style={{ border: "none", background: "transparent" }}>
+          <span className="material-symbols-outlined icon_image">
+            format_line_spacing
+          </span>
+        </button>
       );
     }
   };

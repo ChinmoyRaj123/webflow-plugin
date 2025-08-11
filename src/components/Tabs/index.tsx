@@ -15,41 +15,43 @@ const Tabs = ({ data, setActiveTab }: any) => {
 
   return (
     <div className="tabs-container">
-      <span className=" arrow arrow-left">
+      <button aria-label="arrow left" className="arrow arrow-left">
         <img
           onClick={() => scrollTabs(-150)}
           style={{ width: "100%", height: "100%" }}
           src={"./icon/chevron_left.svg"}
           alt="left_arrow"
         ></img>
-      </span>
+      </button>
       <div className="tabs-wrapper">
         <div className="tabs">
           {data.map((item, index) => {
             return (
-              <div
+              <button
+                type="button"
+                aria-label={item.name}
                 key={index}
                 className={`tab ${item.name === activeItem ? "active" : ""}`}
-                style={{ paddingBottom: "4px" }}
+                style={{ paddingBottom: "4px", background: "transparent" }}
                 onClick={() => {
                   setActiveItem(item.name);
                   setActiveTab(item.name);
                 }}
               >
                 {item.name}
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
-      <span className=" arrow arrow-right">
+      <button aria-label="arrow right" className="arrow arrow-right">
         <img
           onClick={() => scrollTabs(150)}
           style={{ width: "100%", height: "100%" }}
           src={"./icon/chevron_right.svg"}
           alt="right_arrow"
         ></img>
-      </span>
+      </button>
     </div>
   );
 };
