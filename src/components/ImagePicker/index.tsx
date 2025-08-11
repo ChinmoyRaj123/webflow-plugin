@@ -164,17 +164,20 @@ const ImagePicker = ({
 
       <div className="imageUpload-main">
         <p className="label">{fileName}</p>
-        <label style={{ width: "100%" }} htmlFor={pickerId}>
-          <div
-            className="large-secondary-btn"
-            style={{
-              width: "100%",
-              padding: "0.25rem",
-              textAlign: "center",
-            }}
-          >
+        <label
+          className="large-secondary-btn"
+          style={{ width: "100%" }}
+          htmlFor={pickerId}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              document.getElementById(pickerId)?.click();
+            }
+          }}
+        >
+          <p className="body" style={{ textAlign: "center" }}>
             {isLoading ? "Loading.." : "Upload"}
-          </div>
+          </p>
         </label>
         <input
           aria-label="image_picker_input"

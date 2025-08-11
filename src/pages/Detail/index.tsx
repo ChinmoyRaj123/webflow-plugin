@@ -442,43 +442,6 @@ const Index = () => {
     setReRender(Math.random() * 1000);
   };
 
-  const handlePopupToggle = (item: any, index: number) => {
-    if (popupId === item.id) {
-      setPopupId("");
-    } else {
-      setPopupId(item.id);
-      const div = document.querySelector(`#more_horiz_${index}`);
-      const topOffset = div.getBoundingClientRect().top + window.scrollY;
-      const el = document.querySelector(`#media_popup_${index}`);
-      console.log("el", el);
-
-      if (el instanceof HTMLElement) {
-        el.style.visibility = "visible";
-        el.style.zIndex = "9999";
-        el.style.opacity = "1";
-        el.style.top = `${topOffset - 10}px`;
-        el.style.right = "0%";
-        el.style.transform = "translate(-32%, -100%)";
-      }
-    }
-  };
-
-  const copyAssets = async (item: any) => {
-    // const element = document.createElement("textarea");
-    // element.innerText = new URL(item.url, config.VIDEO_CDN_URL).toString();
-    // document.body.appendChild(element);
-    // element?.select();
-    // element?.setSelectionRange(0, 99999);
-    // document.execCommand("copy");
-    // element.remove();
-    // await webflow.notify({
-    //   type: "Success",
-    //   message: "Video URL Copied!",
-    // });
-    // setPopupId("");
-    // console.log("copied");
-  };
-
   const deleteAssets = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -487,7 +450,6 @@ const Index = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("delete", res);
       setOpenModalDelete(false);
       setDeleteId("");
       await webflow.notify({

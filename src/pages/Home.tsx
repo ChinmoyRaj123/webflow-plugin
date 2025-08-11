@@ -417,7 +417,10 @@ const TopbarContent = ({ handleOnClick, contentName }: TopbarContentType) => {
         handleOnClick(contentName);
       }}
     >
-      <p className={`${contentName === "Logout" ? "logout-text" : "body"}`}>
+      <p
+        className={`${contentName === "Logout" ? "logout-text" : "body"}`}
+        style={{ textAlign: "left" }}
+      >
         {contentName || "Duplicate"}
       </p>
     </div>
