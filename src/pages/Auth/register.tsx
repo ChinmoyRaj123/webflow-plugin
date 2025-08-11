@@ -267,6 +267,7 @@ const Register = () => {
             <div>
               <p className="input-title">Enter OTP</p>
               <input
+                aria-label="otp_input"
                 className="input-main"
                 type={"password"}
                 value={pin}
@@ -290,6 +291,7 @@ const Register = () => {
             </div>
 
             <button
+              aria-label="Verify OTP"
               type="submit"
               className="large-primary-btn"
               style={{
@@ -320,6 +322,7 @@ const Register = () => {
           <>
             <p className="register-success-heading">Account Created</p>
             <button
+              aria-label="Sign In"
               className="large-primary-btn"
               style={{
                 width: "100%",
@@ -339,6 +342,7 @@ const Register = () => {
                   {item.type === "password" ? (
                     <div className="input-container">
                       <input
+                        aria-label="password_input"
                         className="input-main"
                         autoComplete={"off"}
                         type={checkPasswordType(item.name)}
@@ -371,6 +375,7 @@ const Register = () => {
                     </div>
                   ) : (
                     <input
+                      aria-label="password_input"
                       className="input-main"
                       autoComplete={"off"}
                       type={item.type}
@@ -403,6 +408,7 @@ const Register = () => {
 
             <div style={{ marginTop: "0.5rem" }}>
               <button
+                aria-label="Sign Up"
                 type="submit"
                 className="large-primary-btn"
                 style={{
@@ -414,6 +420,7 @@ const Register = () => {
             </div>
             <div style={{ marginTop: "1rem" }}>
               <button
+                aria-label="Sign In"
                 className="large-secondary-btn"
                 style={{
                   width: "100%",

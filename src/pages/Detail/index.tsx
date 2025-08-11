@@ -571,7 +571,11 @@ const Index = () => {
               </span>
               <p className="body">Back</p>
             </div>
-            <button type="submit" className="large-primary-btn">
+            <button
+              aria-label="Embed"
+              type="submit"
+              className="large-primary-btn"
+            >
               <div
                 style={{
                   display: "flex",
@@ -632,6 +636,7 @@ const Index = () => {
               }}
             >
               <button
+                aria-label="Upload Video"
                 type="button"
                 className="large-secondary-btn"
                 onClick={() => setOpenModalUpload(true)}
@@ -767,6 +772,7 @@ const Index = () => {
               <p className="body">Are you sure want to delete asset ?</p>
               <form onSubmit={deleteAssets}>
                 <button
+                  aria-label="Yes"
                   type="submit"
                   className="large-primary-btn"
                   style={{
@@ -1530,6 +1536,7 @@ const Index = () => {
                     Title
                   </p>
                   <input
+                    aria-label="videotitle_input"
                     className="input-main"
                     type={"text"}
                     defaultValue={videoconfigupdate.value.videotitle}
@@ -1553,6 +1560,7 @@ const Index = () => {
                     Description
                   </p>
                   <input
+                    aria-label="video_description"
                     className="input-main"
                     type={"text"}
                     defaultValue={videoconfigupdate.value.videodescription}

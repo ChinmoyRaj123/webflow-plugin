@@ -149,6 +149,7 @@ const Login = () => {
           <div>
             <p className="input-title">Enter OTP</p>
             <input
+              aria-label="otp_input"
               className="input-main"
               type={"password"}
               value={pin}
@@ -169,6 +170,7 @@ const Login = () => {
           </div>
 
           <button
+            aria-label="Verify OTP"
             type="submit"
             className="large-primary-btn"
             style={{
@@ -198,6 +200,7 @@ const Login = () => {
         <form onSubmit={handleLoginApiCall}>
           <p className="input-title">Email</p>
           <input
+            aria-label="email_input"
             className="input-main"
             type="email"
             value={inputEmail}
@@ -217,6 +220,7 @@ const Login = () => {
           <p className="input-title">Password</p>
           <div className="input-container">
             <input
+              aria-label="password_input"
               className="input-main"
               autoComplete="off"
               type={!visibility ? "password" : "text"}
@@ -263,6 +267,7 @@ const Login = () => {
 
           <div style={{ marginTop: "0.5rem" }}>
             <button
+              aria-label="Sign In"
               type="submit"
               className="large-primary-btn"
               style={{
@@ -287,6 +292,7 @@ const Login = () => {
 
           <div style={{ marginTop: "0.5rem" }}>
             <button
+              aria-label="No account"
               className="large-secondary-btn"
               style={{
                 width: "100%",

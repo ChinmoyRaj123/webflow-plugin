@@ -177,6 +177,7 @@ const ImagePicker = ({
           </div>
         </label>
         <input
+          aria-label="image_picker_input"
           type="file"
           id={pickerId}
           style={{ display: "none" }}

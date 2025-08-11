@@ -301,6 +301,7 @@ const Home = () => {
                   Click on "Create Player" to get started.
                 </p>
                 <button
+                  aria-label="Create Player"
                   className="large-primary-btn"
                   style={{
                     marginTop: "0.5rem",
@@ -318,6 +319,7 @@ const Home = () => {
               <>
                 <div className="home-header">
                   <input
+                    aria-label="search_input"
                     className="input-main"
                     type={"text"}
                     name={"search"}
@@ -364,6 +366,7 @@ const Home = () => {
             <div>
               <form onSubmit={createPlayer}>
                 <input
+                  aria-label="player_name_input"
                   className="input-main"
                   style={{
                     width: "100%",
@@ -389,6 +392,7 @@ const Home = () => {
                 </div>
 
                 <button
+                  aria-label="Continue"
                   type="submit"
                   className="large-primary-btn"
                   style={{

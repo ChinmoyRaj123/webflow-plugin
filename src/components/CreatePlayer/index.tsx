@@ -56,6 +56,7 @@ const Index = (props: CreatePlayerProps) => {
   return (
     <>
       <button
+        aria-label="Create_player"
         className="large-primary-btn"
         style={{
           width: "100%",
@@ -78,6 +79,7 @@ const Index = (props: CreatePlayerProps) => {
         <div style={{ margin: "0.5rem" }}>
           <form onSubmit={createPlayer}>
             <input
+              aria-label="modal_input"
               className="input-main"
               style={{
                 width: "100%",
@@ -103,6 +105,7 @@ const Index = (props: CreatePlayerProps) => {
             </div>
 
             <button
+              aria-label="Continue"
               type="submit"
               className="large-primary-btn"
               style={{

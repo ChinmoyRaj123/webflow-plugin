@@ -74,6 +74,7 @@ const Index = (props: SizePickerProps) => {
         {rendericon()}
         <div className="size-input-wrapper" style={{ position: "relative" }}>
           <input
+            aria-label="size_picker_input"
             className="size-input"
             type="number"
             name={name}

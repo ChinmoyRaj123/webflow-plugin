@@ -23,6 +23,7 @@ const Toggle = ({ checked, onChange, label, name }: ToggleProps) => {
 
       <label className="toggle-container">
         <input
+          aria-label="toggle_input"
           name={name}
           className="toggle-button"
           type="checkbox"

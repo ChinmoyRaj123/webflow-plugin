@@ -224,6 +224,7 @@ const Index = (props: VideoCardProps) => {
           <p className="body">Are you sure want to duplicate player ?</p>
           <form onSubmit={duplicatePlayer}>
             <button
+              aria-label="Yes"
               type="submit"
               className="large-primary-btn"
               style={{
@@ -247,6 +248,7 @@ const Index = (props: VideoCardProps) => {
           <p className="body">Are you sure want to delete player ?</p>
           <form onSubmit={deletePlayer}>
             <button
+              aria-label="Yes"
               type="submit"
               className="large-primary-btn"
               style={{
@@ -269,6 +271,7 @@ const Index = (props: VideoCardProps) => {
           <p className="body">Player Name</p>
           <form onSubmit={renamePlayer}>
             <input
+              aria-label="player_name_input"
               className="input-main"
               style={{ marginTop: "0.25rem" }}
               type={"text"}
@@ -281,6 +284,7 @@ const Index = (props: VideoCardProps) => {
               autoComplete="off"
             ></input>
             <button
+              aria-label="Rename"
               type="submit"
               className="large-primary-btn"
               style={{

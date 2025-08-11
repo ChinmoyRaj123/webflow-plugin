@@ -142,6 +142,7 @@ const VideoPicker = (props: VideoPickerProps) => {
                   </p>
                 </label>
                 <input
+                  aria-label="video_picker_input"
                   type="file"
                   id={pickerId}
                   style={{ display: "none" }}
@@ -153,6 +154,7 @@ const VideoPicker = (props: VideoPickerProps) => {
             {file && !loading && (
               <div style={{ display: "flex", gap: "0.25rem", flex: 1 }}>
                 <button
+                  aria-label="Cancel"
                   className="large-secondary-btn"
                   style={{
                     width: "100%",
@@ -165,6 +167,7 @@ const VideoPicker = (props: VideoPickerProps) => {
                   {"Cancel"}
                 </button>
                 <button
+                  aria-label="Upload"
                   className="large-primary-btn"
                   style={{
                     width: "100%",

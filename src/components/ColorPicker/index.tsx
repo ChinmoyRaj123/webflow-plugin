@@ -36,6 +36,7 @@ const Index = (props: ColorPickerProps) => {
         }}
       >
         <input
+          aria-label="color_picker_input"
           className="color-picker-input"
           type="color"
           id={name}
@@ -50,6 +51,7 @@ const Index = (props: ColorPickerProps) => {
         />
 
         <input
+          aria-label="color_hex_input"
           className="color-hex-input"
           id={name}
           name={name}
