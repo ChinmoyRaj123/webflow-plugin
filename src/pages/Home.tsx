@@ -213,7 +213,11 @@ const Home = () => {
                 {user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s
                 Dashboard
               </p>
-              <button aria-label="more_icon" className="media-options">
+              <button
+                type="button"
+                aria-label="more_icon"
+                className="media-options"
+              >
                 <Popover
                   position={"bottom"}
                   trigger={
@@ -295,26 +299,6 @@ const Home = () => {
               >
                 <Loader />
               </div>
-            ) : searchData === null || searchData.length === 0 ? (
-              <div>
-                <p className="body" style={{ textAlign: "center" }}>
-                  Click on "Create Player" to get started.
-                </p>
-                <button
-                  aria-label="Create Player"
-                  className="large-primary-btn"
-                  style={{
-                    marginTop: "0.5rem",
-                    width: "100%",
-                    padding: "0.25rem",
-                  }}
-                  onClick={() => {
-                    setOpenModalAdd(true);
-                  }}
-                >
-                  Create Player
-                </button>
-              </div>
             ) : (
               <>
                 <div className="home-header">
@@ -332,27 +316,35 @@ const Home = () => {
                     <CreatePlayer width="100%" setRefetch={setRefetch} />
                   </div>
                 </div>
-                <div
-                  className="home-card-grid"
-                  style={{
-                    height:
-                      activePlan && activePlan.amount === 0
-                        ? "20.5rem"
-                        : "23.2rem",
-                  }}
-                >
-                  {searchData.map((item: any, index: number) => {
-                    return (
-                      <VideoCard
-                        key={index}
-                        indexValue={index}
-                        data={item}
-                        handleCardClick={handleCardClick}
-                        setRefetch={setRefetch}
-                      />
-                    );
-                  })}
-                </div>
+                {searchData === null || searchData.length === 0 ? (
+                  <div>
+                    <p className="body" style={{ textAlign: "center" }}>
+                      No player found. Click "Create Player" to add one.
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    className="home-card-grid"
+                    style={{
+                      height:
+                        activePlan && activePlan.amount === 0
+                          ? "20.5rem"
+                          : "23.2rem",
+                    }}
+                  >
+                    {searchData.map((item: any, index: number) => {
+                      return (
+                        <VideoCard
+                          key={index}
+                          indexValue={index}
+                          data={item}
+                          handleCardClick={handleCardClick}
+                          setRefetch={setRefetch}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </>
             )}
           </div>

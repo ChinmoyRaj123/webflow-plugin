@@ -322,6 +322,7 @@ const Register = () => {
           <>
             <p className="register-success-heading">Account Created</p>
             <button
+              type="button"
               aria-label="Sign In"
               className="large-primary-btn"
               style={{
@@ -420,6 +421,7 @@ const Register = () => {
             </div>
             <div style={{ marginTop: "1rem" }}>
               <button
+                type="button"
                 aria-label="Sign In"
                 className="large-secondary-btn"
                 style={{

@@ -56,6 +56,7 @@ const Index = (props: CreatePlayerProps) => {
   return (
     <>
       <button
+        type="button"
         aria-label="Create_player"
         className="large-primary-btn"
         style={{

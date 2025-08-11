@@ -292,6 +292,7 @@ const Login = () => {
 
           <div style={{ marginTop: "0.5rem" }}>
             <button
+              type="button"
               aria-label="No account"
               className="large-secondary-btn"
               style={{

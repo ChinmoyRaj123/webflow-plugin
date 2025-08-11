@@ -23,12 +23,12 @@ const Toggle = ({ checked, onChange, label, name }: ToggleProps) => {
 
       <label className="toggle-container">
         <input
+          tabIndex={0}
           role="switch"
           aria-checked={checked}
           name={name}
           className="toggle-button"
           type="checkbox"
-          defaultChecked={checked}
           checked={checked}
           onChange={onChange}
         />

@@ -135,8 +135,18 @@ const VideoPicker = (props: VideoPickerProps) => {
             </div>
 
             {!file && !loading && (
-              <div className="large-secondary-btn" style={{ flex: 1 }}>
-                <label style={{ width: "100%" }} htmlFor={pickerId}>
+              <>
+                <label
+                  className="large-secondary-btn"
+                  style={{ width: "100%", flex: 1 }}
+                  htmlFor={pickerId}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      document.getElementById(pickerId)?.click();
+                    }
+                  }}
+                >
                   <p className="body" style={{ textAlign: "center" }}>
                     Choose file
                   </p>
@@ -149,7 +159,7 @@ const VideoPicker = (props: VideoPickerProps) => {
                   accept="video/*"
                   onChange={handleFileChange}
                 />
-              </div>
+              </>
             )}
             {file && !loading && (
               <div style={{ display: "flex", gap: "0.25rem", flex: 1 }}>

@@ -658,8 +658,6 @@ const Index = () => {
                   </p>
                 </div>
               </button>
-              {/* <p className="label">Or</p> */}
-              {/* <p className="body">Paste a MP4 or HLS url</p> */}
             </div>
 
             <Modal
@@ -717,13 +715,24 @@ const Index = () => {
                             // paddingLeft: "0.25rem",
                           }}
                         >
-                          <div
+                          <button
+                            type="button"
                             className="large-secondary-btn"
                             style={{
+                              width: "100%",
                               display: "flex",
                               justifyContent: "space-between",
                               alignItems: "center",
                               padding: "0.5rem",
+                            }}
+                            onClick={() => {
+                              const url = new URL(
+                                item.url,
+                                config.VIDEO_CDN_URL
+                              ).toString();
+                              console.log("url", url);
+                              videoUrlUpdate.value = url;
+                              setOpenModalUpload(false);
                             }}
                           >
                             <div
@@ -732,19 +741,10 @@ const Index = () => {
                                 wordBreak: "break-all",
                                 paddingRight: "0.25rem",
                               }}
-                              onClick={() => {
-                                const url = new URL(
-                                  item.url,
-                                  config.VIDEO_CDN_URL
-                                ).toString();
-                                console.log("url", url);
-                                videoUrlUpdate.value = url;
-                                setOpenModalUpload(false);
-                              }}
                             >
                               <p className="body">{item.name}</p>
                             </div>
-                          </div>
+                          </button>
                         </div>
                       );
                     })

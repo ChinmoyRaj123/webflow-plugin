@@ -15,7 +15,11 @@ const Tabs = ({ data, setActiveTab }: any) => {
 
   return (
     <div className="tabs-container">
-      <button aria-label="arrow left" className="arrow arrow-left">
+      <button
+        type="button"
+        aria-label="arrow left"
+        className="arrow arrow-left"
+      >
         <img
           onClick={() => scrollTabs(-150)}
           style={{ width: "100%", height: "100%" }}
@@ -44,7 +48,11 @@ const Tabs = ({ data, setActiveTab }: any) => {
           })}
         </div>
       </div>
-      <button aria-label="arrow right" className="arrow arrow-right">
+      <button
+        type="button"
+        aria-label="arrow right"
+        className="arrow arrow-right"
+      >
         <img
           onClick={() => scrollTabs(150)}
           style={{ width: "100%", height: "100%" }}

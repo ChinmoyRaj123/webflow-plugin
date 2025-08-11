@@ -97,6 +97,7 @@ const Index = (props: VideoCardProps) => {
       }}
     >
       <button
+        type="button"
         aria-label="video card"
         className="large-secondary-btn"
         style={{
@@ -143,7 +144,7 @@ const Index = (props: VideoCardProps) => {
             </p>
           </div>
         </div>
-        <button aria-label="more_icon" className="media-options">
+        <button type="button" aria-label="more_icon" className="media-options">
           <Popover
             position={indexValue === 0 ? "bottom" : "top"}
             trigger={
