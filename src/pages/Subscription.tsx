@@ -1,10 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Popover from "../components/Popover";
 import mainconfig from "../config/index";
 
-const Subscription = () => {
-  const navigate = useNavigate();
+const Subscription = ({ handlePageChange }: any) => {
   const user = JSON.parse(localStorage.getItem("s-user"));
 
   const topbarData = [
@@ -19,7 +17,7 @@ const Subscription = () => {
     localStorage.removeItem("s-token");
     localStorage.removeItem("s-user");
     localStorage.removeItem("splay-token");
-    navigate("/signin");
+    handlePageChange("login");
   };
 
   const handleTopbarClick = (name: string) => {
