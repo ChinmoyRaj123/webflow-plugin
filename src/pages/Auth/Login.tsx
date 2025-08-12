@@ -1,5 +1,4 @@
 import axios from "../../utils/axios-instance";
-import Cookies from "js-cookie";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { encodeBase64 } from "../../utils/base64";
@@ -11,8 +10,6 @@ import config from "../../config";
  * Renders two buttons(i.e signin and register)
  */
 const Login = () => {
-  const navigate = useNavigate();
-
   const [renderElement, setRenderElement] = React.useState("login");
   const [inputEmail, setInputEmail] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
@@ -32,17 +29,7 @@ const Login = () => {
       const res = await axios.post("/login", userdata);
       console.log("success login", res.data);
       localStorage.setItem("s-token", JSON.stringify(res.data.token));
-      Cookies.set("s-token", res.data.token, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
       localStorage.setItem("s-user", JSON.stringify(res.data.user));
-      Cookies.set("s-user", encodeBase64(res.data.user), {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
       window.location.replace("/");
       setLoading(false);
     } catch (error: any) {
@@ -98,16 +85,6 @@ const Login = () => {
       const res = await axios.post("/login", userdata);
       // console.log('internal login success', res);
       localStorage.setItem("s-token", JSON.stringify(res.data.token));
-      Cookies.set("s-token", res.data.token, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
-      Cookies.set("s-user", encodeBase64(res.data.user), {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
       localStorage.setItem("s-user", JSON.stringify(res.data.user));
       window.location.replace("/");
     } catch (error) {
@@ -115,12 +92,6 @@ const Login = () => {
     }
   };
 
-  /**
-   * Validates the user input.
-   * Compares input values with localStorage values.
-   * After validation, sets a cookie and then redirects to list view page.
-   * If Validation fails, sets respective useState hooks with its respective error.
-   */
   const handleLoginApiCall = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
     if (inputEmail === "" || inputPassword === "") {

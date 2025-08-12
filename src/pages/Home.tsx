@@ -16,7 +16,7 @@ const Home = () => {
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
   const user = JSON.parse(localStorage.getItem("s-user"));
   const [searchTitle, setSearchTitle] = React.useState("");
-  const [activePlan, setActivePlan] = React.useState(false);
+  const [activePlan, setActivePlan] = React.useState<any>();
   const [data, setData] = React.useState<any>([]);
   const [error, setError] = React.useState(false);
   const [refetch, setRefetch] = React.useState(0);
@@ -126,7 +126,11 @@ const Home = () => {
 
   const createPlayer = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (playerName === "") return setError("emtpy-player-name");
+    if (playerName === "")
+      return await webflow.notify({
+        type: "Error",
+        message: "Player name cannot be empty",
+      });
     try {
       setLoading(true);
       const data = {
@@ -151,7 +155,10 @@ const Home = () => {
     } catch (error) {
       setLoading(false);
       console.log("error creating player", error);
-      setError("");
+      await webflow.notify({
+        type: "Error",
+        message: "Failed to create a player!",
+      });
     }
   };
 
@@ -369,19 +376,6 @@ const Home = () => {
                   name={"player-name"}
                   placeholder="Enter player name"
                 />
-
-                <div className="error-container">
-                  {error === "emtpy-player-name" && (
-                    <p
-                      style={{
-                        marginBottom: "0.5rem",
-                      }}
-                      className="error-text required-error-text-space"
-                    >
-                      Required field!
-                    </p>
-                  )}
-                </div>
 
                 <button
                   aria-label="Continue"

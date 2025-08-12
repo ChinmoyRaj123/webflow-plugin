@@ -1,12 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import topbarData from "../database/topbarData.json";
 import Popover from "../components/Popover";
 import mainconfig from "../config/index";
 
 const Subscription = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("s-user"));
+
+  const topbarData = [
+    { name: "Documents" },
+    { name: "Get Help" },
+    { name: "Terms & Conditions" },
+    { name: "Privacy Policy" },
+    { name: "Logout" },
+  ];
 
   const handleSignOut = () => {
     localStorage.removeItem("s-token");

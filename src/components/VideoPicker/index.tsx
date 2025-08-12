@@ -7,7 +7,7 @@ type VideoPickerProps = {
   file: any;
   setFile: React.Dispatch<React.SetStateAction<any>>;
   setVideoUrl: React.Dispatch<React.SetStateAction<any>>;
-  setRefetch: React.Dispatch<React.SetStateAction<number>>;
+  setRefetch: React.Dispatch<React.SetStateAction<string>>;
   setOpenModalUpload?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -33,7 +33,9 @@ const VideoPicker = (props: VideoPickerProps) => {
     setFile(files);
   };
 
-  const uploadFile = async (e: ChangeEvent<HTMLFormElement>) => {
+  const uploadFile = async (
+    e: ChangeEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
     try {
       const res = await axios.post(

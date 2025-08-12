@@ -108,7 +108,7 @@ const Index = () => {
   const [sourceId, setSourceId] = React.useState("");
   const [openModalUpload, setOpenModalUpload] = React.useState<boolean>(false);
   const [media, setMedia] = React.useState([]);
-  const [refetch, setRefetch] = React.useState(0);
+  const [refetch, setRefetch] = React.useState<string>("");
   const [file, setFile] = React.useState<any>();
   const [brandUploading, setBrandUploading] = React.useState(false);
   const [thumbnailUploading, setThumbnailUploading] = React.useState(false);
