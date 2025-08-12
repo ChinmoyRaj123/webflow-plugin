@@ -1,7 +1,5 @@
 import axios from "../../utils/axios-instance";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { encodeBase64 } from "../../utils/base64";
 import config from "../../config";
 
 /**

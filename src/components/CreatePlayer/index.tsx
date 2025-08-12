@@ -1,6 +1,5 @@
 import React from "react";
 import "./create-player.css";
-import { useNavigate } from "react-router-dom";
 import { config } from "../../utils/default-config";
 import axios from "../../utils/axios-instance";
 import Modal from "../Modal";
@@ -11,8 +10,6 @@ type CreatePlayerProps = {
 };
 
 const Index = (props: CreatePlayerProps) => {
-  const { width, setRefetch } = props;
-  const [isLoading, setLoading] = React.useState(false);
   const [openModalAdd, setOpenModalAdd] = React.useState<boolean>(false);
   const [playerName, setPlayerName] = React.useState("");
   const [error, setError] = React.useState("");
@@ -22,7 +19,6 @@ const Index = (props: CreatePlayerProps) => {
     e.preventDefault();
     if (playerName === "") return setError("emtpy-player-name");
     try {
-      setLoading(true);
       const data = {
         name: playerName,
         config: config,
@@ -33,17 +29,12 @@ const Index = (props: CreatePlayerProps) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setLoading(false);
       setOpenModalAdd(false);
-      setTimeout(() => {
-        setRefetch(Math.random());
-      }, 500);
       webflow.notify({
         type: "Success",
         message: "Player created successfully!",
       });
     } catch (error) {
-      setLoading(false);
       webflow.notify({
         type: "Error",
         message: "Error creating player!",
