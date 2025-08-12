@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import CreatePlayer from "../components/CreatePlayer";
 import axios from "../utils/axios-instance";
@@ -11,8 +11,7 @@ import mainconfig from "../config/index";
 import { videoUrlExtensionUpdate, videoUrlUpdate } from "./Detail";
 import Loader from "../components/Loader";
 
-const Home = () => {
-  const navigate = useNavigate();
+const Home = ({ handleVideoCardClick, handlePageChange }: any) => {
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
   const user = JSON.parse(localStorage.getItem("s-user"));
   const [searchTitle, setSearchTitle] = React.useState("");
@@ -57,12 +56,12 @@ const Home = () => {
           encodeBase64(res.data.subscription?.plan_id)
         );
       } else {
-        navigate("/subscription");
+        handlePageChange("subscription");
       }
     } catch (error: any) {
       console.log("error in subscription", error);
       if (error?.response?.status === 404) {
-        navigate("/subscription");
+        handlePageChange("subscription");
       }
     } finally {
       setSubsLoading(false);
@@ -121,7 +120,7 @@ const Home = () => {
     });
 
   const handleCardClick = (id: string) => {
-    navigate({ pathname: "/detail", search: `?video=${id}` });
+    handleVideoCardClick(id);
   };
 
   const createPlayer = async (e: React.SyntheticEvent) => {
@@ -167,7 +166,7 @@ const Home = () => {
     localStorage.removeItem("splay-token");
     localStorage.removeItem("s-user");
     localStorage.removeItem("s_subs");
-    navigate("/signin");
+    handlePageChange("login");
   };
 
   const handleTopbarClick = (name: string) => {

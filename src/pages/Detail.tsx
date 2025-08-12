@@ -1,16 +1,16 @@
 import React from "react";
-import Toggle from "../../components/Toggle";
-import ColorPicker from "../../components/ColorPicker";
-import axios from "../../utils/axios-instance";
+import Toggle from "../components/Toggle";
+import ColorPicker from "../components/ColorPicker";
+import axios from "../utils/axios-instance";
 import { signal } from "@preact/signals";
-import SizePicker from "../../components/SizePicker";
-import ImagePicker from "../../components/ImagePicker";
-import config from "../../config";
-import Modal from "../../components/Modal";
-import VideoPicker from "../../components/VideoPicker";
-import Tabs from "../../components/Tabs";
-import DemoPlayer from "../../components/DemoPlayer";
-import Loader from "../../components/Loader";
+import SizePicker from "../components/SizePicker";
+import config from "../config";
+import Modal from "../components/Modal";
+import VideoPicker from "../components/VideoPicker";
+import Tabs from "../components/Tabs";
+import DemoPlayer from "../components/DemoPlayer";
+import Loader from "../components/Loader";
+import ImagePicker from "../components/ImagePicker";
 
 export const videoUrlUpdate = signal("");
 const playerNameUpdate = signal("");
@@ -91,10 +91,8 @@ export type VideoConfigType = typeof videoconfigupdate.value;
  * The entire page renders a profile card, an about card and analytics table.
  */
 
-const Index = () => {
+const Index = ({ videoId, handlePageChange }: any) => {
   const accessToken = JSON.parse(localStorage.getItem("s-token"));
-  const params = new URLSearchParams(window.location.search);
-  const videoId = params.get("video");
   const [selectedExtension, setSelectedExtension] =
     React.useState<string>("mp4");
   const [reRender, setReRender] = React.useState(0);
@@ -317,8 +315,6 @@ const Index = () => {
     fetchMedia();
   }, [refetch]);
 
-  const [embedCode, setEmbedCode] = React.useState("loading ...");
-
   const addSource = async (sourceId: string) => {
     const data = {
       url: videoUrlUpdate.value,
@@ -521,7 +517,7 @@ const Index = () => {
                 padding: "0.25rem 0",
               }}
               onClick={() => {
-                window.history.back();
+                handlePageChange("home");
               }}
             >
               <img

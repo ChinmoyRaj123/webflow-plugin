@@ -1,6 +1,6 @@
-import axios from "../../utils/axios-instance";
+import axios from "../utils/axios-instance";
 import React from "react";
-import config from "../../config";
+import config from "../config";
 
 /**
  * Returns the login page.
