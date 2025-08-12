@@ -28,7 +28,7 @@ const Login = () => {
       console.log("success login", res.data);
       localStorage.setItem("s-token", JSON.stringify(res.data.token));
       localStorage.setItem("s-user", JSON.stringify(res.data.user));
-      window.location.replace("/");
+      window.location.reload();
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
