@@ -9,10 +9,7 @@ export default {
   output: {
     filename: "bundle.js",
     path: path.resolve(dirname, "public"),
-    library: "SPlay",
-    libraryTarget: "umd", // so it can be used in Webflow via <script>
   },
-  cache: false,
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
   },
@@ -33,12 +30,5 @@ export default {
     static: [{ directory: path.join(dirname, "public") }],
     compress: true,
     port: 3000,
-    headers: {
-      "Cache-Control": "no-store",
-      "X-Frame-Options": "ALLOWALL",
-    },
-    devMiddleware: {
-      writeToDisk: true, // ✅ This ensures `public/bundle.js` is physically updated
-    },
   },
 };

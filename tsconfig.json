@@ -6,7 +6,6 @@
     "typeRoots": ["./node_modules/@types", "./node_modules/@webflow"],
     "jsx": "react",
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
     "baseUrl": "./",
     "paths": {
       "react": ["node_modules/react"],
